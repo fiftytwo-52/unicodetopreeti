@@ -469,11 +469,11 @@ export function unicodeToPreeti(input: string): string {
     const direct =
       MATRAS[char] ?? SIGNS[char] ?? DIGITS[char] ?? PUNCTUATION[char];
     if (direct !== undefined) {
-      // The danda and exclamation glyphs touch the preceding character in the
-      // font, so they always get a space of their own: गरे। is `u/] .` and
-      // कस्तो! is `s:tf] Û`.
+      // The danda, exclamation and question glyphs touch the preceding
+      // character in the font, so they always get a space of their own: गरे। is
+      // `u/] .`, कस्तो! is `s:tf] Û`, कस्तो? is `s:tf] <`.
       if (
-        (direct.startsWith('.') || direct === 'Û') &&
+        (direct.startsWith('.') || direct === 'Û' || direct === '<') &&
         output.length > 0 &&
         !/\s$/.test(output)
       ) {

@@ -113,12 +113,12 @@ export function preetiToUnicode(input: string): string {
 
     const read = readToken(input, index);
     if (read) {
-      // A danda or exclamation attaches to the preceding word in Unicode.
-      // Preeti documents type a space before them for the font's sake
-      // (`u/] .`, `s:tf] Û`), so drop that space here — every other space
-      // in the text is kept.
+      // A danda, exclamation or question attaches to the preceding word in
+      // Unicode. Preeti documents type a space before them for the font's sake
+      // (`u/] .`, `s:tf] Û`, `s:tf] <`), so drop that space here — every other
+      // space in the text is kept.
       if (
-        (read.token.text === '।' || read.token.text === '॥' || read.token.text === '!') &&
+        (read.token.text === '।' || read.token.text === '॥' || read.token.text === '!' || read.token.text === '?') &&
         /\s$/.test(output)
       ) {
         output = output.replace(/\s+$/, '');

@@ -198,7 +198,7 @@ check('exclamation in word', unicodeToPreeti('कस्तो!'), 's:tf] Û');
 check('multiply sign', unicodeToPreeti('×'), '×');
 // The `?` key draws the रु ligature in the font, so a question mark is `<`.
 check('question mark', unicodeToPreeti('?'), '<');
-check('question mark in word', unicodeToPreeti('कस्तो?'), 's:tf]<');
+check('question mark in word', unicodeToPreeti('कस्तो?'), 's:tf] <');
 // A dot between two digits is a decimal point → `=`; other dots stay dots.
 // ASCII digits become their Devanagari digit bytes, so 4.5 is `$=%`.
 check('decimal point in number', unicodeToPreeti('4.5'), '$=%');
@@ -318,6 +318,21 @@ check('anusvara star', romanToUnicode('ka*'), 'कं');
 check('sentence', romanToUnicode('ma timilai maya garchhu'), 'म तिमीलाई माया गर्छु');
 check('digits', romanToUnicode('123'), '१२३');
 check('whitespace preserved', romanToUnicode('ma  ra'), 'म  र');
+check('t dental', romanToUnicode('t'), 'त');
+check('T retroflex', romanToUnicode('T'), 'ट');
+check('tra conjunct', romanToUnicode('tra'), 'त्र');
+check('Tra retroflex conjunct', romanToUnicode('Tra'), 'ट्र');
+check('Traa', romanToUnicode('Traa'), 'ट्रा');
+check('Tri', romanToUnicode('Tri'), 'ट्रि');
+check('Tree', romanToUnicode('Tree'), 'ट्री');
+check('Dra', romanToUnicode('Dra'), 'ड्र');
+check('Draa', romanToUnicode('Draa'), 'ड्रा');
+check('Dri', romanToUnicode('Dri'), 'ड्रि');
+check('Dree', romanToUnicode('Dree'), 'ड्री');
+check('Thra', romanToUnicode('Thra'), 'ठ्र');
+check('Thraa', romanToUnicode('Thraa'), 'ठ्रा');
+check('Thri', romanToUnicode('Thri'), 'ठ्रि');
+check('Three', romanToUnicode('Three'), 'ठ्री');
 check('newline preserved', romanToUnicode('ma\nra'), 'म\nर');
 
 console.log(`\n${passed} passed, ${failed} failed\n`);

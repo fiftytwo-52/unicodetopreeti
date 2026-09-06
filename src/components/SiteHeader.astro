@@ -15,8 +15,8 @@ const current = pathname.replace(/\/$/, '') || '/';
 <header class="masthead">
   <div class="shell masthead__inner">
     <a class="wordmark" href="/">
-      <span class="wordmark__ne" lang="ne">नेपाली</span>
-      <span class="wordmark__en">Text Tools</span>
+      <img src="/favicon.svg" alt="" class="wordmark__logo" />
+      <span class="wordmark__text">unicodeTOpreeti</span>
     </a>
 
     <nav aria-label="Main">
@@ -55,24 +55,24 @@ const current = pathname.replace(/\/$/, '') || '/';
 
   .wordmark {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.45rem;
+    align-items: center;
+    gap: 0.5rem;
     text-decoration: none;
     color: var(--ink);
   }
 
-  /* The Devanagari half of the wordmark carries its own headstroke. */
-  .wordmark__ne {
-    font-size: 1.4rem;
-    line-height: 1;
-    color: var(--crimson);
+  .wordmark__logo {
+    width: 28px;
+    height: 28px;
+    display: block;
   }
 
-  .wordmark__en {
+  .wordmark__text {
     font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.05rem;
+    font-weight: 700;
+    font-size: 1.15rem;
     letter-spacing: -0.01em;
+    color: var(--crimson);
   }
 
   nav ul {

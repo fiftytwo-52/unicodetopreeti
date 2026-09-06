@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Converter from '../components/Converter.astro';
 
-const title = 'Roman Nepali to Unicode — Type Nepali in English Letters';
+const title = 'Roman Nepali to Unicode — unicodeTOpreeti';
 const description =
   'Type Nepali using English letters and get Unicode Devanagari as you type. No Nepali keyboard needed. Works on phones and in any browser.';
 
@@ -34,10 +34,42 @@ const schema = {
       <a href="/roman-to-unicode" class="mode-switch__btn is-active">Roman to Nepali</a>
     </div>
 
-    <Converter mode="roman-to-unicode" sample="ma timilai maya garchhu" />
+    <div class="converter-wrapper">
+      <div class="ad ad--left">
+        <a href="#" target="_blank" rel="noopener" class="ad__link">
+          <img src="" alt="" class="ad__image" />
+        </a>
+      </div>
+
+      <Converter mode="roman-to-unicode" sample="ma timilai maya garchhu" />
+
+      <div class="ad ad--right">
+        <a href="#" target="_blank" rel="noopener" class="ad__link">
+          <img src="" alt="" class="ad__image" />
+        </a>
+      </div>
+    </div>
 
   </div>
 </BaseLayout>
+
+<!-- Popup Ad -->
+<div class="popup-ad" id="popupAd">
+  <button class="popup-ad__close" id="popupAdClose" aria-label="Close">&times;</button>
+  <a href="#" target="_blank" rel="noopener" class="popup-ad__link">
+    <img src="" alt="" class="popup-ad__image" />
+  </a>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('popupAd');
+    const closeBtn = document.getElementById('popupAdClose');
+    setTimeout(() => { if (popup) popup.classList.add('is-visible'); }, 1500);
+    if (closeBtn) closeBtn.addEventListener('click', () => { if (popup) popup.classList.remove('is-visible'); });
+    if (popup) popup.addEventListener('click', (e) => { if (e.target === popup) popup.classList.remove('is-visible'); });
+  });
+</script>
 
 <style>
   .intro {
@@ -54,8 +86,97 @@ const schema = {
 
   .mode-switch {
     display: flex;
+    justify-content: center;
     gap: 0.5rem;
     margin: 1.5rem 0 1rem;
+  }
+
+  .converter-wrapper {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ad {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+  }
+
+  .ad--left { left: 5px; }
+  .ad--right { right: 5px; }
+
+  .ad:hover { opacity: 0.7; }
+
+  .ad__link {
+    display: block;
+    text-decoration: none;
+    width: 160px;
+    height: 600px;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 0.25rem;
+  }
+
+  .ad__image {
+    display: none;
+  }
+
+  .popup-ad {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .popup-ad.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .popup-ad__close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 1001;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .popup-ad__close:hover { opacity: 0.7; }
+
+  .popup-ad__link {
+    display: block;
+    width: 400px;
+    height: 400px;
+    background: var(--paper-raised);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .popup-ad__image {
+    display: none;
+  }
+
+  @media (max-width: 1000px) {
+    .ad { display: none; }
   }
 
   .mode-switch__btn {

@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { mailto } from '../lib/site.ts';
 
-const title = 'Contact — Nepali Text Tools';
+const title = 'Contact — unicodeTOpreeti';
 const description =
   'Report a mapping error, ask a question, or suggest a font. What to include so a conversion bug can be reproduced.';
 
@@ -73,6 +73,15 @@ const reportFields = [
       <p>
         Everything else — a word that comes out wrong, a matra in the wrong
         place, a conjunct that does not form — is worth sending.
+      </p>
+
+      <h2>Email</h2>
+      <p class="contact-email">
+        <a href={mailto('General')}>gun-yes@proton.me</a>
+      </p>
+      <p>
+        For suggestions, problems, or any work related to this site, reach out
+        to the email above.
       </p>
 
       <h2>Other mail</h2>

@@ -46,6 +46,16 @@ const WORD_OVERRIDES: Record<string, string> = {
   pani: 'पानी',
   om: 'ॐ',
   aum: 'ॐ',
+  // Retroflex conjunct variants (lowercase keys for case-insensitive lookup)
+  traa: 'ट्रा',
+  tri: 'ट्रि',
+  tree: 'ट्री',
+  draa: 'ड्रा',
+  dri: 'ड्रि',
+  dree: 'ड्री',
+  thraa: 'ठ्रा',
+  thri: 'ठ्रि',
+  three: 'ठ्री',
 };
 
 /**
@@ -78,6 +88,12 @@ const CONSONANTS: Record<string, string> = {
   N: 'ण',
   Sh: 'ष',
   S: 'ष',
+  Tra: 'ट्र',
+  Tr: 'ट्र',
+  Dra: 'ड्र',
+  Dr: 'ड्र',
+  Thra: 'ठ्र',
+  Thr: 'ठ्र',
 
   // Dentals
   th: 'थ',

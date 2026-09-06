@@ -8,7 +8,7 @@
 /** Replace before deploying. Printed on the contact and advertise pages. */
 export const CONTACT_EMAIL = 'gun-yes@proton.me';
 
-export const SITE_NAME = 'Nepali Text Tools';
+export const SITE_NAME = 'unicodeTOpreeti';
 
 /**
  * A mailto link with the subject filled in, so reports arrive already sorted

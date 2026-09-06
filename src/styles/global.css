@@ -1,0 +1,198 @@
+/*
+ * Design tokens.
+ *
+ * Palette comes from Nepali print: crimson from the flag, deep ink from
+ * typewriter ribbon, and an off-white that reads like newsprint rather than
+ * screen white.
+ *
+ * The recurring structural device is the shirorekha — the headstroke that runs
+ * along the top of Devanagari letters. Sections hang beneath a full-width rule
+ * instead of sitting inside boxes.
+ */
+
+:root {
+  color-scheme: light;
+
+  --ink: #16233c;
+  --ink-soft: #5b6478;
+  --crimson: #9e1b32;
+  --paper: #f4f2ed;
+  --paper-raised: #fbfaf7;
+  --rule: #d9d4c9;
+
+  --font-display: 'Familjen Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Mukta', 'Noto Sans Devanagari', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* Type scale, 1.25 ratio from a 17px base. */
+  --step--1: 0.85rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.33rem;
+  --step-2: 1.66rem;
+  --step-3: 2.07rem;
+  --step-4: clamp(2.1rem, 5.5vw, 3.24rem);
+
+  --measure: 68ch;
+  --shell: 1120px;
+  --headstroke: 2px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  font-feature-settings: 'kern' 1;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--step-4);
+}
+
+h2 {
+  font-size: var(--step-3);
+}
+
+h3 {
+  font-size: var(--step-1);
+}
+
+p {
+  margin: 0 0 1rem;
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--crimson);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 3px;
+}
+
+/* Layout ------------------------------------------------------------------ */
+
+.shell {
+  width: min(100% - 2.5rem, var(--shell));
+  margin-inline: auto;
+}
+
+/*
+ * The headstroke. A section announces itself with a rule across the full
+ * measure, with content hanging below — the way Devanagari letters hang from
+ * their headline.
+ */
+.hangs {
+  border-top: var(--headstroke) solid var(--ink);
+  padding-top: 1.25rem;
+  margin-top: 3.5rem;
+}
+
+.hangs--thin {
+  border-top-color: var(--rule);
+}
+
+/* Reusable pieces -------------------------------------------------------- */
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 54ch;
+}
+
+.button {
+  font-family: var(--font-display);
+  font-size: var(--step--1);
+  font-weight: 600;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+}
+
+.button:hover {
+  background: var(--ink);
+  color: var(--paper-raised);
+}
+
+.button--primary {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: #fff;
+}
+
+.button--primary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.devanagari {
+  font-family: var(--font-body);
+  line-height: 1.8;
+}
+
+/*
+ * Preeti output must render in the legacy font when it is installed. The
+ * fallback is monospace so unconverted bytes look deliberately like data.
+ */
+.preeti-text {
+  font-family: 'Preeti', var(--font-mono);
+  line-height: 1.9;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

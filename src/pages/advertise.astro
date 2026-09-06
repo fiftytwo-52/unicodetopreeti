@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { mailto } from '../lib/site.ts';
+
+const title = 'Advertise — Nepali Text Tools';
+const description =
+  'Reach people working with Nepali text every day. Placement options, audience notes, and what this site will not run.';
+
+// Deliberately unquantified: inventing traffic figures for a site that has not
+// shipped would be a lie a buyer could hold you to.
+const placements = [
+  {
+    name: 'Below the converter',
+    detail:
+      'A single unit under the tool on a converter page, after the result the visitor came for. The strongest spot on the site, and the only one above the explanatory text.',
+  },
+  {
+    name: 'Guide sidebar',
+    detail:
+      'Alongside the how-to-use page, where visitors are reading rather than converting and stay longer than a paste-and-copy visit.',
+  },
+  {
+    name: 'Footer credit',
+    detail:
+      'One line of text with a link, on every page. Cheapest option, no image, no layout shift.',
+  },
+];
+
+const rules = [
+  'Static images or text. No scripts, no iframes, no third-party tags.',
+  'No trackers, pixels, cookies or fingerprinting — the site logs nothing and will not start.',
+  'Labelled as advertising, not dressed up as part of the page.',
+  'Nothing that blocks the tool: no interstitials, pop-ups, or units that push the converter below the fold.',
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="shell">
+    <div class="hangs intro">
+      <h1>Advertise here</h1>
+      <p class="lede">
+        The audience is narrow and specific: people moving Nepali text between
+        encodings — office staff, typesetters, students, publishers. If that is
+        who you sell to, this is a cheap way to reach them.
+      </p>
+    </div>
+
+    <section class="hangs hangs--thin">
+      <h2>Who visits</h2>
+      <p>
+        Visitors arrive with a task: a document in the wrong encoding, or Nepali
+        to type without a Nepali keyboard. They come from search, they convert,
+        and most leave within a minute or two. That makes this a poor fit for
+        brand awareness and a good fit for anything adjacent to the job at hand
+        — fonts, keyboards, typesetting and printing services, Nepali-language
+        software, translation and transcription work.
+      </p>
+      <p>
+        No audience numbers are quoted here on purpose. Ask and you will get the
+        actual figures for the current month rather than a rounded-up claim.
+      </p>
+
+      <h2>Placements</h2>
+      <dl class="placements">
+        {
+          placements.map((placement) => (
+            <div class="placements__item">
+              <dt>{placement.name}</dt>
+              <dd>{placement.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <h2>What will not run</h2>
+      <p>
+        The site's one promise to visitors is that their text stays on their
+        device and nothing is logged. Advertising does not get to undo that, so:
+      </p>
+      <ul class="rules">
+        {rules.map((rule) => <li>{rule}</li>)}
+      </ul>
+      <p>
+        Reporting is therefore limited to what a server can count without
+        watching anyone — impressions and clicks, nothing about the person.
+        Anyone who needs per-user tracking should buy elsewhere.
+      </p>
+
+      <h2>Getting in touch</h2>
+      <p>
+        Email <a href={mailto('Advertising enquiry')}>an enquiry</a> with what
+        you sell, which placement you want, and the dates. Rates depend on
+        placement and duration and are quoted per enquiry.
+      </p>
+      <p>
+        Ads are reviewed before they run, and anything misleading or unrelated to
+        the audience is declined — including after it has been paid for, with a
+        refund.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+
+  .placements {
+    margin: 1.25rem 0 0;
+    max-width: var(--measure);
+  }
+
+  .placements__item + .placements__item {
+    margin-top: 1.5rem;
+  }
+
+  .placements dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .placements dd {
+    margin: 0.6rem 0 0;
+    color: var(--ink-soft);
+  }
+
+  .rules {
+    max-width: var(--measure);
+    margin: 0 0 1rem;
+    padding-left: 1.1rem;
+    color: var(--ink-soft);
+  }
+
+  .rules li {
+    margin-bottom: 0.4rem;
+  }
+</style>

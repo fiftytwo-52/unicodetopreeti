@@ -1,0 +1,195 @@
+---
+/**
+ * The converter. One component serves all three directions; `mode` selects
+ * which conversion function the client script loads.
+ *
+ * Both panes are editable and stay in sync, so the tool works in either
+ * direction without a swap button.
+ */
+export type ConverterMode =
+  | 'unicode-to-preeti'
+  | 'preeti-to-unicode'
+  | 'roman-to-unicode';
+
+interface Props {
+  mode: ConverterMode;
+  /** Sample text loaded by the "Try an example" button. */
+  sample: string;
+}
+
+const { mode, sample } = Astro.props;
+
+const copy = {
+  'unicode-to-preeti': {
+    inputLabel: 'Nepali Unicode',
+    outputLabel: 'Preeti',
+    inputPlaceholder: 'नेपाली युनिकोड यहाँ टाइप वा पेस्ट गर्नुहोस्',
+    outputPlaceholder: 'Preeti output appears here as you type',
+    inputClass: 'devanagari',
+    outputClass: 'preeti-text',
+    inputLang: 'ne',
+    outputLang: 'en',
+  },
+  'preeti-to-unicode': {
+    inputLabel: 'Preeti',
+    outputLabel: 'Nepali Unicode',
+    inputPlaceholder: 'Paste Preeti text here, for example gd:t]',
+    outputPlaceholder: 'युनिकोड यहाँ देखिन्छ',
+    inputClass: 'preeti-text',
+    outputClass: 'devanagari',
+    inputLang: 'en',
+    outputLang: 'ne',
+  },
+  'roman-to-unicode': {
+    inputLabel: 'Roman Nepali',
+    outputLabel: 'Nepali Unicode',
+    inputPlaceholder: 'Type the way you speak, for example: mero ghar',
+    outputPlaceholder: 'मेरो घर',
+    inputClass: '',
+    outputClass: 'devanagari',
+    inputLang: 'en',
+    outputLang: 'ne',
+  },
+}[mode];
+---
+
+<section class="converter" data-mode={mode} data-sample={sample}>
+  <div class="panes">
+    <div class="pane">
+      <label class="pane__label" for={`${mode}-input`}>
+        {copy.inputLabel}
+      </label>
+      <textarea
+        id={`${mode}-input`}
+        class={`pane__field ${copy.inputClass}`}
+        lang={copy.inputLang}
+        placeholder={copy.inputPlaceholder}
+        spellcheck="false"
+        autocapitalize="off"
+        autocomplete="off"
+        data-role="input"></textarea>
+    </div>
+
+    <div class="pane">
+      <label class="pane__label" for={`${mode}-output`}>
+        {copy.outputLabel}
+      </label>
+      <textarea
+        id={`${mode}-output`}
+        class={`pane__field ${copy.outputClass}`}
+        lang={copy.outputLang}
+        placeholder={copy.outputPlaceholder}
+        spellcheck="false"
+        autocapitalize="off"
+        autocomplete="off"
+        data-role="output"></textarea>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="button button--primary" type="button" data-action="copy">
+      Copy result
+    </button>
+    <button class="button" type="button" data-action="example">
+      Try an example
+    </button>
+    <button class="button" type="button" data-action="clear">Clear</button>
+
+    <p class="counts">
+      <span data-role="count">0 characters</span>
+    </p>
+  </div>
+
+  <p class="status" role="status" aria-live="polite" data-role="status"></p>
+</section>
+
+<script>
+  import '../lib/converter-ui.ts';
+</script>
+
+<style>
+  .converter {
+    margin-top: 1.75rem;
+  }
+
+  .panes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .pane {
+    background: var(--paper-raised);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pane__label {
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 600;
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-soft);
+  }
+
+  .pane__field {
+    font-size: var(--step-1);
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    padding: 0.85rem;
+    min-height: 17rem;
+    resize: vertical;
+    width: 100%;
+  }
+
+  .pane__field:focus {
+    outline: 2px solid var(--crimson);
+    outline-offset: -2px;
+  }
+
+  .pane__field::placeholder {
+    color: var(--ink-soft);
+    opacity: 0.7;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.9rem;
+  }
+
+  .counts {
+    margin: 0 0 0 auto;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .status {
+    margin: 0.6rem 0 0;
+    min-height: 1.4em;
+    font-size: var(--step--1);
+    color: var(--crimson);
+  }
+
+  @media (max-width: 720px) {
+    .panes {
+      grid-template-columns: 1fr;
+    }
+
+    .pane__field {
+      min-height: 11rem;
+      font-size: var(--step-0);
+    }
+
+    .counts {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,63 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="shell foot__inner">
+    <p class="foot__note">
+      Everything converts in your browser. No text is uploaded, stored, or sent
+      anywhere.
+    </p>
+
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="/unicode-to-preeti">Unicode to Preeti</a></li>
+        <li><a href="/preeti-to-unicode">Preeti to Unicode</a></li>
+        <li><a href="/roman-to-unicode">Roman to Nepali</a></li>
+        <li><a href="/how-to-use">How to use</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/advertise">Advertise</a></li>
+      </ul>
+    </nav>
+
+    <p class="foot__meta">{year} Nepali Text Tools</p>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    margin-top: 5rem;
+    border-top: var(--headstroke) solid var(--ink);
+    background: var(--paper-raised);
+  }
+
+  .foot__inner {
+    padding-block: 2rem 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .foot__note {
+    max-width: 46ch;
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-display);
+    font-size: 0.94rem;
+  }
+
+  .foot__meta {
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+</style>

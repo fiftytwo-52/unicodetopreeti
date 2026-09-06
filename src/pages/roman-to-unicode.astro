@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Converter from '../components/Converter.astro';
+
+const title = 'Roman Nepali to Unicode — Type Nepali in English Letters';
+const description =
+  'Type Nepali using English letters and get Unicode Devanagari as you type. No Nepali keyboard needed. Works on phones and in any browser.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Roman Nepali to Unicode Converter',
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description,
+};
+
+// Spelling conventions worth showing rather than describing.
+const patterns = [
+  { roman: 'kha', nepali: 'ख', note: 'Add h for aspirated sounds' },
+  { roman: 'chha', nepali: 'छ', note: 'Doubled h for the harder ch' },
+  { roman: 'ksha', nepali: 'क्ष', note: 'Conjunct spelled out' },
+  { roman: 'gya', nepali: 'ज्ञ', note: 'Conjunct spelled out' },
+  { roman: 'T, Th, D, Dh', nepali: 'ट ठ ड ढ', note: 'Capitals for retroflex' },
+  { roman: 'rri', nepali: 'ऋ', note: 'Vocalic r' },
+  { roman: 'rree', nepali: 'ॠ', note: 'Long vocalic r' },
+  { roman: 'ka*', nepali: 'कं', note: 'Asterisk adds anusvara' },
+  { roman: 'ka~', nepali: 'कँ', note: 'Tilde adds chandrabindu' },
+  { roman: 'om', nepali: 'ॐ', note: 'Written out' },
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="shell">
+    <div class="hangs intro">
+      <h1>Roman Nepali to Unicode</h1>
+      <p class="lede">
+        Type the way you already text — <span class="sample">mero ghar</span>
+        becomes <span class="devanagari">मेरो घर</span>. Conversion happens as
+        you type, no keyboard layout to install.
+      </p>
+    </div>
+
+    <Converter mode="roman-to-unicode" sample="ma timilai maya garchhu" />
+
+    <div class="hangs hangs--thin">
+      <h2>Spelling conventions</h2>
+      <p>
+        Most words convert from ordinary Roman Nepali spelling. These are the
+        patterns worth knowing:
+      </p>
+
+      <table class="patterns">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Get</th>
+            <th>Rule</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            patterns.map((row) => (
+              <tr>
+                <td class="patterns__roman">{row.roman}</td>
+                <td class="patterns__nepali devanagari" lang="ne">
+                  {row.nepali}
+                </td>
+                <td class="patterns__note">{row.note}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+
+      <h2>How vowels attach</h2>
+      <p>
+        A consonant on its own carries the inherent अ, so <span class="sample">k</span>
+        gives क. Adding a vowel replaces it with the matching sign:
+        <span class="sample">ka</span> stays क, <span class="sample">kaa</span>
+        gives का, <span class="sample">ki</span> gives कि. Two consonants in a
+        row join into a conjunct, which is how
+        <span class="sample">namaskar</span> produces नमस्कार rather than
+        नमसकार.
+      </p>
+      <p>
+        Long vowels take a doubled letter: <span class="sample">ee</span> for ी,
+        <span class="sample">oo</span> for ू. Where a word has a conventional
+        spelling that these rules would miss — तपाईं, काठमाडौं, धन्यवाद — the
+        converter recognises the whole word.
+      </p>
+
+      <h2>Fixing a word</h2>
+      <p>
+        The right pane is editable, so you can correct anything that came out
+        wrong before copying. Edits there stay put; they are not converted back
+        to Latin, because going backwards loses information about which spelling
+        you originally used.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+
+  .sample {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    padding: 0.05em 0.3em;
+  }
+
+  .patterns {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 40rem;
+    margin: 1.25rem 0 2rem;
+    font-size: var(--step-0);
+  }
+
+  .patterns th {
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    font-weight: 600;
+    border-bottom: var(--headstroke) solid var(--ink);
+    padding: 0.4rem 0.75rem 0.4rem 0;
+  }
+
+  .patterns td {
+    border-bottom: 1px solid var(--rule);
+    padding: 0.5rem 0.75rem 0.5rem 0;
+    vertical-align: baseline;
+  }
+
+  .patterns__roman {
+    font-family: var(--font-mono);
+    font-size: 0.94rem;
+    white-space: nowrap;
+  }
+
+  .patterns__nepali {
+    font-size: var(--step-1);
+    color: var(--crimson);
+  }
+
+  .patterns__note {
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+  }
+</style>

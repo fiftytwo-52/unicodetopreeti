@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Converter from '../components/Converter.astro';
+
+const title = 'Unicode to Preeti Converter — Nepali Text Tools';
+const description =
+  'Convert Nepali Unicode text to Preeti font encoding in your browser. Handles conjuncts, reph and the i-matra reordering that trips up simple converters.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Unicode to Preeti Converter',
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description,
+};
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="shell">
+    <div class="hangs intro">
+      <h1>Unicode to Preeti</h1>
+      <p class="lede">
+        Paste Nepali Unicode and get Preeti-encoded text you can drop into a
+        document that still uses the old font.
+      </p>
+    </div>
+
+    <Converter mode="unicode-to-preeti" sample="नेपाल सरकार, कार्यालयको निर्णय अनुसार वर्ष २०८२" />
+
+    <div class="hangs hangs--thin">
+      <h2>Reading the output</h2>
+      <p>
+        Preeti output looks like scrambled English until the Preeti font is
+        applied. That is expected. The font maps Devanagari shapes onto ASCII
+        codepoints, so <span class="preeti-text">gd:t]</span> and नमस्ते are the
+        same word in two different encodings.
+      </p>
+      <p>
+        To use the result, paste it into your document, select it, and set the
+        font to Preeti. If Preeti is not installed on your computer, the text
+        will keep showing Latin letters.
+      </p>
+
+      <h2>What this converter gets right</h2>
+      <p>
+        Preeti stores some letters in the order they are drawn rather than the
+        order they are spoken, which is where most converters go wrong. Three
+        cases matter:
+      </p>
+      <p>
+        The i-matra is drawn to the left of its consonant, so कि is typed
+        <span class="preeti-text">ls</span> — the matra first. Reph, the र् that
+        rides above a following consonant, is typed after the syllable it sits
+        on, so कर्म becomes <span class="preeti-text">sd{'{'}</span>. Conjuncts
+        pair a half form with a full one, making क्क into
+        <span class="preeti-text">Ss</span>.
+      </p>
+      <p>
+        Each of these is covered by tests that convert a word to Preeti and back
+        again, checking it survives the trip unchanged.
+      </p>
+
+      <h2>Going the other way</h2>
+      <p>
+        Editing the right pane converts back to Unicode as you type. For longer
+        documents, the <a href="/preeti-to-unicode">Preeti to Unicode</a>
+        converter gives that direction its own page.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+</style>

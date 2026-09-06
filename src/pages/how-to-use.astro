@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'How to Use the Nepali Converters — Nepali Text Tools';
+const description =
+  'Step-by-step guide to converting Nepali Unicode to Preeti, Preeti to Unicode, and typing Nepali in Roman letters. Includes fixes for common problems.';
+
+const faqs = [
+  {
+    q: 'Why does the Preeti output look like English letters?',
+    a: 'Because that is what Preeti text is. The font maps Nepali shapes onto English codepoints. Paste the text into your document, select it, and set the font to Preeti — the shapes appear then. If they do not, Preeti is not installed on that computer.',
+  },
+  {
+    q: 'Do I need the Preeti font to convert Preeti to Unicode?',
+    a: 'No. Converting out of Preeti only needs the underlying characters, which you get by copying the text as plain text. The font matters for display, not for conversion.',
+  },
+  {
+    q: 'Is my text sent anywhere?',
+    a: 'No. All three converters run in your browser using tables built into the page. Nothing is uploaded, and the tools keep working if you go offline after the page loads.',
+  },
+  {
+    q: 'Will this work with Kantipur or other old Nepali fonts?',
+    a: 'No. Kantipur, Sagarmatha, PCS Nepali and similar fonts each use their own mapping. Text typed in those fonts needs a converter built for that specific mapping.',
+  },
+  {
+    q: 'Is there a length limit?',
+    a: 'No. Conversion happens locally, so the only real limit is your device. Very long documents are best converted a few pages at a time so you can check the result as you go.',
+  },
+  {
+    q: 'Why did one word convert incorrectly?',
+    a: 'Usually a substituted character in the source, or a Preeti variant that remaps a key. Both panes are editable and re-convert as you type, so you can correct it in place.',
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: { '@type': 'Answer', text: faq.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="shell">
+    <div class="hangs intro">
+      <h1>How to use these tools</h1>
+      <p class="lede">
+        Each converter works the same way: type or paste on the left, copy from
+        the right. The details below cover the parts that catch people out.
+      </p>
+    </div>
+
+    <section class="hangs hangs--thin">
+      <h2>Unicode to Preeti</h2>
+      <p>
+        Paste your Nepali Unicode text into the left pane. The right pane fills
+        in as you type. Copy the result, paste it into your document, select what
+        you pasted, and set the font to Preeti.
+      </p>
+      <p>
+        The order matters: paste first, then apply the font. Applying Preeti to
+        an empty selection and then pasting can produce different results
+        depending on the application.
+      </p>
+
+      <h2>Preeti to Unicode</h2>
+      <p>
+        Copy the Preeti text from your document as plain text. In Word, paste
+        into the converter with Ctrl+Shift+V if your browser offers it, so no
+        formatting comes along. The Unicode result can be pasted anywhere without
+        needing a font.
+      </p>
+
+      <h2>Roman to Nepali</h2>
+      <p>
+        Type Nepali words in English letters and Devanagari appears as you go.
+        Aspirated consonants take a following h, so <code>kha</code> gives ख and
+        <code>chha</code> gives छ. Retroflex consonants use capitals:
+        <code>T</code> for ट, <code>D</code> for ड. Long vowels double up, so
+        <code>ee</code> gives ी.
+      </p>
+      <p>
+        The <a href="/roman-to-unicode">Roman to Nepali page</a> has the full
+        table of spelling conventions.
+      </p>
+    </section>
+
+    <section class="hangs hangs--thin">
+      <h2>Getting the Preeti font</h2>
+      <p>
+        Preeti is a third-party font, not something bundled with Windows or
+        macOS, so it has to be installed before Preeti text will display. On
+        Windows, right-click the font file and choose Install. On macOS,
+        double-click it and confirm in Font Book. Applications already open need
+        restarting before they see a newly installed font.
+      </p>
+      <p>
+        If you are choosing between the two encodings for new work, prefer
+        Unicode. It needs no font, it survives being emailed, and it can be
+        searched.
+      </p>
+    </section>
+
+    <section class="hangs hangs--thin">
+      <h2>Common questions</h2>
+      <dl class="faq">
+        {
+          faqs.map((faq) => (
+            <div class="faq__item">
+              <dt>{faq.q}</dt>
+              <dd>{faq.a}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    padding: 0.05em 0.3em;
+  }
+
+  .faq {
+    margin: 1.25rem 0 0;
+    max-width: var(--measure);
+  }
+
+  .faq__item + .faq__item {
+    margin-top: 1.5rem;
+  }
+
+  .faq dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-0);
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq dd {
+    margin: 0.6rem 0 0;
+    color: var(--ink-soft);
+  }
+</style>

@@ -1,0 +1,113 @@
+---
+const { pathname } = Astro.url;
+
+const links = [
+  { href: '/unicode-to-preeti', label: 'Unicode to Preeti' },
+  { href: '/preeti-to-unicode', label: 'Preeti to Unicode' },
+  { href: '/roman-to-unicode', label: 'Roman to Nepali' },
+  { href: '/how-to-use', label: 'How to use' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+
+// Trailing slashes vary by host, so compare without them.
+const current = pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="masthead">
+  <div class="shell masthead__inner">
+    <a class="wordmark" href="/">
+      <span class="wordmark__ne" lang="ne">नेपाली</span>
+      <span class="wordmark__en">Text Tools</span>
+    </a>
+
+    <nav aria-label="Main">
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={current === link.href ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-raised);
+  }
+
+  .masthead__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding-block: 0.9rem;
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  /* The Devanagari half of the wordmark carries its own headstroke. */
+  .wordmark__ne {
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--crimson);
+  }
+
+  .wordmark__en {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a {
+    font-family: var(--font-display);
+    font-size: 0.94rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+  }
+
+  nav a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--rule);
+  }
+
+  nav a[aria-current='page'] {
+    color: var(--ink);
+    border-bottom-color: var(--crimson);
+  }
+
+  @media (max-width: 560px) {
+    .masthead__inner {
+      justify-content: flex-start;
+    }
+  }
+</style>

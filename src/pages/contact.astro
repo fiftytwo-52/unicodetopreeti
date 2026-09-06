@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { mailto } from '../lib/site.ts';
+
+const title = 'Contact — Nepali Text Tools';
+const description =
+  'Report a mapping error, ask a question, or suggest a font. What to include so a conversion bug can be reproduced.';
+
+// A mapping bug is unreproducible without the input, so the form of a good
+// report is spelled out rather than left to guesswork.
+const reportFields = [
+  {
+    label: 'Which converter',
+    detail: 'Unicode to Preeti, Preeti to Unicode, or Roman to Nepali.',
+  },
+  {
+    label: 'What you typed or pasted',
+    detail:
+      'The exact text, as text — not a screenshot. A single word is more useful than a page.',
+  },
+  {
+    label: 'What came out',
+    detail: 'Copied from the output pane.',
+  },
+  {
+    label: 'What you expected instead',
+    detail:
+      'The correct Nepali, and where you know it from if the spelling is unusual.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="shell">
+    <div class="hangs intro">
+      <h1>Contact</h1>
+      <p class="lede">
+        Mapping errors are the most useful thing you can send. Every reported one
+        becomes a test, so the same word cannot break again.
+      </p>
+    </div>
+
+    <section class="hangs hangs--thin">
+      <h2>Reporting a conversion error</h2>
+      <p>
+        <a href={mailto('Mapping error')}>Email a mapping error</a> and include
+        these four things:
+      </p>
+      <dl class="fields">
+        {
+          reportFields.map((field) => (
+            <div class="fields__item">
+              <dt>{field.label}</dt>
+              <dd>{field.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p>
+        Paste the text directly into the mail rather than attaching a document.
+        A Word file re-encodes on the way, which can hide the very character that
+        caused the problem.
+      </p>
+
+      <h2>Before you write</h2>
+      <p>
+        Two things account for most reports, and both are covered on
+        <a href="/how-to-use">how to use these tools</a>: output that looks like
+        English letters means the Preeti font is not installed, which is expected
+        rather than a bug. Text from Kantipur, Sagarmatha or PCS Nepali uses a
+        different mapping and will not convert here at all.
+      </p>
+      <p>
+        Everything else — a word that comes out wrong, a matra in the wrong
+        place, a conjunct that does not form — is worth sending.
+      </p>
+
+      <h2>Other mail</h2>
+      <p>
+        Questions about the converters, or a note that something is unclear, go
+        to <a href={mailto('Question')}>the same address</a>. Requests for
+        another legacy font are welcome, though each one needs its own mapping
+        table built and tested, so it is not a quick change.
+      </p>
+      <p>
+        For advertising, see <a href="/advertise">the advertise page</a>.
+      </p>
+
+      <h2>What happens to your mail</h2>
+      <p>
+        Reported text is used to build a test case and nothing else. It is not
+        published, shared, or added to any dataset. The converters themselves
+        never see your text at all — they run in your browser, so the only text
+        that reaches anyone is what you choose to put in an email.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+
+  .fields {
+    margin: 1.25rem 0 1.5rem;
+    max-width: var(--measure);
+  }
+
+  .fields__item + .fields__item {
+    margin-top: 1.25rem;
+  }
+
+  .fields dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .fields dd {
+    margin: 0.6rem 0 0;
+    color: var(--ink-soft);
+  }
+</style>

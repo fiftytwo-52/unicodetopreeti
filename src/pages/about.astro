@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'About — Nepali Text Tools';
+const description =
+  'How these Nepali converters work, what they can and cannot do, and why everything runs in your browser.';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="shell">
+    <div class="hangs intro">
+      <h1>About</h1>
+      <p class="lede">
+        A small set of converters for Nepali text, built to run entirely in the
+        browser.
+      </p>
+    </div>
+
+    <section class="hangs hangs--thin">
+      <h2>Why this exists</h2>
+      <p>
+        Nepal's transition from Preeti to Unicode is decades old and still
+        unfinished. Government offices, print shops, schools and newspapers hold
+        an enormous amount of text in a font-dependent encoding, while everything
+        new — websites, phones, search, accessibility tools — expects Unicode.
+        Anyone working across both worlds needs to move text between them
+        regularly, and often has to type Nepali without a Nepali keyboard on top
+        of that.
+      </p>
+
+      <h2>How the conversion works</h2>
+      <p>
+        Preeti and Unicode both store Devanagari, but they order it differently.
+        Unicode uses logical order: consonant first, then its vowel sign. Preeti
+        uses the order the letters are drawn, because it was designed around a
+        typewriter keyboard.
+      </p>
+      <p>
+        That difference is where naive character-by-character converters fail.
+        Three cases account for most of it. The i-matra is drawn to the left of
+        its consonant, so कि is typed as matra-then-consonant. Reph — the र् that
+        rides above a following consonant — is typed after the syllable it sits
+        on. Conjuncts pair a half form with a full form.
+      </p>
+      <p>
+        These converters work syllable by syllable rather than character by
+        character, which is what lets them handle all three. The Roman converter
+        reads each word left to right, always taking the longest matching token,
+        and falls back to whole-word spellings for words whose conventional
+        romanisation the general rules would miss.
+      </p>
+
+      <h2>Known limits</h2>
+      <p>
+        Only Preeti is supported. Kantipur, Sagarmatha, PCS Nepali and other
+        legacy Nepali fonts use different mappings and will not convert
+        correctly. Some Preeti variants remap a handful of keys, so text from an
+        unusual source may need spot corrections.
+      </p>
+      <p>
+        Roman Nepali has no single agreed spelling system, so the phonetic
+        converter will not match every writer's habits. Both panes stay editable
+        so anything that comes out wrong can be fixed before you copy it.
+      </p>
+
+      <h2>Privacy</h2>
+      <p>
+        The conversion tables and code ship as part of the page. Your text is
+        never uploaded, stored or logged, and the tools keep working offline once
+        the page has loaded. There are no accounts and no tracking of what you
+        convert.
+      </p>
+
+      <h2>Reporting a problem</h2>
+      <p>
+        A word that converts incorrectly is worth sending — see
+        <a href="/contact">contact</a> for what to include. Reported cases become
+        tests, which is how the mapping tables get less wrong over time.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+</style>

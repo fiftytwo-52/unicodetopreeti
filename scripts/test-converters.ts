@@ -54,7 +54,7 @@ check('ra-uu ligature', preetiToUnicode('¿'), 'रू');
 check('reph with rakar', preetiToUnicode('u|{'), 'र्ग्र');
 // Dedicated conjunct keys from the legacy layout.
 check('dental conjuncts', preetiToUnicode('2§Ý¶•'), 'द्दट्टट्ठठ्ठड्ड');
-check('nasal conjuncts', preetiToUnicode('ÍÎË‹°'), 'ङ्कङ्खङ्गङ्घङ्ढ');
+check('nasal conjuncts', preetiToUnicode('ÍÎË‹°'), 'ङ्कङ्खङ्गङ्घ°');
 check('dwa family', preetiToUnicode('åß¢'), 'द्वद्मद्घ');
 check('tta conjunct', preetiToUnicode('Q'), 'त्त');
 check('half forms on dedicated keys', preetiToUnicode('AQ'), 'ब्त्त');
@@ -83,8 +83,15 @@ check('reph after ii matra', preetiToUnicode('stL{'), 'कर्ती');
 check('exclamation byte', preetiToUnicode('Û'), '!');
 check('multiply byte', preetiToUnicode('×'), '×');
 // The question mark is the two-byte `:<` in the font.
-check('question mark bytes', preetiToUnicode(':<'), '?');
+check('question mark byte', preetiToUnicode('<'), '?');
 check('ru byte still ru', preetiToUnicode('?'), 'रु');
+// Decimal points live on the `=` byte; brackets/colon/etc. on their pairs.
+check('decimal dot byte', preetiToUnicode('='), '.');
+check('colon byte', preetiToUnicode('M'), 'ः');
+check('closing bracket byte', preetiToUnicode('_'), ')');
+check('semicolon byte', preetiToUnicode('Ù'), ';');
+check('degree byte', preetiToUnicode('°'), '°');
+check('percent byte', preetiToUnicode('Ü'), '%');
 // Quote glyph bytes: Ú renders the apostrophe, æ the double quote.
 check('single quote byte', preetiToUnicode('Ú'), "'");
 check('double quote byte', preetiToUnicode('æ'), '"');
@@ -95,6 +102,7 @@ check('right single quote byte', preetiToUnicode('Ú'), "'");
 check('danda space stripped', preetiToUnicode('u/] .'), 'गरे।');
 check('double danda space stripped', preetiToUnicode('g]kfn ..'), 'नेपाल॥');
 check('inner spaces kept', preetiToUnicode('g n .'), 'न ल।');
+check('exclamation space stripped', preetiToUnicode('s:tf] Û'), 'कस्तो!');
 // Unmapped characters survive; Latin letters are themselves Preeti codepoints,
 // so they legitimately convert rather than passing through. (`~` used to be
 // the sample here, but it is the ञ् key in the real layout.)
@@ -119,6 +127,8 @@ check('reph karma', unicodeToPreeti('कर्म'), 'sd{');
 check('reph varsha', unicodeToPreeti('वर्ष'), 'jif{');
 check('reph with matra', unicodeToPreeti('कार्य'), 'sfo{');
 check('anusvara', unicodeToPreeti('अं'), 'c+');
+check('nukta', unicodeToPreeti('ट़'), '6«');
+check('nukta in word', unicodeToPreeti('राष\u093Cट्रिय'), '/fif«l6|o');
 check('danda', unicodeToPreeti('।'), '.');
 check('digits', unicodeToPreeti('१२३'), '!@#');
 check('i-matra on conjunct', unicodeToPreeti('स्ति'), 'l:t');
@@ -139,7 +149,7 @@ check('reph with rakar', unicodeToPreeti('र्ग्र'), 'u|{');
 // Dedicated conjunct keys from the legacy layout.
 check('dental conjuncts', unicodeToPreeti('द्दद्धद्मद्वद्घ'), '24ßå¢');
 check('retroflex conjuncts', unicodeToPreeti('ट्टट्ठठ्ठड्ड'), '§Ý¶•');
-check('nasal conjuncts', unicodeToPreeti('ङ्कङ्खङ्गङ्घङ्ढ'), 'ÍÎË‹°');
+check('nasal conjuncts', unicodeToPreeti('ङ्कङ्खङ्गङ्घङ्ढ'), 'ÍÎË‹ª\\9');
 check('tta conjunct', unicodeToPreeti('त्त'), 'Q');
 check('jna half', unicodeToPreeti('ज्ञ्'), '¡');
 // ब्र has no dedicated key: it is the rakar stroke on full ब.
@@ -176,11 +186,39 @@ check('single quotes alternate', unicodeToPreeti("'नेपाल'"), '…g]kfn
 check('single alternation continues', unicodeToPreeti("'क' 'ख'"), '…sÚ …vÚ');
 check('curly single quotes stay directional', unicodeToPreeti('‘क’'), '…sÚ');
 // ! and × use their own glyph keys, not the digit/multiply keys in the font.
-check('exclamation mark', unicodeToPreeti('!'), 'Û');
+// The exclamation glyph gets a space before it (nothing precedes a lone `!`
+// at the start of the text, so that case has no space).
+check('exclamation at start', unicodeToPreeti('!'), 'Û');
+check('exclamation in word', unicodeToPreeti('कस्तो!'), 's:tf] Û');
 check('multiply sign', unicodeToPreeti('×'), '×');
-// The `?` key draws the रु ligature in the font, so a question mark is `:<`.
-check('question mark', unicodeToPreeti('?'), ':<');
-check('question mark in word', unicodeToPreeti('कस्तो?'), 's:tf]:<');
+// The `?` key draws the रु ligature in the font, so a question mark is `<`.
+check('question mark', unicodeToPreeti('?'), '<');
+check('question mark in word', unicodeToPreeti('कस्तो?'), 's:tf]<');
+// A dot between two digits is a decimal point → `=`; other dots stay dots.
+// ASCII digits become their Devanagari digit bytes, so 4.5 is `$=%`.
+check('decimal point in number', unicodeToPreeti('4.5'), '$=%');
+check('ascii digits', unicodeToPreeti('2024'), '@)@$');
+check('devanagari decimal', unicodeToPreeti('४.५'), '$=%');
+check('full stop not between digits', unicodeToPreeti('राम.'), '/fd.');
+// Brackets, semicolon and colon use their own glyph bytes.
+check('opening bracket', unicodeToPreeti('('), '-');
+check('closing bracket', unicodeToPreeti(')'), '_');
+check('semicolon', unicodeToPreeti(';'), 'Ù');
+// The colon shares the M byte with the visarga (same two-dot font glyph).
+check('colon', unicodeToPreeti(':'), 'M');
+check('visarga still M', unicodeToPreeti('ः'), 'M');
+// Full sentence: colon→M, brackets→- and _, halanta→g\, quotes alternate.
+check('sentence with colon', unicodeToPreeti("चुनौतीहरू पनि छन् (जस्तै: 'गोपनीयता' र \"तथ्याङ्क सुरक्षा\"),"), "r'gf}tLx¿ klg 5g\\ -h:t}M …uf]kgLotfÚ / ætYofÍ ;'/IffÆ_,");
+// Degree symbol and literal hash stay untouched.
+check('degree stays', unicodeToPreeti('°'), '°');
+check('hash stays', unicodeToPreeti('#'), '#');
+check('tin digit', unicodeToPreeti('३'), '#');
+// The % byte is the ५ digit in the font, so a percent sign is Ü.
+check('percent sign', unicodeToPreeti('%'), 'Ü');
+check('percent with digit', unicodeToPreeti('५०%'), '%)Ü');
+// A standalone halanta consonant is the full letter plus the halanta key.
+check('halanta na', unicodeToPreeti('न्'), 'g\\');
+check('halanta ka', unicodeToPreeti('क्'), 's\\');
 // The danda glyph touches the preceding character, so it gets its own space.
 check('danda gets its own space', unicodeToPreeti('गरे।'), 'u/] .');
 check('double danda space', unicodeToPreeti('नेपाल॥'), 'g]kfn ..');
@@ -247,6 +285,12 @@ for (const word of [
   '"नेपाल"',
   '५×३!',
   'कस्तो?',
+  'कस्तो!',
+  '४.५',
+  '(काठमाडौं)',
+  'नेपालः राम',
+  'न्',
+  '५०%',
 ]) {
   check(`round trip ${word}`, preetiToUnicode(unicodeToPreeti(word)), word);
 }

@@ -736,7 +736,7 @@
             '>': 'श्र', 'B': 'द्य', '›': 'द्र', '„': 'ध्र', 'Ì': 'न्न', 'ç': 'ॐ',
             'Q': 'त्त', '2': 'द्द', '4': 'द्ध', 'ß': 'द्म', 'å': 'द्व', '¢': 'द्घ',
             '§': 'ट्ट', 'Ý': 'ट्ठ', '¶': 'ठ्ठ', '•': 'ड्ड',
-            'Í': 'ङ्क', 'Î': 'ङ्ख', 'Ë': 'ङ्ग', '‹': 'ङ्घ', '°': 'ङ्ढ',
+            'Í': 'ङ्क', 'Î': 'ङ्ख', 'Ë': 'ङ्ग', '‹': 'ङ्घ', '°': '°',
             // Matras and signs
             'f': 'ा', 'l': 'ि', 'L': 'ी', "'": 'ु', '"': 'ू', '[': 'ृ', ']': 'े', '}': 'ै',
             '+': 'ं', 'M': 'ः', 'F': 'ँ', '\\': '्', '‛': 'ॉ', '‘': 'ॅ',
@@ -761,7 +761,6 @@
             'cf': 'आ', 'O{': 'ई', 'pm': 'ऊ', 'C[': 'ॠ', 'P]': 'ऐ', 'cf]': 'ओ', 'cf}': 'औ', 'cf+': 'आं',
             '0f': 'ण', 'km': 'फ', 'em': 'झ', 'If': 'क्ष', '1': 'ज्ञ', 'if': 'ष', 'Zf': 'श',
             'qm': 'क्र', 'Qm': 'क्त', '6[': 'ट्ट',
-            ':<': '?',
             'f]': 'ो', 'f}': 'ौ', '..': '॥'
         };
         // Longest-first so `cf]` wins over `cf`, and `..` over `.`.
@@ -859,10 +858,11 @@
 
                 const read = readToken(text, index);
                 if (read) {
-                    // A danda attaches to the preceding word in Unicode; the
-                    // space Preeti types before it exists only for the font.
+                    // A danda or exclamation attaches to the preceding word
+                    // in Unicode; the space Preeti types before them exists
+                    // only for the font.
                     if (
-                        (read.text === '।' || read.text === '॥') &&
+                        (read.text === '।' || read.text === '॥' || read.text === '!') &&
                         /\s$/.test(output)
                     ) {
                         output = output.replace(/\s+$/, '');
@@ -900,7 +900,7 @@
             'क्ष': 'If', 'क्ष्': 'I', 'ज्ञ': '1', 'ज्ञ्': '¡', 'त्र': 'q', 'त्त': 'Q',
             'श्र': '>', 'द्य': 'B', 'द्र': '›', 'ध्र': '„', 'द्द': '2', 'द्ध': '4',
             'द्म': 'ß', 'द्व': 'å', 'द्घ': '¢', 'ट्ट': '§', 'ट्ठ': 'Ý', 'ठ्ठ': '¶',
-            'ड्ड': '•', 'ङ्क': 'Í', 'ङ्ख': 'Î', 'ङ्ग': 'Ë', 'ङ्घ': '‹', 'ङ्ढ': '°',
+            'ड्ड': '•', 'ङ्क': 'Í', 'ङ्ख': 'Î', 'ङ्ग': 'Ë', 'ङ्घ': '‹',
             'न्न': 'Ì', 'ॐ': 'ç'
         };
         // र with the u/uu matras is drawn as a single ligature glyph with its
@@ -919,14 +919,21 @@
         // Signs that trail the syllable in both encodings.
         const SIGNS = { 'ं': '+', 'ः': 'M', 'ँ': 'F' };
         const DIGITS = {
+            // ASCII digits become the Devanagari digit bytes the font provides.
+            '0': ')', '1': '!', '2': '@', '3': '#', '4': '$', '5': '%', '6': '^',
+            '7': '&', '8': '*', '9': '(',
             '०': ')', '१': '!', '२': '@', '३': '#', '४': '$', '५': '%', '६': '^',
             '७': '&', '८': '*', '९': '('
         };
         const PUNCTUATION = { '।': '.', '॥': '..', 'ऽ': '˜', '-': '–', '—': '–',
             '’': 'Ú', '“': 'æ', '”': 'Æ', '‘': '…',
             '!': 'Û', '×': '×',
-            // The `?` key draws the रु ligature, so a question mark is `:<`.
-            '?': ':<' };
+            // The `%` byte is the digit ५ in the font, so a percent is Ü.
+            '%': 'Ü',
+            // The `?` key draws the रु ligature, so a question mark is `<`.
+            '?': '<',
+            // Brackets, semicolon and colon have their own glyph bytes.
+            '(': '-', ')': '_', ';': 'Ù', ':': 'M' };
 
         const LIGATURE_KEYS = Object.keys(LIGATURES).sort((a, b) => b.length - a.length);
         const RA_LIGATURE_KEYS = Object.keys(RA_LIGATURES);
@@ -974,6 +981,12 @@
                         } else if (isConsonant(text[cursor])) {
                             parts.push(text[cursor]);
                             cursor += 1;
+                            // A nukta (़) attaches to the preceding consonant and should be
+                            // included in the cluster, not treated as a syllable-ending sign.
+                            if (text[cursor] === '़') {
+                                parts.push('़');
+                                cursor += 1;
+                            }
                         } else {
                             break;
                         }
@@ -1016,11 +1029,32 @@
                         parts.pop();
                     }
 
-                    // Every part but the last is a half form.
+                    // Every part but the last is a half form. The nukta (़) is a modifier
+                    // that doesn't affect whether the preceding consonant is the last in
+                    // the cluster, so we check if the next non-nukta part is the last.
                     const cluster = parts.map((part, position) => {
-                        const isLast = position === parts.length - 1;
+                        // The nukta (़) is emitted as `«` after its consonant.
+                        if (part === '़') return '«';
+                        // A part is the last if no consonant follows it (only nuktas or
+                        // nothing at all come after).
+                        const isLast =
+                            position === parts.length - 1 ||
+                            parts.slice(position + 1).every((p) => p === '़');
                         if (isLast && !trailingVirama) {
                             return LIGATURES[part] ?? CONSONANTS[part];
+                        }
+                        if (isLast && trailingVirama) {
+                            // A consonant with a trailing halanta is typed as
+                            // the full letter plus the halanta key: न् is `g\`.
+                            // A conjunct closed by halanta keeps its dedicated
+                            // half key when it has one (`ज्ञ्` is `¡`).
+                            const half = LIGATURES[part + VIRAMA];
+                            if (half !== undefined) return half;
+                            const dedicated = LIGATURES[part];
+                            if (dedicated !== undefined) {
+                                return part.endsWith(VIRAMA) ? dedicated : dedicated + '\\';
+                            }
+                            return CONSONANTS[part] + '\\';
                         }
                         // Dedicated half of a conjunct (`क्ष्` is `I`), else the
                         // conjunct glyph closed with an explicit virama (`द्व`
@@ -1093,12 +1127,25 @@
                     continue;
                 }
 
+                // --- Full stop / decimal point ---
+                // A dot between two digits is a decimal point, which lives on
+                // the `=` key in the font. Any other full stop stays a period.
+                if (char === '.') {
+                    const before = text[index - 1];
+                    const after = text[index + 1];
+                    const betweenDigits = /[0-9०-९]/u.test(before ?? '') && /[0-9०-९]/u.test(after ?? '');
+                    output += betweenDigits ? '=' : '.';
+                    index += 1;
+                    continue;
+                }
+
                 // --- Standalone matras, signs, digits, punctuation ---
                 const direct = MATRAS[char] ?? SIGNS[char] ?? DIGITS[char] ?? PUNCTUATION[char];
                 if (direct !== undefined) {
-                    // The danda glyph touches the preceding character in the
-                    // font, so it always gets a space of its own.
-                    if (direct.startsWith('.') && output.length > 0 && !/\s$/.test(output)) {
+                    // The danda and exclamation glyphs touch the preceding
+                    // character in the font, so they always get a space of
+                    // their own.
+                    if ((direct.startsWith('.') || direct === 'Û') && output.length > 0 && !/\s$/.test(output)) {
                         output += ' ';
                     }
                     output += direct;

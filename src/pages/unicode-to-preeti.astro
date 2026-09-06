@@ -27,6 +27,11 @@ const schema = {
       </p>
     </div>
 
+    <div class="mode-switch">
+      <a href="/unicode-to-preeti" class="mode-switch__btn is-active">Unicode to Preeti</a>
+      <a href="/roman-to-unicode" class="mode-switch__btn">Roman to Nepali</a>
+    </div>
+
     <Converter mode="unicode-to-preeti" sample="नेपाल सरकार, कार्यालयको निर्णय अनुसार वर्ष २०८२" />
 
     <div class="hangs hangs--thin">
@@ -75,5 +80,42 @@ const schema = {
 <style>
   .intro {
     padding-top: 1.5rem;
+  }
+
+  .mode-switch {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .mode-switch__btn {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.55rem 1.2rem;
+    border: 2px solid var(--rule);
+    border-radius: 0.35rem;
+    text-decoration: none;
+    color: var(--ink-soft);
+    background: var(--paper-raised);
+    transition: all 0.15s ease;
+  }
+
+  .mode-switch__btn:hover {
+    color: var(--ink);
+    border-color: var(--crimson);
+  }
+
+  .mode-switch__btn.is-active {
+    color: #fff;
+    background: var(--crimson);
+    border-color: var(--crimson);
+  }
+
+  @media (max-width: 560px) {
+    .mode-switch__btn {
+      flex: 1;
+      text-align: center;
+    }
   }
 </style>

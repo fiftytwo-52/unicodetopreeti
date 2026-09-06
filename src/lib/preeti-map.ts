@@ -109,7 +109,7 @@ export const PREETI_TO_UNICODE: Record<string, string> = {
   'Î': 'ङ्ख',
   'Ë': 'ङ्ग',
   '‹': 'ङ्घ',
-  '°': 'ङ्ढ',
+  '°': '°',
 
   // Matras and signs
   f: 'ा',
@@ -222,9 +222,8 @@ export const PREETI_SEQUENCES: Record<string, string> = {
 
   // Punctuation
   '..': '॥',
-  // The question mark is the two-byte `:<` in the font (the `?` key itself
-  // draws रु), so it is matched before `:` and `<` individually.
-  ':<': '?',
+  // The colon shares the `M` byte with the visarga — both draw the same
+  // two-dot glyph in the font, so `M` alone reads back as ः.
 };
 
 /** Reph — र् preceding another consonant. Typed after the consonant it rides. */

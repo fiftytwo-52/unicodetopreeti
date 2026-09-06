@@ -4,7 +4,7 @@ import Converter from '../components/Converter.astro';
 
 const title = 'Nepali Text Tools — Unicode, Preeti and Roman Converters';
 const description =
-  'Convert Nepali Unicode to Preeti, Preeti to Unicode, and Roman Nepali to Devanagari. Free, instant, and runs entirely in your browser.';
+  'Convert Nepali Unicode to Preeti and Roman Nepali to Devanagari. Free, instant, and runs entirely in your browser.';
 
 const schema = {
   '@context': 'https://schema.org',
@@ -22,15 +22,6 @@ const tools = [
     toClass: 'preeti-text',
     blurb:
       'For documents and print work that still run on the Preeti font.',
-  },
-  {
-    href: '/preeti-to-unicode',
-    label: 'Preeti to Unicode',
-    from: 'gd:t]',
-    fromClass: 'preeti-text',
-    to: 'नमस्ते',
-    toClass: 'devanagari',
-    blurb: 'For getting old files onto the web, into email, onto phones.',
   },
   {
     href: '/roman-to-unicode',
@@ -51,10 +42,26 @@ const tools = [
         Nepali text, <span lang="ne" class="hero__ne">कुनै पनि</span> encoding
       </h1>
       <p class="lede">
-        Three converters for moving Nepali between Unicode, the Preeti font, and
+        Two converters for moving Nepali between Unicode, the Preeti font, and
         the Roman spelling you already type. Start here — this one converts
         Unicode to Preeti.
       </p>
+
+      <p class="summary">
+        The web uses Unicode encoding for Nepali text, which doesn't copy cleanly
+        into desktop applications like PageMaker or Word — you'll get garbled
+        characters instead. To use Nepali in these apps, the text needs to be
+        mapped to ASCII characters that a font like Preeti can render. This tool
+        does exactly that: paste Unicode Nepali on the left, get Preeti-encoded
+        text on the right. If the output looks like random English letters, you
+        don't have the Preeti font installed — download and install it, and the
+        text will display correctly.
+      </p>
+
+      <div class="mode-switch">
+        <a href="/unicode-to-preeti" class="mode-switch__btn is-active">Unicode to Preeti</a>
+        <a href="/roman-to-unicode" class="mode-switch__btn">Roman to Nepali</a>
+      </div>
 
       <Converter mode="unicode-to-preeti" sample="नेपाली पाठ कुनै पनि ठाउँमा प्रयोग गर्नुहोस्" />
     </section>
@@ -131,6 +138,14 @@ const tools = [
     color: var(--crimson);
   }
 
+  .summary {
+    max-width: 60ch;
+    color: var(--ink-soft);
+    font-size: var(--step-0);
+    line-height: 1.6;
+    margin: 1rem 0 1.5rem;
+  }
+
   .tools {
     list-style: none;
     margin: 1.5rem 0 0;
@@ -178,5 +193,42 @@ const tools = [
   .roman {
     font-family: var(--font-mono);
     font-size: 0.9em;
+  }
+
+  .mode-switch {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .mode-switch__btn {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.55rem 1.2rem;
+    border: 2px solid var(--rule);
+    border-radius: 0.35rem;
+    text-decoration: none;
+    color: var(--ink-soft);
+    background: var(--paper-raised);
+    transition: all 0.15s ease;
+  }
+
+  .mode-switch__btn:hover {
+    color: var(--ink);
+    border-color: var(--crimson);
+  }
+
+  .mode-switch__btn.is-active {
+    color: #fff;
+    background: var(--crimson);
+    border-color: var(--crimson);
+  }
+
+  @media (max-width: 560px) {
+    .mode-switch__btn {
+      flex: 1;
+      text-align: center;
+    }
   }
 </style>

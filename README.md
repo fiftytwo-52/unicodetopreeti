@@ -1,7 +1,7 @@
 # Nepali Text Tools
 
-Multipage Astro site with three client-side Nepali converters: Unicode to Preeti,
-Preeti to Unicode, and Roman Nepali to Unicode. No backend, no network calls —
+Multipage Astro site with two client-side Nepali converters: Unicode to Preeti
+and Roman Nepali to Unicode. No backend, no network calls —
 the conversion tables ship with the page.
 
 ## Running it
@@ -27,10 +27,10 @@ src/lib/                     conversion logic, framework-free TypeScript
 src/components/Converter.astro   the two-pane tool, shared by all three pages
 src/layouts/BaseLayout.astro     shell, meta tags, JSON-LD
 src/pages/                   one file per route
-scripts/test-converters.ts   207 assertions incl. 59 round-trips
+scripts/test-converters.ts   240 assertions incl. 65 round-trips
 ```
 
-Pages: `/`, `/unicode-to-preeti`, `/preeti-to-unicode`, `/roman-to-unicode`,
+Pages: `/`, `/unicode-to-preeti`, `/roman-to-unicode`,
 `/how-to-use`, `/about`, `/contact`, `/advertise`, and a 404.
 
 `src/lib/site.ts` holds the contact address used by the contact and advertise

@@ -900,14 +900,16 @@
             'क्ष': 'If', 'क्ष्': 'I', 'ज्ञ': '1', 'ज्ञ्': '¡', 'त्र': 'q', 'त्त': 'Q',
             'श्र': '>', 'द्य': 'B', 'द्र': '›', 'ध्र': '„', 'द्द': '2', 'द्ध': '4',
             'द्म': 'ß', 'द्व': 'å', 'द्घ': '¢', 'ट्ट': '§', 'ट्ठ': 'Ý', 'ठ्ठ': '¶',
-            'ड्ड': '•', 'ङ्क': 'Í', 'ङ्ख': 'Î', 'ङ्ग': 'Ë', 'ङ्घ': '‹',
-            'न्न': 'Ì', 'ॐ': 'ç'
+            'ड्ड': '•', 'न्न': 'Ì', 'ॐ': 'ç'
         };
         // र with the u/uu matras is drawn as a single ligature glyph with its
         // own key; `/` plus the matra draws the wrong shape.
         const RA_LIGATURES = { 'रु': '?', 'रू': '¿', 'हृ': 'Å', 'र्\u200D': '¥' };
         // Rakar: ्र drawn as a stroke under the cluster, typed after it.
         const RAKAR = '|';
+        // Retroflex rakar: for ट्र, ठ्र, ड्र, ढ्र the stroke is drawn as «.
+        const RETROFLEX_RAKAR = '«';
+        const RETROFLEX_CONSONANTS = new Set(['ट', 'ठ', 'ड', 'ढ']);
         const INDEPENDENT_VOWELS = {
             'अ': 'c', 'आ': 'cf', 'इ': 'O', 'ई': 'O{', 'उ': 'p', 'ऊ': 'pm', 'ऋ': 'C',
             'ॠ': 'C[', 'ए': 'P', 'ऐ': 'P]', 'ओ': 'cf]', 'औ': 'cf}'
@@ -1025,7 +1027,11 @@
                         !trailingVirama &&
                         !LIGATURES[parts.slice(-2).join(VIRAMA)]
                     ) {
-                        rakar = RAKAR;
+                        // Retroflex consonants (ट, ठ, ड, ढ) use the « stroke for rakar.
+                        const lastConsonant = parts[parts.length - 2];
+                        rakar = lastConsonant && RETROFLEX_CONSONANTS.has(lastConsonant)
+                            ? RETROFLEX_RAKAR
+                            : RAKAR;
                         parts.pop();
                     }
 

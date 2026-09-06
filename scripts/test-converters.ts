@@ -128,7 +128,7 @@ check('reph varsha', unicodeToPreeti('वर्ष'), 'jif{');
 check('reph with matra', unicodeToPreeti('कार्य'), 'sfo{');
 check('anusvara', unicodeToPreeti('अं'), 'c+');
 check('nukta', unicodeToPreeti('ट़'), '6«');
-check('nukta in word', unicodeToPreeti('राष\u093Cट्रिय'), '/fif«l6|o');
+check('nukta in word', unicodeToPreeti('राष\u093Cट्रिय'), '/fif«l6«o');
 check('danda', unicodeToPreeti('।'), '.');
 check('digits', unicodeToPreeti('१२३'), '!@#');
 check('i-matra on conjunct', unicodeToPreeti('स्ति'), 'l:t');
@@ -141,6 +141,11 @@ check('rakar gra', unicodeToPreeti('ग्र'), 'u|');
 check('rakar with i-matra', unicodeToPreeti('क्रि'), 'ls|');
 check('rakar with o-matra', unicodeToPreeti('क्रो'), 's|f]');
 check('rakar in word', unicodeToPreeti('प्रस्तुत'), "k|:t't");
+// Retroflex rakar: ट्र, ठ्र, ड्र, ढ्र use the « stroke instead of |.
+check('retroflex rakar tra', unicodeToPreeti('ट्र'), '6«');
+check('retroflex rakar dra', unicodeToPreeti('ड्र'), '8«');
+check('retroflex rakar in word', unicodeToPreeti('राष्ट्रिय'), '/fli6«o');
+check('retroflex rakar truck', unicodeToPreeti('ट्रक'), '6«s');
 // रु / रू use their dedicated ligature keys, not `/` plus a matra.
 check('ra-u ligature', unicodeToPreeti('रु'), '?');
 check('ra-uu ligature', unicodeToPreeti('रू'), '¿');
@@ -149,7 +154,7 @@ check('reph with rakar', unicodeToPreeti('र्ग्र'), 'u|{');
 // Dedicated conjunct keys from the legacy layout.
 check('dental conjuncts', unicodeToPreeti('द्दद्धद्मद्वद्घ'), '24ßå¢');
 check('retroflex conjuncts', unicodeToPreeti('ट्टट्ठठ्ठड्ड'), '§Ý¶•');
-check('nasal conjuncts', unicodeToPreeti('ङ्कङ्खङ्गङ्घङ्ढ'), 'ÍÎË‹ª\\9');
+check('nasal conjuncts', unicodeToPreeti('ङ्कङ्खङ्गङ्घङ्ढ'), 'ª\\sª\\vª\\uª\\3ª\\9');
 check('tta conjunct', unicodeToPreeti('त्त'), 'Q');
 check('jna half', unicodeToPreeti('ज्ञ्'), '¡');
 // ब्र has no dedicated key: it is the rakar stroke on full ब.
@@ -164,7 +169,7 @@ check('buddhi', unicodeToPreeti('बुद्धि'), "a'l4");
 check('dvandva', unicodeToPreeti('द्वन्द्व'), 'åGå');
 check('shabda', unicodeToPreeti('शब्द'), 'zAb');
 check('padma', unicodeToPreeti('पद्म'), 'kß');
-check('sanga', unicodeToPreeti('सङ्ग'), ';Ë');
+check('sanga', unicodeToPreeti('सङ्ग'), ';ª\\u');
 // The Preeti font has no plain-hyphen glyph: a dash is the en dash (Alt+0150).
 check('dash to en dash', unicodeToPreeti('-'), '–');
 check('em dash to en dash', unicodeToPreeti('—'), '–');
@@ -208,7 +213,7 @@ check('semicolon', unicodeToPreeti(';'), 'Ù');
 check('colon', unicodeToPreeti(':'), 'M');
 check('visarga still M', unicodeToPreeti('ः'), 'M');
 // Full sentence: colon→M, brackets→- and _, halanta→g\, quotes alternate.
-check('sentence with colon', unicodeToPreeti("चुनौतीहरू पनि छन् (जस्तै: 'गोपनीयता' र \"तथ्याङ्क सुरक्षा\"),"), "r'gf}tLx¿ klg 5g\\ -h:t}M …uf]kgLotfÚ / ætYofÍ ;'/IffÆ_,");
+check('sentence with colon', unicodeToPreeti("चुनौतीहरू पनि छन् (जस्तै: 'गोपनीयता' र \"तथ्याङ्क सुरक्षा\"),"), "r'gf}tLx¿ klg 5g\\ -h:t}M …uf]kgLotfÚ / ætYofª\\s ;'/IffÆ_,");
 // Degree symbol and literal hash stay untouched.
 check('degree stays', unicodeToPreeti('°'), '°');
 check('hash stays', unicodeToPreeti('#'), '#');

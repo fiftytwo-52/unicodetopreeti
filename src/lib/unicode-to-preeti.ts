@@ -123,10 +123,6 @@ const LIGATURES: Record<string, string> = {
   'ट्ठ': 'Ý',
   'ठ्ठ': '¶',
   'ड्ड': '•',
-  'ङ्क': 'Í',
-  'ङ्ख': 'Î',
-  'ङ्ग': 'Ë',
-  'ङ्घ': '‹',
   'न्न': 'Ì',
   'ॐ': 'ç',
 };
@@ -145,6 +141,12 @@ const RA_LIGATURES: Record<string, string> = {
 
 /** Rakar: ्र drawn as a stroke under the cluster, typed after it. */
 const RAKAR = '|';
+
+/** Retroflex rakar: for ट्र, ठ्र, ड्र, ढ्र the stroke is drawn as «. */
+const RETROFLEX_RAKAR = '«';
+
+/** Retroflex consonants that use the « rakar stroke. */
+const RETROFLEX_CONSONANTS = new Set(['ट', 'ठ', 'ड', 'ढ']);
 
 const INDEPENDENT_VOWELS: Record<string, string> = {
   अ: 'c',
@@ -333,7 +335,11 @@ export function unicodeToPreeti(input: string): string {
         !trailingVirama &&
         !LIGATURES[parts.slice(-2).join(VIRAMA)]
       ) {
-        rakar = RAKAR;
+        // Retroflex consonants (ट, ठ, ड, ढ) use the « stroke for rakar.
+        const lastConsonant = parts.at(-2);
+        rakar = lastConsonant && RETROFLEX_CONSONANTS.has(lastConsonant)
+          ? RETROFLEX_RAKAR
+          : RAKAR;
         parts.pop();
         // The rakar glyph carries the virama, so what remains keeps its full
         // form: क्र is `s|`, not `S|`.

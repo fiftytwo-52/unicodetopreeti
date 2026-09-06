@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'How to Use the Nepali Converters — unicodeTOpreeti';
 const description =
-  'Step-by-step guide to converting Nepali Unicode to Preeti, Preeti to Unicode, and typing Nepali in Roman letters. Includes fixes for common problems.';
+  'Step-by-step guide to converting Nepali Unicode to Preeti and typing Nepali in Roman letters. Includes fixes for common problems.';
 
 const faqs = [
   {
@@ -11,12 +11,8 @@ const faqs = [
     a: 'Because that is what Preeti text is. The font maps Nepali shapes onto English codepoints. Paste the text into your document, select it, and set the font to Preeti — the shapes appear then. If they do not, Preeti is not installed on that computer.',
   },
   {
-    q: 'Do I need the Preeti font to convert Preeti to Unicode?',
-    a: 'No. Converting out of Preeti only needs the underlying characters, which you get by copying the text as plain text. The font matters for display, not for conversion.',
-  },
-  {
     q: 'Is my text sent anywhere?',
-    a: 'No. All three converters run in your browser using tables built into the page. Nothing is uploaded, and the tools keep working if you go offline after the page loads.',
+    a: 'No. Both converters run in your browser using tables built into the page. Nothing is uploaded, and the tools keep working if you go offline after the page loads.',
   },
   {
     q: 'Will this work with Kantipur or other old Nepali fonts?',
@@ -64,14 +60,6 @@ const schema = {
         The order matters: paste first, then apply the font. Applying Preeti to
         an empty selection and then pasting can produce different results
         depending on the application.
-      </p>
-
-      <h2>Preeti to Unicode</h2>
-      <p>
-        Copy the Preeti text from your document as plain text. In Word, paste
-        into the converter with Ctrl+Shift+V if your browser offers it, so no
-        formatting comes along. The Unicode result can be pasted anywhere without
-        needing a font.
       </p>
 
       <h2>Roman to Nepali</h2>

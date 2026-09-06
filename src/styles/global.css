@@ -37,6 +37,18 @@
   --headstroke: 2px;
 }
 
+/* Dark theme: overrides that apply when data-theme="dark" is on <html>. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --ink: #e8eaf0;
+  --ink-soft: #9aabbd;
+  --crimson: #e8426c;
+  --paper: #13171e;
+  --paper-raised: #1a1f29;
+  --rule: #2c3340;
+}
+
 *,
 *::before,
 *::after {

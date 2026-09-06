@@ -9,7 +9,7 @@ import { preetiToUnicode } from './preeti-to-unicode.ts';
 import { unicodeToPreeti } from './unicode-to-preeti.ts';
 import { romanToUnicode } from './roman-to-unicode.ts';
 
-type Mode = 'unicode-to-preeti' | 'preeti-to-unicode' | 'roman-to-unicode';
+type Mode = 'unicode-to-preeti' | 'roman-to-unicode';
 
 type Conversion = {
   forward: (text: string) => string;
@@ -25,10 +25,6 @@ const conversions: Record<Mode, Conversion> = {
   'unicode-to-preeti': {
     forward: unicodeToPreeti,
     reverse: preetiToUnicode,
-  },
-  'preeti-to-unicode': {
-    forward: preetiToUnicode,
-    reverse: unicodeToPreeti,
   },
   'roman-to-unicode': {
     forward: romanToUnicode,

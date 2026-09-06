@@ -2,40 +2,141 @@
 const { pathname } = Astro.url;
 
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/how-to-use', label: 'How to use' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  {
+    href: '/',
+    label: 'Home',
+    icon:
+      '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  },
+  {
+    href: '/how-to-use',
+    label: 'How to use',
+    icon:
+      '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  },
+  {
+    href: '/about',
+    label: 'About',
+    icon:
+      '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>',
+  },
+  {
+    href: '/contact',
+    label: 'Contact',
+    icon:
+      '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/>',
+  },
 ];
 
-// Trailing slashes vary by host, so compare without them.
-const current = pathname.replace(/\/$/, '') || '/';
+// Static output uses .html filenames (and /index.html for the root) while
+// hosts vary trailing slashes, so compare against a normalized pathname.
+const current =
+  pathname
+    .replace(/\.html$/, '')
+    .replace(/\/index$/, '')
+    .replace(/\/+$/, '') || '/';
 ---
 
 <header class="masthead">
   <div class="shell masthead__inner">
     <a class="wordmark" href="/">
-      <img src="/favicon.svg" alt="" class="wordmark__logo" />
+      <img src="/logo.svg" alt="" class="wordmark__logo" />
       <span class="wordmark__text">unicodeTOpreeti</span>
     </a>
 
-    <nav aria-label="Main">
-      <ul>
-        {
-          links.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                aria-current={current === link.href ? 'page' : undefined}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
+    <div class="masthead__cluster">
+      <nav class="masthead__nav" aria-label="Main">
+        <ul>
+          {
+            links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  aria-current={current === link.href ? 'page' : undefined}
+                >
+                  <svg
+                    class="nav-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    set:html={link.icon}
+                  />
+                  <span class="nav-label">{link.label}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <button
+        type="button"
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="Toggle dark mode"
+      >
+        <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <g stroke="currentColor" stroke-width="1.5" fill="none">
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </g>
+        </svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
   </div>
+
+  <!-- Inline script so the theme is applied before the page paints. -->
+  <script data-theme-script>
+    (function () {
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = stored ?? (prefersDark ? 'dark' : 'light');
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <script data-theme-listener>
+    const toggle = document.getElementById('theme-toggle');
+    const sun = toggle?.querySelector('.theme-toggle__icon--sun');
+    const moon = toggle?.querySelector('.theme-toggle__icon--moon');
+
+    function updateIcons(isDark) {
+      if (sun) sun.style.display = isDark ? 'none' : 'block';
+      if (moon) moon.style.display = isDark ? 'block' : 'none';
+    }
+
+    if (toggle) {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      updateIcons(currentTheme === 'dark');
+
+      toggle.addEventListener('click', () => {
+        const html = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          html.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+          updateIcons(false);
+        } else {
+          html.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+          updateIcons(true);
+        }
+      });
+    }
+  </script>
 </header>
 
 <style>
@@ -47,10 +148,10 @@ const current = pathname.replace(/\/$/, '') || '/';
   .masthead__inner {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    gap: 0.75rem 2rem;
-    padding-block: 0.9rem;
+    gap: 0.5rem 1.5rem;
+    padding-block: 0.8rem;
   }
 
   .wordmark {
@@ -73,39 +174,159 @@ const current = pathname.replace(/\/$/, '') || '/';
     font-size: 1.15rem;
     letter-spacing: -0.01em;
     color: var(--crimson);
+    white-space: nowrap;
   }
 
-  nav ul {
+  /* Nav links + theme toggle live together as one cluster on the right. */
+  .masthead__cluster {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 1.35rem;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .masthead__nav ul {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  nav a {
+  .masthead__nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 36px;
+    padding: 0.4rem 0.7rem;
+    border-radius: 0.4rem;
     font-family: var(--font-display);
-    font-size: 0.94rem;
+    font-size: 0.92rem;
+    font-weight: 500;
     color: var(--ink-soft);
     text-decoration: none;
-    padding-bottom: 2px;
-    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s ease, background-color 0.15s ease;
   }
 
-  nav a:hover {
+  .masthead__nav a:hover {
     color: var(--ink);
-    border-bottom-color: var(--rule);
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
   }
 
-  nav a[aria-current='page'] {
+  .masthead__nav a[aria-current='page'] {
+    color: var(--crimson);
+    background: color-mix(in srgb, var(--crimson) 10%, transparent);
+    font-weight: 600;
+  }
+
+  .masthead__nav .nav-icon {
+    width: 1.05rem;
+    height: 1.05rem;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 0.4rem;
+    padding: 0;
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle:hover {
     color: var(--ink);
-    border-bottom-color: var(--crimson);
+    border-color: var(--crimson);
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
+  }
+
+  .theme-toggle__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .theme-toggle__icon--moon {
+    display: none;
+  }
+
+  [data-theme='dark'] .theme-toggle__icon--sun {
+    display: none;
+  }
+
+  [data-theme='dark'] .theme-toggle__icon--moon {
+    display: block;
   }
 
   @media (max-width: 560px) {
     .masthead__inner {
-      justify-content: flex-start;
+      gap: 0.4rem 1rem;
+      padding-block: 0.7rem;
+    }
+
+    .wordmark {
+      order: 1;
+    }
+
+    /* Cluster drops to a full-width second row: nav icons + theme toggle. */
+    .masthead__cluster {
+      order: 2;
+      flex: 1 0 100%;
+      margin-top: 0.35rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .masthead__nav {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .masthead__nav ul {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.3rem;
+    }
+
+    .masthead__nav a {
+      position: relative;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.3rem;
+      min-height: 0;
+      padding: 0.5rem 0.2rem;
+      border-radius: 0.4rem;
+    }
+
+    .masthead__nav a:hover,
+    .masthead__nav a[aria-current='page'] {
+      color: var(--crimson);
+      background: color-mix(in srgb, var(--crimson) 10%, transparent);
+    }
+
+    .masthead__nav .nav-icon {
+      width: 1.3rem;
+      height: 1.3rem;
+    }
+
+    /* Icon-only on phones; keep the text for assistive tech. */
+    .masthead__nav .nav-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
     }
   }
 </style>

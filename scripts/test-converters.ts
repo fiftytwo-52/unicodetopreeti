@@ -12,6 +12,15 @@ import { romanToUnicode } from '../src/lib/roman-to-unicode.ts';
 let passed = 0;
 let failed = 0;
 
+/**
+ * Mirrors the theme logic in SiteHeader.astro.
+ * @param stored  — the value of localStorage.theme (null if none)
+ * @param prefersDark — whether the OS prefers dark mode
+ */
+function getTheme(stored: string | null, prefersDark: boolean): 'light' | 'dark' {
+  return (stored ?? (prefersDark ? 'dark' : 'light')) as 'light' | 'dark';
+}
+
 function check(label: string, actual: string, expected: string) {
   try {
     assert.equal(actual, expected);
@@ -334,6 +343,13 @@ check('Thraa', romanToUnicode('Thraa'), 'ठ्रा');
 check('Thri', romanToUnicode('Thri'), 'ठ्रि');
 check('Three', romanToUnicode('Three'), 'ठ्री');
 check('newline preserved', romanToUnicode('ma\nra'), 'म\nर');
+
+// --- Theme toggle behavior -----------------------------------------------
+// Tests the logic that decides whether to apply dark mode.
+check('theme defaults light', JSON.stringify(getTheme('light', false)), '"light"');
+check('theme defaults dark', JSON.stringify(getTheme(null, true)), '"dark"');
+check('theme stored overrides preference', JSON.stringify(getTheme('dark', false)), '"dark"');
+check('theme light overrides dark preference', JSON.stringify(getTheme('light', true)), '"light"');
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
 if (failed > 0) process.exit(1);

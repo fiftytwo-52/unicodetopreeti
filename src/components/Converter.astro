@@ -1,15 +1,12 @@
 ---
 /**
- * The converter. One component serves all three directions; `mode` selects
+ * The converter. One component serves every converter page; `mode` selects
  * which conversion function the client script loads.
  *
  * Both panes are editable and stay in sync, so the tool works in either
  * direction without a swap button.
  */
-export type ConverterMode =
-  | 'unicode-to-preeti'
-  | 'preeti-to-unicode'
-  | 'roman-to-unicode';
+export type ConverterMode = 'unicode-to-preeti' | 'roman-to-unicode';
 
 interface Props {
   mode: ConverterMode;
@@ -29,16 +26,6 @@ const copy = {
     outputClass: 'preeti-text',
     inputLang: 'ne',
     outputLang: 'en',
-  },
-  'preeti-to-unicode': {
-    inputLabel: 'Preeti',
-    outputLabel: 'Nepali Unicode',
-    inputPlaceholder: 'Paste Preeti text here, for example gd:t]',
-    outputPlaceholder: 'युनिकोड यहाँ देखिन्छ',
-    inputClass: 'preeti-text',
-    outputClass: 'devanagari',
-    inputLang: 'en',
-    outputLang: 'ne',
   },
   'roman-to-unicode': {
     inputLabel: 'Roman Nepali',
@@ -150,12 +137,12 @@ const copy = {
   }
 
   .pane__field {
-    font-size: var(--step-1);
+    font-size: 0.938rem;
     color: var(--ink);
     background: transparent;
     border: 0;
     padding: 0.85rem;
-    min-height: 22rem;
+    min-height: 24rem;
     min-width: 100%;
     resize: vertical;
     overflow: auto;
@@ -166,13 +153,13 @@ const copy = {
   @media (min-width: 1200px) {
     .panes {
       grid-template-columns: 1fr 1fr;
-      max-width: 1100px;
+      max-width: 2600px;
       margin: 0 auto;
     }
 
     .pane__field {
-      min-height: 28rem;
-      font-size: var(--step-2);
+      min-height: 32rem;
+      font-size: 1.063rem;
     }
   }
 
@@ -227,7 +214,7 @@ const copy = {
 
     .pane__field {
       min-height: 13rem;
-      font-size: var(--step-0);
+      font-size: 0.875rem;
     }
 
     .counts {

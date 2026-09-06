@@ -1,0 +1,140 @@
+---
+const { pathname } = Astro.url;
+
+// Static output uses .html filenames (and /index.html for the root) while
+// hosts vary trailing slashes, so compare against a normalized pathname.
+const current =
+  pathname
+    .replace(/\.html$/, '')
+    .replace(/\/index$/, '')
+    .replace(/\/+$/, '') || '/';
+
+const modes = [
+  {
+    href: '/',
+    label: 'Unicode to Preeti',
+    icon:
+      '<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>',
+  },
+  {
+    href: '/roman-to-unicode',
+    label: 'Roman to Nepali',
+    icon:
+      '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01"/><path d="M10 14h4"/>',
+  },
+];
+---
+
+<p class="dev-note">Note: This site is still in development. Some conversions may not be perfect yet, but every reported error helps improve it.</p>
+
+<nav class="mode-switch" aria-label="Converter mode">
+  {
+    modes.map((mode) => {
+      const active = current === mode.href;
+      return (
+        <a
+          href={mode.href}
+          class:list={['mode-switch__btn', { 'is-active': active }]}
+          aria-current={active ? 'page' : undefined}
+        >
+          <svg
+            class="mode-switch__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            set:html={mode.icon}
+          />
+          <span class="mode-switch__label">{mode.label}</span>
+        </a>
+      );
+    })
+  }
+</nav>
+
+<style>
+  .dev-note {
+    max-width: none;
+    margin: 1.75rem auto 0;
+    padding-inline: 1rem;
+    text-align: center;
+    font-size: var(--step-0);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--crimson);
+  }
+
+  .mode-switch {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0 1.5rem;
+  }
+
+  .mode-switch__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 0;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.55rem 1.1rem;
+    border: 2px solid var(--rule);
+    border-radius: 0.35rem;
+    text-decoration: none;
+    color: var(--ink-soft);
+    background: var(--paper-raised);
+    line-height: 1.2;
+    transition: all 0.15s ease;
+  }
+
+  .mode-switch__btn:hover {
+    color: var(--ink);
+    border-color: var(--crimson);
+  }
+
+  .mode-switch__btn.is-active {
+    color: #fff;
+    background: var(--crimson);
+    border-color: var(--crimson);
+  }
+
+  .mode-switch__icon {
+    width: 1.05rem;
+    height: 1.05rem;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 560px) {
+    .mode-switch {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.4rem;
+    }
+
+    .mode-switch__btn {
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      padding: 0.6rem 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .mode-switch__icon {
+      width: 1.15rem;
+      height: 1.15rem;
+    }
+
+    .mode-switch__label {
+      min-width: 0;
+      text-align: center;
+      line-height: 1.2;
+    }
+  }
+</style>

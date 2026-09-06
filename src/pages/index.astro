@@ -1,297 +1,106 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Converter from '../components/Converter.astro';
+import ModeSwitch from '../components/ModeSwitch.astro';
 
-const title = 'unicodeTOpreeti — Unicode, Preeti and Roman Converters';
+const title = 'Unicode to Preeti Converter — unicodeTOpreeti';
 const description =
-  'Convert Nepali Unicode to Preeti and Roman Nepali to Devanagari. Free, instant, and runs entirely in your browser.';
+  'Convert Nepali Unicode text to Preeti font encoding in your browser. Handles conjuncts, reph and the i-matra reordering that trips up simple converters.';
 
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'unicodeTOpreeti',
+  '@type': 'WebApplication',
+  name: 'Unicode to Preeti Converter',
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   description,
 };
-
-const tools = [
-  {
-    href: '/unicode-to-preeti',
-    label: 'Unicode to Preeti',
-    from: 'नमस्ते',
-    to: 'gd:t]',
-    toClass: 'preeti-text',
-    blurb:
-      'For documents and print work that still run on the Preeti font.',
-  },
-  {
-    href: '/roman-to-unicode',
-    label: 'Roman to Nepali',
-    from: 'namaste',
-    fromClass: 'roman',
-    to: 'नमस्ते',
-    toClass: 'devanagari',
-    blurb: 'For typing Nepali without a Nepali keyboard.',
-  },
-];
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
   <div class="shell">
-    <section class="hero">
-      <div class="hero__desktop">
-        <h1>
-          Unicode To Preeti Converter
-        </h1>
-        <p class="lede">
-          Two converters for moving Nepali between Unicode, the Preeti font, and
-          the Roman spelling you already type. Start here — this one converts
-          Unicode to Preeti.
-        </p>
+        <ModeSwitch />
+
+    <div class="converter-wrapper">
+      <div class="ad ad--left">
+        <a href="#" target="_blank" rel="noopener" class="ad__link">
+          <img src="" alt="" class="ad__image" />
+        </a>
       </div>
 
-      <div class="mode-switch">
-        <a href="/unicode-to-preeti" class="mode-switch__btn is-active">Unicode to Preeti</a>
-        <a href="/roman-to-unicode" class="mode-switch__btn">Roman to Nepali</a>
+      <Converter mode="unicode-to-preeti" sample="नेपाल सरकार, कार्यालयको निर्णय अनुसार वर्ष २०८२" />
+
+      <div class="ad ad--right">
+        <a href="#" target="_blank" rel="noopener" class="ad__link">
+          <img src="" alt="" class="ad__image" />
+        </a>
       </div>
+    </div>
 
-      <div class="converter-wrapper">
-        <div class="ad ad--left">
-          <a href="#" target="_blank" rel="noopener" class="ad__link">
-            <img src="" alt="" class="ad__image" />
-          </a>
-        </div>
-
-        <Converter mode="unicode-to-preeti" sample="नेपाली पाठ कुनै पनि ठाउँमा प्रयोग गर्नुहोस्" />
-
-        <div class="ad ad--right">
-          <a href="#" target="_blank" rel="noopener" class="ad__link">
-            <img src="" alt="" class="ad__image" />
-          </a>
-        </div>
-      </div>
-
-      <div class="hero__mobile">
-        <h1>
-          Unicode To Preeti Converter
-        </h1>
-        <p class="lede">
-          Two converters for moving Nepali between Unicode, the Preeti font, and
-          the Roman spelling you already type. Start here — this one converts
-          Unicode to Preeti.
-        </p>
-      </div>
-    </section>
-
-    <section class="hangs">
-      <h2>Pick a direction</h2>
-      <ul class="tools">
-        {
-          tools.map((tool) => (
-            <li class="tool">
-              <h3><a href={tool.href}>{tool.label}</a></h3>
-              <p class="tool__demo">
-                <span class={tool.fromClass ?? 'devanagari'} lang="ne">
-                  {tool.from}
-                </span>
-                <span class="tool__arrow" aria-hidden="true">becomes</span>
-                <span class={tool.toClass}>{tool.to}</span>
-              </p>
-              <p class="tool__blurb">{tool.blurb}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-
-    <section class="hangs hangs--thin">
-      <h2>Two encodings, one script</h2>
-      <p>
-        Nepali is written in Devanagari, but there are two ways to store it. The
-        older one, Preeti, was built for the typewriter era: it maps Nepali
-        shapes onto the ASCII codepoints of English letters, so a Preeti file
-        contains what looks like nonsense English until the Preeti font is
-        applied. Millions of government forms, newspaper archives and school
-        records still live this way.
-      </p>
-      <p>
-        Unicode stores Devanagari as Devanagari. It renders on any modern device
-        without a special font, it can be searched and spell-checked, and screen
-        readers can speak it. Converting between the two is a matter of
-        translating encodings, not translating language — the words never change.
-      </p>
-      <p>
-        <a href="/how-to-use">How to use these tools</a> covers the specifics,
-        including what to do when Preeti output shows up as Latin letters.
-      </p>
-    </section>
-
-    <section class="hangs hangs--thin">
-      <h2>Your text stays on your device</h2>
-      <p>
-        The conversion tables and the code that uses them are part of the page.
-        Nothing is sent to a server, which means these tools work offline once
-        loaded, handle text of any length, and never see what you paste. There
-        is no account, no upload, and no log.
-      </p>
-    </section>
-
-    <section class="hangs hangs--thin summary-section">
-      <h2>About this tool</h2>
-      <p>
-        The web uses Unicode encoding for Nepali text, which doesn't copy cleanly
-        into desktop applications like PageMaker or Word — you'll get garbled
-        characters instead. To use Nepali in these apps, the text needs to be
-        mapped to ASCII characters that a font like Preeti can render. This tool
-        does exactly that: paste Unicode Nepali on the left, get Preeti-encoded
-        text on the right. If the output looks like random English letters, you
-        don't have the Preeti font installed — download and install it, and the
-        text will display correctly.
-      </p>
-    </section>
+    <p class="converter-description">
+      Paste Nepali Unicode and get Preeti-encoded text you can drop into a document that still uses the old font.
+    </p>
   </div>
+
+  
+  <section class="summary-section">
+    <h2>About this tool</h2>
+    <p>
+      Nepali text on the web uses Unicode, which doesn't copy cleanly into
+      desktop applications like PageMaker or Word — you'll get garbled
+      characters instead. To use Nepali in these apps, the text needs to be
+      mapped to ASCII characters that a font like Preeti can render. This tool
+      does exactly that. If the output looks like random English letters, you
+      don't have the Preeti font installed — download and install it, and the
+      text will display correctly.
+    </p>
+  </section>
+
+  <section class="info-section">
+    <div class="info-grid">
+      <div class="info-card">
+        <h2>Two encodings, one script</h2>
+        <p>
+          Nepali text on the web uses Unicode — a universal encoding that works
+          in every browser and on every device. But older desktop publishing
+          tools like PageMaker and Word were built around the Preeti font, which
+          maps Devanagari shapes onto ASCII codepoints. The two encodings
+          represent the same script, just with different character sets.
+        </p>
+      </div>
+      <div class="info-card">
+        <h2>Your text stays on your device</h2>
+        <p>
+          Conversion happens entirely in your browser. Nothing you type gets
+          sent to a server, stored, or logged. The page works offline once
+          loaded, and the source code is open for anyone to inspect.
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
-<!-- Popup Ad -->
-<div class="popup-ad" id="popupAd">
-  <button class="popup-ad__close" id="popupAdClose" aria-label="Close">&times;</button>
-  <a href="#" target="_blank" rel="noopener" class="popup-ad__link">
-    <img src="" alt="" class="popup-ad__image" />
-  </a>
-</div>
-
-<script>
-  // Show popup ad on first load
-  document.addEventListener('DOMContentLoaded', () => {
-    const popup = document.getElementById('popupAd');
-    const closeBtn = document.getElementById('popupAdClose');
-
-    // Show after a short delay
-    setTimeout(() => {
-      if (popup) popup.classList.add('is-visible');
-    }, 1500);
-
-    // Close button
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        if (popup) popup.classList.remove('is-visible');
-      });
-    }
-
-    // Close on outside click
-    if (popup) {
-      popup.addEventListener('click', (e) => {
-        if (e.target === popup) popup.classList.remove('is-visible');
-      });
-    }
-  });
-</script>
-
 <style>
-  .hero {
-    padding-top: 2.5rem;
-  }
-
-  .hero__desktop h1 {
-    max-width: 22ch;
-  }
-
-  .hero__mobile {
-    display: none;
-  }
-
-  @media (max-width: 720px) {
-    .hero__desktop {
-      display: none;
-    }
-
-    .hero__mobile {
-      display: block;
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--rule);
-    }
-
-    .hero__mobile h1 {
-      margin-top: 0;
-    }
-  }
-
-  /*
-   * The Devanagari in the headline is set in the script the site is about, at
-   * the same size as the Latin around it — not shrunk to a decorative accent.
-   */
-  .hero__ne {
-    color: var(--crimson);
-  }
-
-  .summary {
-    max-width: 60ch;
+  .converter-description {
+    text-align: center;
     color: var(--ink-soft);
     font-size: var(--step-0);
-    line-height: 1.6;
-    margin: 1rem 0 1.5rem;
-  }
-
-  .tools {
-    list-style: none;
-    margin: 1.5rem 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    gap: 2rem;
-  }
-
-  .tool h3 {
-    margin-bottom: 0.5rem;
-  }
-
-  .tool h3 a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 2px solid var(--crimson);
-  }
-
-  .tool h3 a:hover {
-    color: var(--crimson);
-  }
-
-  .tool__demo {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem;
-    font-size: var(--step-1);
-    margin-bottom: 0.5rem;
-  }
-
-  .tool__arrow {
-    font-family: var(--font-display);
-    font-size: var(--step--1);
-    color: var(--ink-soft);
-  }
-
-  .tool__blurb {
-    color: var(--ink-soft);
-    font-size: var(--step--1);
-    margin: 0;
-  }
-
-  .roman {
-    font-family: var(--font-mono);
-    font-size: 0.9em;
-  }
-
-  .mode-switch {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 1.5rem 0 1rem;
+    margin: 1.5rem auto 0;
+    max-width: 60ch;
+    line-height: 1.5;
   }
 
   .converter-wrapper {
     display: flex;
     justify-content: center;
     position: relative;
+    width: 100%;
+  }
+
+  .converter-wrapper :global(.converter) {
+    flex: 1;
+    max-width: 2600px;
   }
 
   .ad {
@@ -303,17 +112,10 @@ const tools = [
     z-index: 10;
   }
 
-  .ad--left {
-    left: 5px;
-  }
+  .ad--left { left: 5px; }
+  .ad--right { right: 5px; }
 
-  .ad--right {
-    right: 5px;
-  }
-
-  .ad:hover {
-    opacity: 0.7;
-  }
+  .ad:hover { opacity: 0.7; }
 
   .ad__link {
     display: block;
@@ -329,99 +131,70 @@ const tools = [
     display: none;
   }
 
-  .summary-section {
-    margin-top: 3rem;
-    border-top: 1px solid var(--rule);
-    padding-top: 2rem;
-  }
-
-  /* Popup Ad */
-  .popup-ad {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-  }
-
-  .popup-ad.is-visible {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .popup-ad__close {
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 2.5rem;
-    cursor: pointer;
-    z-index: 1001;
-    line-height: 1;
-    padding: 0;
-  }
-
-  .popup-ad__close:hover {
-    opacity: 0.7;
-  }
-
-  .popup-ad__link {
-    display: block;
-    width: 400px;
-    height: 400px;
-    background: var(--paper-raised);
-    border-radius: 0.5rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  }
-
-  .popup-ad__image {
-    display: none;
-  }
-
   @media (max-width: 1000px) {
-    .ad {
-      display: none;
-    }
+    .ad { display: none; }
   }
 
-  .mode-switch__btn {
-    font-family: var(--font-display);
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 0.55rem 1.2rem;
-    border: 2px solid var(--rule);
-    border-radius: 0.35rem;
-    text-decoration: none;
-    color: var(--ink-soft);
+  .summary-section {
+    width: min(100% - 2.5rem, 800px);
+    margin: 3rem auto 0;
+    padding: 1.75rem;
     background: var(--paper-raised);
-    transition: all 0.15s ease;
+    border: 1px solid var(--rule);
+    border-radius: 0.35rem;
   }
 
-  .mode-switch__btn:hover {
+  .summary-section h2 {
+    font-size: var(--step-1);
+    margin-top: 0;
+    margin-bottom: 0.75rem;
     color: var(--ink);
-    border-color: var(--crimson);
   }
 
-  .mode-switch__btn.is-active {
-    color: #fff;
-    background: var(--crimson);
-    border-color: var(--crimson);
+  .summary-section p {
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin: 0;
+    max-width: none;
   }
 
-  @media (max-width: 560px) {
-    .mode-switch__btn {
-      flex: 1;
-      text-align: center;
+  .info-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .info-card {
+    padding: 1.5rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 0.35rem;
+  }
+
+  .info-card h2 {
+    font-size: var(--step-1);
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+
+  .info-card p {
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 720px) {
+    .info-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

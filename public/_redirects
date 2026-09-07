@@ -11,9 +11,8 @@
 /unicode-to-preeti      /        301
 /unicode-to-preeti.html /        301
 
-# The generated sitemap lives at /sitemap.xml; the intermediate
-# sitemap-index.xml / sitemap-0.xml files are removed at build time, so keep
-# them resolving for anything still pointing at the old URLs.
+# The sitemap is a static file served at /sitemap.xml. Old generated URLs
+# (sitemap-index.xml / sitemap-0.xml) are kept resolving via redirect.
 /sitemap-index.xml      /sitemap.xml 301
 /sitemap-0.xml          /sitemap.xml 301
 

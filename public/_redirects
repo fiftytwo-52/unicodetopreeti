@@ -11,6 +11,10 @@
 /unicode-to-preeti      /        301
 /unicode-to-preeti.html /        301
 
+# The hand-written sitemap was removed in favour of the generated one; keep
+# the old URL working for anything (e.g. Search Console) still pointing at it.
+/sitemap.xml            /sitemap-index.xml 301
+
 # Navigable error-page previews are served via clean URLs (HTTP 200); the real
 # SEO-critical behaviour is native: any unmatched path falls back to the
 # built-in 404.html and returns a genuine HTTP 404 status.

@@ -31,7 +31,12 @@ const {
   noindex = false,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+// Static builds with format:"file" emit /about.html (and /index.html for the
+// root), so normalize the pathname to the clean URL that matches the sitemap
+// and the host's canonical form.
+const cleanPath =
+  Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '') || '/';
+const canonical = new URL(cleanPath, Astro.site).href;
 const ogImageURL = new URL(ogImage, Astro.site).href;
 ---
 

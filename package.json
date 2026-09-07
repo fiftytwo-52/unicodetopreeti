@@ -10,12 +10,17 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node --experimental-strip-types scripts/test-converters.ts"
+    "test": "node --experimental-strip-types scripts/test-converters.ts",
+    "deploy:pages": "npm run build && wrangler pages deploy dist --project-name unicodetopreeti",
+    "deploy": "npm run deploy:pages"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.3.1",
     "typescript": "5.7.2"
+  },
+  "devDependencies": {
+    "wrangler": "^4.129.0"
   }
 }

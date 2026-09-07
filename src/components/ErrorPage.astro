@@ -1,0 +1,256 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+interface Props {
+  /** Status code shown as the big ghosted numeral, e.g. "404" or "500". */
+  code: string;
+  /** Page <title> shown in the browser tab and used for SEO. */
+  title: string;
+  /** Meta description for SEO. */
+  description: string;
+  /** Short human line under the heading. */
+  lede: string;
+  /** Faint Devanagari watermark bleeding off the right edge. */
+  watermark: string;
+}
+
+const { code, title, description, lede, watermark } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} noindex>
+  <div class="shell">
+    <div class="error reveal">
+      <span class="watermark devanagari" aria-hidden="true">{watermark}</span>
+
+      <header class="error__head">
+        <span class="error__index" aria-hidden="true">{code}</span>
+        <div class="error__titles">
+          <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Error</p>
+          <h1 id="error-title">{title}</h1>
+        </div>
+        <span class="error__rule" aria-hidden="true"></span>
+      </header>
+
+      <p class="lede">{lede}</p>
+
+      <nav class="error__links" aria-label="Continue with the tools">
+        <p class="error__links-label">The converters still work:</p>
+        <ul>
+          <li>
+            <a href="/">
+              <span class="error__link-code">U→P</span>
+              <span class="error__link-text">Unicode to Preeti</span>
+            </a>
+          </li>
+          <li>
+            <a href="/roman-to-unicode">
+              <span class="error__link-code">R→U</span>
+              <span class="error__link-text">Roman to Nepali</span>
+            </a>
+          </li>
+          <li>
+            <a href="/how-to-use">
+              <span class="error__link-code">?</span>
+              <span class="error__link-text">How to use</span>
+            </a>
+          </li>
+          <li>
+            <a href="/contact">
+              <span class="error__link-code">✉</span>
+              <span class="error__link-text">Contact</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <a class="button button--primary" href="/">Back to the converter</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .error {
+    position: relative;
+    overflow: hidden;
+    min-height: 62vh;
+    padding-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Faint Devanagari watermark bleeding off the right edge. */
+  .watermark {
+    position: absolute;
+    top: -0.16em;
+    right: -0.12em;
+    font-size: clamp(8rem, 22vw, 16rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink);
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Ghosted outline status code — the headstroke device used for section
+   * index numerals, but blown up to announce the error itself. */
+  .error__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .error__index {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3.2rem, 9vw, 6rem);
+    line-height: 0.9;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--crimson);
+    user-select: none;
+    flex: none;
+    margin-top: 0.15rem;
+  }
+
+  .error__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.35rem;
+  }
+
+  .kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin: 0;
+  }
+
+  /* Printer's diamond dot that opens each kicker. */
+  .kicker__dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--crimson);
+    opacity: 0.85;
+  }
+
+  .error__titles h1 {
+    font-size: var(--step-3);
+    color: var(--ink);
+    max-width: none;
+  }
+
+  /* Dashed hairline that ties the heading to the right edge of the sheet. */
+  .error__rule {
+    flex: 1;
+    align-self: center;
+    height: 1px;
+    margin-left: 0.5rem;
+    background:
+      linear-gradient(90deg, var(--rule) 0 8px, transparent 8px 12px, var(--rule) 12px 20px, transparent 20px 24px, var(--rule) 24px 100%);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+  }
+
+  .error .lede {
+    margin-bottom: 2.5rem;
+  }
+
+  /* Navigation cards leading back to the working tools. */
+  .error__links {
+    width: 100%;
+    max-width: var(--measure);
+    margin-bottom: 2.5rem;
+  }
+
+  .error__links-label {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 0.75rem;
+  }
+
+  .error__links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .error__links a {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-top: 2px solid var(--ink);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    transition: border-color 120ms, background 120ms, transform 120ms;
+  }
+
+  .error__links a:hover {
+    border-top-color: var(--crimson);
+    background: var(--paper);
+    transform: translateY(-2px);
+  }
+
+  .error__link-code {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--crimson);
+    letter-spacing: 0.04em;
+    flex: none;
+  }
+
+  .error__link-text {
+    line-height: 1.25;
+  }
+
+  /* Load-in: the error page rises gently into place. */
+  .reveal {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .error__head {
+      gap: 1rem;
+    }
+
+    .error__rule {
+      display: none;
+    }
+
+    .error__links ul {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

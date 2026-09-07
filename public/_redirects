@@ -1,0 +1,16 @@
+# Cloudflare Pages redirects & rewrites (Netlify-style, native to Pages).
+# Astro builds with format:"file", so every page is a flat *.html file.
+
+# Pages natively auto-serves an HTML asset when the extension is omitted
+# (e.g. /about -> about.html) and 308-redirects *.html back to the clean URL.
+# Adding our own 200-rewrite rules here caused a redirect loop, so the
+# extensionless internal links (/about, /how-to-use, /roman-to-unicode,
+# /contact, /advertise) rely on that built-in clean-URL behaviour instead.
+
+# Old landing-page aliases -> permanent redirect to the home page.
+/unicode-to-preeti      /        301
+/unicode-to-preeti.html /        301
+
+# Navigable error-page previews are served via clean URLs (HTTP 200); the real
+# SEO-critical behaviour is native: any unmatched path falls back to the
+# built-in 404.html and returns a genuine HTTP 404 status.

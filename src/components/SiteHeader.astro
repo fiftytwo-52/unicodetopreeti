@@ -46,9 +46,33 @@ const current =
 
     <div class="masthead__cluster">
       <nav class="masthead__nav" aria-label="Main">
-        <ul>
+        <!-- Home stays in the top bar on every screen size. -->
+        <ul class="masthead__nav-bar">
+          <li>
+            <a
+              href={links[0].href}
+              aria-current={current === links[0].href ? 'page' : undefined}
+            >
+              <svg
+                class="nav-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                set:html={links[0].icon}
+              />
+              <span class="nav-label">{links[0].label}</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- The rest of the menu; tucked behind the hamburger on phones. -->
+        <ul class="masthead__nav-menu" id="masthead-menu" aria-label="More">
           {
-            links.map((link) => (
+            links.slice(1).map((link) => (
               <li>
                 <a
                   href={link.href}
@@ -96,6 +120,25 @@ const current =
           <path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z"/>
         </svg>
       </button>
+
+      <button
+        type="button"
+        id="nav-toggle"
+        class="hamburger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="masthead-menu"
+      >
+        <svg class="hamburger__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        <svg class="hamburger__icon hamburger__icon--close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -134,6 +177,25 @@ const current =
           localStorage.setItem('theme', 'dark');
           updateIcons(true);
         }
+      });
+    }
+  </script>
+  <script data-nav-script>
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('masthead-menu');
+    if (navToggle && navMenu) {
+      const setOpen = (open) => {
+        navMenu.classList.toggle('is-open', open);
+        navToggle.classList.toggle('is-active', open);
+        navToggle.setAttribute('aria-expanded', String(open));
+        navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      };
+      navToggle.addEventListener('click', () => setOpen(!navMenu.classList.contains('is-open')));
+      navMenu.querySelectorAll('a').forEach((a) =>
+        a.addEventListener('click', () => setOpen(false))
+      );
+      document.addEventListener('click', (e) => {
+        if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) setOpen(false);
       });
     }
   </script>
@@ -184,7 +246,16 @@ const current =
     gap: 0.4rem;
   }
 
-  .masthead__nav ul {
+  .masthead__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  /* Target the list classes directly (not the `ul` element) so these rules
+     don't out-specify the mobile overrides that hide/show each list. */
+  .masthead__nav-bar,
+  .masthead__nav-menu {
     display: flex;
     align-items: center;
     gap: 0.15rem;
@@ -265,68 +336,145 @@ const current =
     display: block;
   }
 
-  @media (max-width: 560px) {
+  /* Hamburger — hidden on desktop, takes over the nav on phones. */
+  .hamburger {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 0.4rem;
+    padding: 0;
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: all 0.15s ease;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .hamburger:hover {
+    color: var(--ink);
+    border-color: var(--crimson);
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
+  }
+
+  .hamburger__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .hamburger__icon--close {
+    display: none;
+  }
+
+  .hamburger.is-active .hamburger__icon {
+    display: none;
+  }
+
+  .hamburger.is-active .hamburger__icon--close {
+    display: block;
+  }
+
+  @media (max-width: 640px) {
     .masthead__inner {
+      flex-wrap: nowrap;
       gap: 0.4rem 1rem;
       padding-block: 0.7rem;
     }
 
     .wordmark {
       order: 1;
+      margin-right: auto;
     }
 
-    /* Cluster drops to a full-width second row: nav icons + theme toggle. */
     .masthead__cluster {
       order: 2;
-      flex: 1 0 100%;
-      margin-top: 0.35rem;
-      padding-top: 0.55rem;
-      border-top: 1px solid var(--rule);
+      gap: 0.3rem;
+    }
+
+    /* The hamburger takes over the nav on phones. */
+    .hamburger {
+      display: inline-flex;
     }
 
     .masthead__nav {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .masthead__nav ul {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.3rem;
-    }
-
-    .masthead__nav a {
       position: relative;
-      flex-direction: column;
-      justify-content: center;
-      gap: 0.3rem;
-      min-height: 0;
-      padding: 0.5rem 0.2rem;
-      border-radius: 0.4rem;
     }
 
-    .masthead__nav a:hover,
-    .masthead__nav a[aria-current='page'] {
-      color: var(--crimson);
-      background: color-mix(in srgb, var(--crimson) 10%, transparent);
+    /* Home stays as a normal inline link in the top bar. */
+    .masthead__nav-bar {
+      gap: 0.15rem;
     }
 
-    .masthead__nav .nav-icon {
-      width: 1.3rem;
-      height: 1.3rem;
+    .masthead__nav-bar a {
+      flex-direction: row;
+      gap: 0.45rem;
+      min-height: 36px;
+      padding: 0.4rem 0.7rem;
     }
 
-    /* Icon-only on phones; keep the text for assistive tech. */
-    .masthead__nav .nav-label {
+    .masthead__nav-bar .nav-icon {
+      width: 1.05rem;
+      height: 1.05rem;
+    }
+
+    .masthead__nav-bar .nav-label {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip: auto;
+      white-space: normal;
+    }
+
+    /* The rest of the menu hides behind the hamburger until opened. */
+    .masthead__nav-menu {
+      display: none;
+    }
+
+    .masthead__nav-menu.is-open {
+      display: block;
       position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-      white-space: nowrap;
-      border: 0;
+      top: calc(100% + 0.6rem);
+      right: 0;
+      min-width: 13rem;
+      background: var(--paper-raised);
+      border: 1px solid var(--rule);
+      border-radius: 0.5rem;
+      box-shadow: 0 12px 32px -12px rgb(22 35 60 / 0.35);
+      padding: 0.5rem;
+      z-index: 200;
+    }
+
+    .masthead__nav-menu.is-open li {
+      display: block;
+    }
+
+    .masthead__nav-menu.is-open a {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 0.55rem;
+      min-height: 40px;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .masthead__nav-menu.is-open .nav-label {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip: auto;
+      white-space: normal;
+    }
+
+    .masthead__nav-menu.is-open .nav-icon {
+      width: 1.1rem;
+      height: 1.1rem;
     }
   }
 </style>

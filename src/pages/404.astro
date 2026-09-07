@@ -1,37 +1,16 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ErrorPage from '../components/ErrorPage.astro';
+
+const title = 'Page not found — unicodeTOpreeti';
+const description =
+  'That page does not exist or has moved. Pick a converter to continue: Unicode to Preeti or Roman to Nepali.';
 ---
 
-<BaseLayout
-  title="Page not found — unicodeTOpreeti"
-  description="That page does not exist. Pick a converter to continue."
->
-  <div class="shell">
-    <div class="hangs intro">
-      <h1>That page does not exist</h1>
-      <p class="lede">Pick a converter and carry on.</p>
-
-      <ul class="options">
-        <li><a href="/">Unicode to Preeti</a></li>
-        <li><a href="/roman-to-unicode">Roman to Nepali</a></li>
-      </ul>
-    </div>
-  </div>
-</BaseLayout>
-
-<style>
-  .intro {
-    padding-top: 3rem;
-    min-height: 45vh;
-  }
-
-  .options {
-    list-style: none;
-    padding: 0;
-    margin: 1.5rem 0 0;
-    display: grid;
-    gap: 0.5rem;
-    font-family: var(--font-display);
-    font-size: var(--step-1);
-  }
-</style>
+<ErrorPage
+  code="404"
+  title="That page does not exist"
+  lede="The address you typed is not on this site. It may have moved, or the link may be out of date. Pick a converter and carry on."
+  watermark="अस्ति"
+  {title}
+  {description}
+/>

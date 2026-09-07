@@ -3,82 +3,288 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Converter from '../components/Converter.astro';
 import ModeSwitch from '../components/ModeSwitch.astro';
 
-const title = 'Roman Nepali to Unicode — unicodeTOpreeti';
+const title = 'Roman to Nepali Unicode Converter — Type Nepali in English Letters';
 const description =
   'Type Nepali using English letters and get Unicode Devanagari as you type. No Nepali keyboard needed. Works on phones and in any browser.';
 
+const keywords = [
+  'roman to nepali unicode',
+  'roman nepali to unicode converter',
+  'english to nepali unicode',
+  'type nepali in english letters',
+  'nepali typing in roman',
+  'unicode to preeti english to nepali',
+].join(', ');
+
+const faqs = [
+  {
+    q: 'How do I type Nepali in English letters?',
+    a: 'Just type the way the words sound. Every roman letter maps to a Devanagari letter — m for म, e for ए, and so on — and the converter joins them into whole words as you type. For example, typing "mero ghar" produces "मेरो घर" with no extra setup or keyboard layout to install.',
+  },
+  {
+    q: 'How to convert Roman Nepali to Unicode?',
+    a: 'Type or paste romanised Nepali into the left pane and the Unicode Devanagari appears instantly in the right pane. Both panes stay in sync, so you can also paste Devanagari and see the roman form. Click "Copy result" when you are done and paste the text anywhere you like.',
+  },
+  {
+    q: 'Does the Roman to Nepali converter work on my phone?',
+    a: 'Yes. The tool runs entirely in your browser, so it works on any phone, tablet or computer. Just open the page and start typing with your regular keyboard — no Nepali keyboard app needs to be installed.',
+  },
+  {
+    q: 'How does the converter handle letters like kh, chh and t/th?',
+    a: 'Nepali has aspirated and retroflex sounds that English does not spell out. The converter recognises two-letter roman groups such as kh for ख, gh for घ, chh for छ and the retroflex t/th and d/dh pairs, and produces the correct Devanagari character.',
+  },
+  {
+    q: 'Is my text sent to a server?',
+    a: 'No. Conversion happens entirely in your browser and nothing you type is uploaded, stored or logged. The page even keeps working offline once it has loaded, and the source code is open for anyone to inspect.',
+  },
+];
+
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'WebApplication',
-  name: 'Roman Nepali to Unicode Converter',
-  applicationCategory: 'UtilitiesApplication',
-  operatingSystem: 'Any',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-  description,
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      '@id': '#app',
+      name: 'Roman Nepali to Unicode Converter',
+      alternateName: 'English to Nepali Unicode Typing Tool',
+      url: '/roman-to-unicode',
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Any',
+      browserRequirements: 'Requires JavaScript',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      description,
+      inLanguage: ['en', 'ne'],
+      featureList: [
+        'Type Nepali in English letters, get Devanagari as you type',
+        'No Nepali keyboard or layout to install',
+        'Works on phones and in any browser',
+        'On-device conversion, nothing leaves your device',
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': '#faq',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a },
+      })),
+    },
+  ],
 };
 
 ---
 
-<BaseLayout title={title} description={description} schema={schema}>
+<BaseLayout title={title} description={description} keywords={keywords} schema={schema}>
   <div class="shell">
+    <h1 class="page-title">Unicode to Preeti Converter</h1>
+    <p class="page-subtitle">
+      Convert Nepali Unicode to Preeti font instantly — free, unlimited, and private.
+    </p>
+
     <ModeSwitch />
 
-      <div class="converter-wrapper">
-    <div class="ad ad--left">
-      <a href="#" target="_blank" rel="noopener" class="ad__link">
-        <img src="" alt="" class="ad__image" />
-      </a>
-    </div>
+    <div class="converter-wrapper">
+      <div class="ad ad--left">
+        <a href="#" target="_blank" rel="noopener" class="ad__link">
+          <img src="" alt="" class="ad__image" />
+        </a>
+      </div>
 
-    <Converter mode="roman-to-unicode" sample="ma timilai maya garchhu" />
+      <Converter mode="roman-to-unicode" sample="ma timilai maya garchhu" />
 
-    <div class="ad ad--right">
-      <a href="#" target="_blank" rel="noopener" class="ad__link">
-        <img src="" alt="" class="ad__image" />
-      </a>
+      <div class="ad ad--right">
+        <a href="#" target="_blank" rel="noopener" class="ad__link">
+          <img src="" alt="" class="ad__image" />
+        </a>
+      </div>
     </div>
   </div>
 
-  <p class="converter-description">
-    Type the way you already text — mero ghar becomes मेरो घर. Conversion happens as you type, no keyboard layout to install.
-  </p>
-</div>
+  <div class="shell">
+    <!-- About ------------------------------------------------------------- -->
+    <section class="section about reveal" aria-labelledby="about-title">
+      <span class="watermark devanagari" aria-hidden="true">रोमन</span>
 
-  <section class="summary-section">
-    <h2>About this tool</h2>
-    <p>
-      Nepali text on the web uses Unicode, which doesn't copy cleanly into
-      desktop applications like PageMaker or Word — you'll get garbled
-      characters instead. To use Nepali in these apps, the text needs to be
-      mapped to ASCII characters that a font like Preeti can render. This tool
-      does exactly that. If the output looks like random English letters, you
-      don't have the Preeti font installed — download and install it, and the
-      text will display correctly.
-    </p>
-  </section>
+      <header class="section__head">
+        <span class="section__index" aria-hidden="true">01</span>
+        <div class="section__titles">
+          <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>About the tool</p>
+          <h2 id="about-title">About the Roman to Nepali Unicode Converter</h2>
+        </div>
+        <span class="section__rule" aria-hidden="true"></span>
+      </header>
 
-  <section class="info-section">
-    <div class="info-grid">
-      <div class="info-card">
-        <h2>Two encodings, one script</h2>
-        <p>
-          Nepali text on the web uses Unicode — a universal encoding that works
-          in every browser and on every device. But older desktop publishing
-          tools like PageMaker and Word were built around the Preeti font, which
-          maps Devanagari shapes onto ASCII codepoints. The two encodings
-          represent the same script, just with different character sets.
-        </p>
+      <div class="about__grid">
+        <div class="about__body">
+          <p class="lede-para">
+            This free online Roman to Nepali Unicode converter turns English
+            letters into Devanagari as you type. There is no Nepali keyboard to
+            install and no new layout to learn — you just type the way the words
+            sound: mero ghar becomes मेरो घर. The conversion runs entirely in
+            your browser, so the page stays private and works offline once
+            loaded.
+          </p>
+          <p>
+            Roman typing matters because most people on phones and shared
+            computers do not have a Devanagari keyboard. The converter reads
+            each roman syllable — m, e, r, o — and maps it to the matching
+            Nepali letter, handling aspirated consonants like kh, gh and chh
+            plus retroflex pairs like t/th and d/dh, so words come out the way
+            a Nepali speaker expects. No conversion is perfect for every name,
+            so both panes stay editable and you can correct any letter
+            directly.
+          </p>
+          <p>
+            There is no sign-up, no character limit and nothing to install.
+            Paste a sentence, an essay or a full document, and the Unicode
+            Devanagari appears instantly in the output pane, ready to copy into
+            messages, documents or the web. Because everything runs on your
+            device, the tool also works offline once the page has loaded.
+          </p>
+        </div>
+
+        <aside class="about__aside">
+          <div class="card facts-card">
+            <p class="card__label">Spec sheet</p>
+            <h3 class="card__title">At a glance</h3>
+            <dl class="facts">
+              <div class="facts__row">
+                <dt>Price</dt>
+                <dd>Free, unlimited</dd>
+              </div>
+              <div class="facts__row">
+                <dt>Sign-up</dt>
+                <dd>None</dd>
+              </div>
+              <div class="facts__row">
+                <dt>Text handling</dt>
+                <dd>On-device only</dd>
+              </div>
+              <div class="facts__row">
+                <dt>Offline</dt>
+                <dd>Works after load</dd>
+              </div>
+              <div class="facts__row">
+                <dt>Best for</dt>
+                <dd>Messages, docs, social</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="card specimen">
+            <p class="card__label">Proof</p>
+            <h3 class="card__title">Phonetic, handled</h3>
+            <ul class="specimen__list">
+              <li>
+                <span class="devanagari">मेरो</span>
+                <span class="specimen__arrow" aria-hidden="true">&#8594;</span>
+                <code>mero</code>
+                <span class="specimen__note">letter by letter</span>
+              </li>
+              <li>
+                <span class="devanagari">घर</span>
+                <span class="specimen__arrow" aria-hidden="true">&#8594;</span>
+                <code>ghar</code>
+                <span class="specimen__note">gh for घ</span>
+              </li>
+              <li>
+                <span class="devanagari">छ</span>
+                <span class="specimen__arrow" aria-hidden="true">&#8594;</span>
+                <code>chh</code>
+                <span class="specimen__note">aspirated pair</span>
+              </li>
+            </ul>
+          </div>
+        </aside>
       </div>
-      <div class="info-card">
-        <h2>Your text stays on your device</h2>
-        <p>
-          Conversion happens entirely in your browser. Nothing you type gets
-          sent to a server, stored, or logged. The page works offline once
-          loaded, and the source code is open for anyone to inspect.
-        </p>
-      </div>
-    </div>
     </section>
+
+    <!-- Features diptych -------------------------------------------------- -->
+    <section class="section features reveal" aria-labelledby="features-title">
+      <header class="section__head">
+        <span class="section__index" aria-hidden="true">02</span>
+        <div class="section__titles">
+          <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>The tool</p>
+          <h2 id="features-title">Small tool, careful engineering</h2>
+        </div>
+        <span class="section__rule" aria-hidden="true"></span>
+      </header>
+
+      <div class="features__grid">
+        <article class="feature">
+          <span class="feature__num" aria-hidden="true">01</span>
+          <div class="feature__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 7 4 4 20 4 20 7" />
+              <line x1="9" y1="20" x2="15" y2="20" />
+              <line x1="12" y1="4" x2="12" y2="20" />
+            </svg>
+          </div>
+          <h3>Phonetic, not keyboard</h3>
+          <p>
+            You never need to install a Nepali keyboard or memorise a layout.
+            Just write the way the words sound — ma timilai maya garchhu — and
+            the converter turns each roman syllable into the matching Devanagari
+            letter as you type.
+          </p>
+        </article>
+
+        <article class="feature">
+          <span class="feature__num" aria-hidden="true">02</span>
+          <div class="feature__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <h3>Your text stays on your device</h3>
+          <p>
+            Conversion happens entirely in your browser. Nothing you type gets
+            sent to a server, stored, or logged. The page works offline once
+            loaded, and the source code is open for anyone to inspect.
+          </p>
+          <ul class="feature__tags">
+            <li>No upload</li>
+            <li>No storage</li>
+            <li>No logs</li>
+            <li>Open source</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- FAQ --------------------------------------------------------------- -->
+    <section class="section faq reveal" aria-labelledby="faq-title">
+      <header class="section__head">
+        <span class="section__index" aria-hidden="true">03</span>
+        <div class="section__titles">
+          <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Questions</p>
+          <h2 id="faq-title">Frequently asked questions</h2>
+        </div>
+        <span class="section__rule" aria-hidden="true"></span>
+      </header>
+
+      <div class="faq__list">
+        {
+          faqs.map((faq, i) => (
+            <details class="faq__item">
+              <summary class="faq__q">
+                <span class="faq__q-text">
+                  <span class="faq__num" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  {faq.q}
+                </span>
+                <span class="faq__marker" aria-hidden="true" />
+              </summary>
+              <p class="faq__a">{faq.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+
   <!-- Popup Ad -->
   <div class="popup-ad" id="popupAd" role="dialog" aria-modal="true" aria-label="Advertisement">
     <div class="popup-ad__box">
@@ -100,7 +306,8 @@ const schema = {
     const popup = document.getElementById('popupAd');
     const closeBtn = document.getElementById('popupAdClose');
     const close = () => { if (popup) popup.classList.remove('is-visible'); };
-    setTimeout(() => { if (popup) popup.classList.add('is-visible'); }, 1500);
+    // Popup ad disabled for now (kept for future use). Re-enable by uncommenting:
+    // setTimeout(() => { if (popup) popup.classList.add('is-visible'); }, 1500);
     if (closeBtn) closeBtn.addEventListener('click', close);
     if (popup) {
       popup.addEventListener('click', (e) => { if (e.target === popup) close(); });
@@ -110,13 +317,21 @@ const schema = {
 </script>
 
 <style>
-  .converter-description {
+  /* Hero ------------------------------------------------------------------ */
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    text-align: center;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--ink);
+  }
+
+  .page-subtitle {
     text-align: center;
     color: var(--ink-soft);
-    font-size: var(--step-0);
-    margin: 1.5rem auto 0;
+    margin: 0 auto 1rem;
     max-width: 60ch;
-    line-height: 1.5;
   }
 
   .converter-wrapper {
@@ -131,7 +346,10 @@ const schema = {
     max-width: 2600px;
   }
 
+  /* Side ads — hidden by default, shown only on full desktop screens
+   * wide enough that they never collide with the converter column. */
   .ad {
+    display: none;
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
@@ -158,6 +376,14 @@ const schema = {
   .ad__image {
     display: none;
   }
+
+  /* Side ads disabled for now (kept for future use). Re-enable by uncommenting:
+  @media (min-width: 1500px) {
+    .ad { display: block; }
+  }
+  */
+
+  /* Popup ad — the only ad shown on anything narrower than a full screen. */
 
   .popup-ad {
     position: fixed;
@@ -186,7 +412,7 @@ const schema = {
     flex-direction: column;
     align-items: center;
     gap: 0.8rem;
-    width: min(400px, calc(100vw - 2rem));
+    width: min(480px, calc(100vw - 2rem));
   }
 
   .popup-ad__link {
@@ -229,71 +455,508 @@ const schema = {
     height: 1.25rem;
   }
 
-  @media (max-width: 1000px) {
-    .ad { display: none; }
+  /* Section scaffold — the shirorekha --------------------------------------
+   *
+   * Each section hangs from a full-width headstroke. The head pairs a large
+   * ghosted index numeral with a mono kicker and the heading, so the page
+   * reads like the front page of a paper: 01, 02, 03 down the sheet.
+   */
+
+  .section {
+    position: relative;
+    border-top: var(--headstroke) solid var(--ink);
+    margin-top: 4.5rem;
+    padding-top: 1.75rem;
   }
 
-  .info-section {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--rule);
+  .section__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2.25rem;
   }
 
-  .summary-section {
-    width: min(100% - 2.5rem, 800px);
-    margin: 3rem auto 0;
-    padding: 1.75rem;
-    background: var(--paper-raised);
-    border: 1px solid var(--rule);
-    border-radius: 0.35rem;
+  .section__index {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.6rem, 5vw, 3.8rem);
+    line-height: 0.9;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--rule);
+    user-select: none;
+    flex: none;
+    margin-top: 0.1rem;
   }
 
-  .summary-section h2 {
-    font-size: var(--step-1);
-    margin-top: 0;
-    margin-bottom: 0.75rem;
-    color: var(--ink);
+  .section__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.35rem;
   }
 
-  .summary-section p {
-    color: var(--ink-soft);
-    line-height: 1.6;
+  .kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--crimson);
     margin: 0;
+  }
+
+  /* Printer's diamond dot that opens each kicker. */
+  .kicker__dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--crimson);
+    opacity: 0.85;
+  }
+
+  /* Hairline that ties each heading to the right edge of the sheet. */
+  .section__rule {
+    flex: 1;
+    align-self: center;
+    height: 1px;
+    margin-left: 0.5rem;
+    background:
+      linear-gradient(90deg, var(--rule) 0 8px, transparent 8px 12px, var(--rule) 12px 20px, transparent 20px 24px, var(--rule) 24px 100%);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+  }
+
+  .section__titles h2 {
+    font-size: var(--step-2);
+    color: var(--ink);
     max-width: none;
   }
 
-  .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  /* Load-in: sections rise gently, staggered down the page. */
+
+  .reveal {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  .info-card {
-    padding: 1.5rem;
+  .features.reveal { animation-delay: 0.12s; }
+  .faq.reveal { animation-delay: 0.24s; }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* About ------------------------------------------------------------------ */
+
+  .about {
+    overflow: hidden;
+  }
+
+  /* A faint Devanagari watermark bleeding off the right edge. */
+  .watermark {
+    position: absolute;
+    top: -0.18em;
+    right: -0.12em;
+    font-size: clamp(7rem, 18vw, 13rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink);
+    opacity: 0.045;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .about__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about__body p {
+    max-width: none;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+
+  .about__body p + p {
+    margin-top: 1.35rem;
+  }
+
+  /* Newsprint drop cap in flag crimson. */
+  .lede-para::first-letter {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 3.6em;
+    line-height: 0.76;
+    color: var(--crimson);
+    float: left;
+    padding: 0.09em 0.15em 0 0;
+  }
+
+  .about__aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  /* Sidebar cards: raised paper with a crimson headstroke of their own. */
+
+  .card {
     background: var(--paper-raised);
     border: 1px solid var(--rule);
-    border-radius: 0.35rem;
+    border-top: 3px solid var(--crimson);
+    border-radius: 0.3rem;
+    padding: 1.25rem 1.35rem 1.35rem;
+    box-shadow: 0 1px 0 rgb(22 35 60 / 0.04);
   }
 
-  .info-card h2 {
+  .card__title {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0 0 0.9rem;
+  }
+
+  /* Tiny file-folder tab that labels each sidebar card. */
+  .card__label {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper-raised);
+    background: var(--crimson);
+    padding: 0.2rem 0.55rem;
+    margin: 0 0 0.7rem;
+    border-radius: 2px;
+  }
+
+  .facts {
+    margin: 0;
+  }
+
+  .facts__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-top: 1px solid var(--rule);
+    font-size: var(--step--1);
+  }
+
+  .facts__row:last-child {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.6rem;
+  }
+
+  .facts__row dt {
+    font-family: var(--font-mono);
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .facts__row dd {
+    margin: 0;
+    color: var(--ink);
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .specimen__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .specimen__list li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .specimen__list li:first-child {
+    border-top: 0;
+  }
+
+  .specimen__list .devanagari {
     font-size: var(--step-1);
-    margin-top: 0;
+    color: var(--ink);
+    min-width: 3.4rem;
+  }
+
+  .specimen__arrow {
+    color: var(--crimson);
+    font-family: var(--font-mono);
+  }
+
+  .specimen__list code {
+    font-family: var(--font-mono);
+    font-size: var(--step-0);
+    color: var(--ink);
+    background: transparent;
+    min-width: 3.6rem;
+  }
+
+  .specimen__note {
+    margin-left: auto;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    text-align: right;
+  }
+
+  /* Features diptych ------------------------------------------------------- */
+
+  .features__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: 2rem;
+  }
+
+  .feature {
+    position: relative;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 0.3rem;
+    padding: 1.75rem 1.75rem 1.9rem;
+    overflow: hidden;
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+
+  /* Crimson headstroke grows across the card on hover. */
+  .feature::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 3.5rem;
+    background: var(--crimson);
+    transition: width 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .feature:hover {
+    transform: translateY(-3px);
+    border-color: var(--ink);
+    box-shadow: 0 10px 28px -14px rgb(22 35 60 / 0.35);
+  }
+
+  .feature:hover::before {
+    width: 100%;
+  }
+
+  /* Ghost index numeral stamped into each feature card. */
+  .feature__num {
+    position: absolute;
+    top: 0.9rem;
+    right: 1.1rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-2);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--rule);
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.9;
+    transition: opacity 200ms ease;
+  }
+
+  .feature:hover .feature__num {
+    opacity: 0.45;
+  }
+
+  .feature__icon {
+    width: 2.6rem;
+    height: 2.6rem;
+    display: grid;
+    place-items: center;
+    color: var(--crimson);
+    border: 1px solid var(--rule);
+    border-radius: 0.25rem;
+    background: var(--paper);
+    margin-bottom: 1.1rem;
+  }
+
+  .feature__icon svg {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .feature h3 {
+    font-size: var(--step-1);
     margin-bottom: 0.75rem;
     color: var(--ink);
   }
 
-  .info-card p {
+  .feature p {
+    max-width: none;
     color: var(--ink-soft);
-    line-height: 1.6;
-    margin: 0;
+    line-height: 1.7;
   }
 
-  @media (max-width: 720px) {
-    .info-grid {
+  .feature__tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.35rem 0 0;
+    padding: 0;
+  }
+
+  .feature__tags li {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.22rem 0.8rem;
+    background: var(--paper);
+  }
+
+  /* FAQ --------------------------------------------------------------------- */
+
+  .faq__list {
+    max-width: 72ch;
+  }
+
+  .faq__item {
+    border-top: 1px solid var(--rule);
+  }
+
+  .faq__item:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-0);
+    color: var(--ink);
+    padding: 1.1rem 0;
+    transition: color 120ms;
+  }
+
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__q:hover,
+  .faq__item[open] .faq__q {
+    color: var(--crimson);
+  }
+
+  .faq__q-text {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .faq__num {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    flex: none;
+  }
+
+  .faq__item[open] .faq__num {
+    color: var(--crimson);
+  }
+
+  /* Drawn plus that folds into a dash when open. */
+  .faq__marker {
+    flex: none;
+    width: 12px;
+    height: 12px;
+    background:
+      linear-gradient(currentColor, currentColor) center / 12px 1.5px no-repeat,
+      linear-gradient(currentColor, currentColor) center / 1.5px 12px no-repeat;
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .faq__item[open] .faq__marker {
+    transform: rotate(45deg);
+  }
+
+  .faq__a {
+    margin: 0;
+    padding: 0 2.5rem 1.4rem 0;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    max-width: none;
+    animation: fadein 260ms ease both;
+  }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Responsive -------------------------------------------------------------- */
+
+  @media (max-width: 860px) {
+    .about__grid,
+    .features__grid {
       grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .about__aside {
+      position: static;
+    }
+
+    .section {
+      margin-top: 3.25rem;
+    }
+
+    .section__head {
+      gap: 1rem;
+    }
+
+    .section__rule {
+      display: none;
+    }
+
+    .specimen__note {
+      display: none;
+    }
+
+    .feature__num {
+      top: 0.7rem;
+      right: 0.9rem;
+      font-size: var(--step-1);
     }
   }
 
+  @media (max-width: 520px) {
+    .section__index {
+      font-size: 2.1rem;
+    }
+  }
 </style>

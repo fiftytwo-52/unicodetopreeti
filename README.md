@@ -41,6 +41,40 @@ pages — set it before deploying, alongside the domain.
 Set your real domain in `astro.config.mjs` (`site`) and in `public/robots.txt`.
 Both the sitemap and the canonical URLs are built from it.
 
+## Deploying to Cloudflare Pages
+
+The site is a fully static build deployed to Cloudflare Pages as a separate
+website. Astro writes flat `*.html` files to `dist/` ([`build.format: "file"`
+](astro.config.mjs:9)), while the site links to pages without the extension
+(`/about`, `/how-to-use`, ...).
+
+Cloudflare Pages handles the extensionless links natively with its clean-URL
+feature: `/about` serves `about.html`, and `/about.html` is 308-redirected back
+to `/about`. The only extra routing rule needed lives in a
+[`_redirects`](public/_redirects) file (Netlify-style, native to Pages, copied
+into `dist/` from `public/` at build time):
+
+- `/unicode-to-preeti` and `/unicode-to-preeti.html` → permanent 301 redirect
+  to `/` (replaces the built meta-refresh stub in `dist/`)
+
+Anything else unmatched falls back to the built-in `404.html` with a genuine
+HTTP 404 status, so the styled error page is served automatically.
+
+```bash
+npm install
+npm run build          # astro check + astro build into dist/
+npm run deploy:pages   # astro build && wrangler pages deploy dist
+# or just:
+npm run deploy
+```
+
+First-time setup: run `npx wrangler login` and check `npx wrangler whoami`.
+Create the project once with `npx wrangler pages project create
+unicodetopreeti --production-branch=main`. The Pages project name and output
+directory live in [`wrangler.pages.toml`](wrangler.pages.toml). The live URL is
+reported by `wrangler pages deploy` (a `<project>.pages.dev` subdomain by
+default).
+
 ## How the conversion works
 
 Preeti is a legacy 8-bit font: it maps Devanagari glyphs onto ASCII codepoints,

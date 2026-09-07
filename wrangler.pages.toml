@@ -1,0 +1,15 @@
+# Cloudflare Pages configuration.
+#
+# This file drives `wrangler pages deploy dist` and tells Wrangler this is a
+# Pages project (the presence of pages_build_output_dir triggers Pages-specific
+# validation). Deploy with:
+#
+#     npm run build
+#     npx wrangler pages deploy dist --project-name unicodetopreeti
+#
+# The Astro build output (dist/) is uploaded as static assets; routing rules
+# live in dist/_redirects (copied from public/_redirects at build time).
+
+name = "unicodetopreeti"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-09-01"

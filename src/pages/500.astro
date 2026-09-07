@@ -1,0 +1,16 @@
+---
+import ErrorPage from '../components/ErrorPage.astro';
+
+const title = 'Server error — unicodeTOpreeti';
+const description =
+  'Something went wrong on our side. Refresh the page or come back in a moment — the converters are free to use again shortly.';
+---
+
+<ErrorPage
+  code="500"
+  title="Something went wrong"
+  lede="An error on our side interrupted the page. Refreshing usually fixes it — if it does not, wait a moment and try again. Your text was never sent anywhere."
+  watermark="क्षमा"
+  {title}
+  {description}
+/>

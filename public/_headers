@@ -1,11 +1,2 @@
 https://unicodetopreeti-4kt.pages.dev/*
   X-Robots-Tag: noindex
-
-# Serve the sitemap and robots.txt always-fresh on the production domain
-# (mirrors the freekidworksheets setup): Search Console must never receive a
-# stale cached copy of the sitemap after a new deployment.
-https://unicodetopreeti.xyz/sitemap.xml
-  Cache-Control: no-cache
-
-https://unicodetopreeti.xyz/robots.txt
-  Cache-Control: no-cache

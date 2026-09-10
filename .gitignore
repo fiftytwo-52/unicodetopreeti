@@ -8,3 +8,15 @@ dist/
 .vercel
 .netlify
 probe.ts
+
+# AI assistant configs (not part of the project)
+.claude/
+.cline/
+.continue/
+.cursor/
+.windsurf/
+.clinerules
+.wrangler/
+
+# Local reference notes (not part of the project)
+Tutorial Transcript.txt

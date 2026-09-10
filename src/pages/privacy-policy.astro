@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTACT_EMAIL, mailto } from '../lib/site.ts';
+
+const title = 'Privacy Policy — unicodeTOpreeti';
+const description =
+  'What unicodeTOpreeti collects, what it never collects, how cookies and Google Analytics are used, and how to reach us about your data.';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="shell">
+    <div class="hangs intro">
+      <h1>Privacy Policy</h1>
+      <p class="lede">
+        The short version: your text never leaves your browser. The longer
+        version, in plain language, is below.
+      </p>
+      <p class="lede updated">
+        Last updated: September 2026
+      </p>
+    </div>
+
+    <section class="hangs hangs--thin">
+      <h2>The converters</h2>
+      <p>
+        Every conversion — Unicode to Preeti, Preeti to Unicode, Roman to
+        Nepali — runs entirely in your browser. The text you paste or type is
+        processed by JavaScript on your own device. It is never uploaded,
+        stored, logged, or transmitted to any server. Once the page has loaded,
+        the converters keep working even if you go offline.
+      </p>
+
+      <h2>What we do not collect</h2>
+      <ul class="plain-list">
+        <li>The text you convert, before or after conversion</li>
+        <li>Accounts — the site has no sign-up, login, or user profiles</li>
+        <li>Personal information such as names, addresses, or phone numbers</li>
+        <li>Uploaded files — there is no upload feature</li>
+      </ul>
+
+      <h2>Cookies and analytics</h2>
+      <p>
+        This site uses Google Analytics to understand, in aggregate, which
+        pages are visited and how the tools are used. Google Analytics sets
+        cookies and uses similar technologies to collect this data. The data
+        collected is aggregated and does not identify you personally.
+      </p>
+      <p>
+        You can refuse or delete these cookies at any time through your
+        browser settings, and you can review Google's own practices at{' '}
+        <a
+          href="https://policies.google.com/technologies/partner-sites"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          policies.google.com/technologies/partner-sites
+        </a>. Blocking analytics cookies does not affect any of the converters.
+      </p>
+
+      <h2>Advertising</h2>
+      <p>
+        If advertising appears on this site in the future, third-party vendors
+        including Google may use cookies to serve ads based on your prior
+        visits to this or other websites. You can opt out of personalised
+        advertising through{' '}
+        <a
+          href="https://www.google.com/settings/ads"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Google Ads Settings
+        </a>. Any such change to this policy will be reflected on this page
+        with an updated date above.
+      </p>
+
+      <h2>Server logs</h2>
+      <p>
+        The site is hosted on Cloudflare Pages. Like any web host, Cloudflare
+        may process standard request logs (such as IP address and browser
+        user-agent) for security and delivery purposes, under its own{' '}
+        <a
+          href="https://www.cloudflare.com/privacypolicy/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          privacy policy
+        </a>. We do not use these logs to track individuals.
+      </p>
+
+      <h2>Children's privacy</h2>
+      <p>
+        This site is not directed at children under 13 and collects no
+        personal information from anyone, regardless of age.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If this policy changes, the revised version will be published on this
+        page with a new "last updated" date. Continued use of the site after a
+        change means you accept the revised policy.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy can be sent to{' '}
+        <a href={mailto('Privacy question')}>{CONTACT_EMAIL}</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+
+  .updated {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .plain-list {
+    margin: 0.75rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .plain-list li + li {
+    margin-top: 0.35rem;
+  }
+</style>

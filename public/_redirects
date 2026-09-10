@@ -11,10 +11,13 @@
 /unicode-to-preeti      /        301
 /unicode-to-preeti.html /        301
 
-# The sitemap is a static file served at /sitemap.xml. Old generated URLs
-# (sitemap-index.xml / sitemap-0.xml) are kept resolving via redirect.
-/sitemap-index.xml      /sitemap.xml 301
-/sitemap-0.xml          /sitemap.xml 301
+# The sitemap is a static file served at /sitemap.xml. The old generated URLs
+# (sitemap-index.xml / sitemap-0.xml, from the previous @astrojs/sitemap setup)
+# are 200-rewritten to the sitemap body: Google Search Console does NOT follow
+# redirects when fetching a submitted sitemap and reports "Couldn't fetch", so
+# any previously submitted old URL must return the sitemap with HTTP 200.
+/sitemap-index.xml      /sitemap.xml 200
+/sitemap-0.xml          /sitemap.xml 200
 
 # Navigable error-page previews are served via clean URLs (HTTP 200); the real
 # SEO-critical behaviour is native: any unmatched path falls back to the

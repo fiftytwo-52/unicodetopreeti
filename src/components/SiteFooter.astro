@@ -9,6 +9,11 @@ const year = new Date().getFullYear();
       anywhere.
     </p>
 
+    <p class="foot__dev-note">
+      Note: This site is still in development. Some conversions may not be
+      perfect yet, but every reported error helps improve it.
+    </p>
+
     <nav aria-label="Footer">
       <ul>
         <li><a href="/">Unicode to Preeti</a></li>
@@ -42,6 +47,15 @@ const year = new Date().getFullYear();
     max-width: 46ch;
     margin: 0;
     color: var(--ink-soft);
+  }
+
+  .foot__dev-note {
+    max-width: 46ch;
+    margin: 0;
+    font-size: var(--step--1);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--crimson);
   }
 
   ul {

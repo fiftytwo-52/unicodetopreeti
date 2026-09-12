@@ -3,22 +3,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Converter from '../components/Converter.astro';
 import ModeSwitch from '../components/ModeSwitch.astro';
 
-const title = 'Roman to Nepali Unicode Converter — Type Nepali in English Letters';
+const title = 'Roman to Nepali Converter — Type Nepali in English Letters';
 const description =
-  'Type Nepali using English letters and get Unicode Devanagari as you type. No Nepali keyboard needed. Works on phones and in any browser.';
+  'Free online Roman to Nepali converter. Type Nepali in English letters and get Unicode Devanagari as you type — no Nepali keyboard needed, works on phones and in any browser.';
 
+// Keyword priority: "roman to nepali converter" is the main keyword for this
+// page, with the english-to-nepali typing long tail behind it.
 const keywords = [
-  'roman to nepali unicode',
+  // Main keyword
+  'roman to nepali converter',
+  'roman to nepali',
+  // Core variations
+  'roman to nepali unicode converter',
   'roman nepali to unicode converter',
+  'roman to nepali typing',
+  'romanized nepali to devanagari',
+  // English to Nepali cluster
+  'english to nepali converter',
+  'english to nepali typing',
   'english to nepali unicode',
   'type nepali in english letters',
   'nepali typing in roman',
-  'unicode to preeti english to nepali',
+  // Tool cluster
+  'nepali unicode typing',
+  'nepali keyboard online',
+  'type nepali online',
 ].join(', ');
 
 const faqs = [
   {
-    q: 'How do I type Nepali in English letters?',
+    q: 'How does the Roman to Nepali converter work?',
     a: 'Just type the way the words sound. Every roman letter maps to a Devanagari letter — m for म, e for ए, and so on — and the converter joins them into whole words as you type. For example, typing "mero ghar" produces "मेरो घर" with no extra setup or keyboard layout to install.',
   },
   {
@@ -45,8 +59,11 @@ const schema = {
     {
       '@type': 'WebApplication',
       '@id': '#app',
-      name: 'Roman Nepali to Unicode Converter',
-      alternateName: 'English to Nepali Unicode Typing Tool',
+      name: 'Roman to Nepali Converter',
+      alternateName: [
+        'Roman to Nepali Unicode Converter',
+        'English to Nepali Typing Tool',
+      ],
       url: '/roman-to-unicode',
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: 'Any',
@@ -77,9 +94,9 @@ const schema = {
 
 <BaseLayout title={title} description={description} keywords={keywords} schema={schema}>
   <div class="shell">
-    <h1 class="page-title">Unicode to Preeti Converter</h1>
+    <h1 class="page-title">Roman to Nepali Converter</h1>
     <p class="page-subtitle">
-      Convert Nepali Unicode to Preeti font instantly — free, unlimited, and private.
+      Type Nepali in English letters and get Unicode Devanagari instantly — free, unlimited, and private.
     </p>
 
     <ModeSwitch />
@@ -110,7 +127,7 @@ const schema = {
         <span class="section__index" aria-hidden="true">01</span>
         <div class="section__titles">
           <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>About the tool</p>
-          <h2 id="about-title">About the Roman to Nepali Unicode Converter</h2>
+          <h2 id="about-title">About the Roman to Nepali Converter</h2>
         </div>
         <span class="section__rule" aria-hidden="true"></span>
       </header>
@@ -118,8 +135,8 @@ const schema = {
       <div class="about__grid">
         <div class="about__body">
           <p class="lede-para">
-            This free online Roman to Nepali Unicode converter turns English
-            letters into Devanagari as you type. There is no Nepali keyboard to
+            This free online Roman to Nepali converter turns English letters
+            into Unicode Devanagari as you type. There is no Nepali keyboard to
             install and no new layout to learn — you just type the way the words
             sound: mero ghar becomes मेरो घर. The conversion runs entirely in
             your browser, so the page stays private and works offline once

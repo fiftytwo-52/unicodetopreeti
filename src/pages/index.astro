@@ -5,27 +5,38 @@ import ModeSwitch from '../components/ModeSwitch.astro';
 
 const title = 'Unicode to Preeti Converter — Free Nepali Unicode to Preeti Font Tool';
 const description =
-  'Free online Unicode to Preeti converter. Convert Nepali Unicode text to Preeti font instantly in your browser — handles conjuncts, reph and i-matra correctly.';
+  'Free online Unicode to Preeti converter. Convert Nepali to Preeti font instantly in your browser — handles conjuncts, reph and i-matra. Also converts Preeti back to Unicode.';
 
+// Keyword priority: "unicode to preeti" and "unicode to preeti converter" are
+// the main keywords, followed by "nepali to preeti" and the how-to long tail.
 const keywords = [
+  // Main keywords
   'unicode to preeti',
   'unicode to preeti converter',
-  'convert unicode to preeti',
-  'converter unicode to preeti',
-  'unicode to preeti font',
-  'translate unicode to preeti',
-  'unicode to preeti convert',
+  // Nepali to Preeti cluster
+  'nepali to preeti',
+  'nepali to preeti converter',
+  'convert nepali to preeti',
   'nepali unicode to preeti',
-  'unicode to preeti convertor',
-  'convert unicode to preeti font',
+  // How-to long tail
+  'how to convert unicode to preeti',
+  'how to convert unicode to preeti in word',
+  'how to convert nepali to preeti',
+  // Core variations
+  'convert unicode to preeti',
+  'unicode to preeti font',
   'unicode to preeti font converter',
-  'convert to unicode to preeti',
+  'unicode to preeti converter online',
+  'free unicode to preeti converter',
+  'unicode to preeti in word',
   'change unicode to preeti',
-  'unicode to preeti file converter',
+  // Reverse direction
+  'preeti to unicode',
+  'preeti to unicode converter',
+  // Font and tool cluster
+  'preeti font converter',
+  'nepali font converter',
   'unicode to preeti font download',
-  'unicode to preeti english to nepali',
-  'convert into preeti',
-  'english to unicode to preeti',
 ].join(', ');
 
 const faqs = [
@@ -36,6 +47,10 @@ const faqs = [
   {
     q: 'How to convert Unicode to Preeti?',
     a: 'Type or paste Nepali Unicode text into the left pane of the converter above. The Preeti-encoded output appears instantly in the right pane as you type. Click "Copy result", paste it into your document, then select the pasted text and set the font to Preeti. The whole conversion takes a few seconds and works with any amount of text.',
+  },
+  {
+    q: 'How to convert Nepali to Preeti?',
+    a: 'Converting Nepali to Preeti works the same way: paste your Nepali text into the left pane of the converter above and the Preeti output appears instantly on the right. Copy it into your document and apply the Preeti font. Every Nepali character is handled, including conjuncts, reph and the i-matra.',
   },
   {
     q: 'How to change Preeti to Unicode?',
@@ -74,7 +89,10 @@ const schema = {
       '@type': 'WebApplication',
       '@id': '#app',
       name: 'Unicode to Preeti Converter',
-      alternateName: 'Nepali Unicode to Preeti Font Converter',
+      alternateName: [
+        'Nepali Unicode to Preeti Font Converter',
+        'Nepali to Preeti Converter',
+      ],
       url: '/',
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: 'Any',

@@ -58,13 +58,13 @@ const schema = {
   '@graph': [
     {
       '@type': 'WebApplication',
-      '@id': '#app',
+      '@id': 'https://unicodetopreeti.xyz/roman-to-unicode#app',
       name: 'Roman to Nepali Converter',
       alternateName: [
         'Roman to Nepali Unicode Converter',
         'English to Nepali Typing Tool',
       ],
-      url: '/roman-to-unicode',
+      url: 'https://unicodetopreeti.xyz/roman-to-unicode',
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: 'Any',
       browserRequirements: 'Requires JavaScript',
@@ -80,7 +80,7 @@ const schema = {
     },
     {
       '@type': 'FAQPage',
-      '@id': '#faq',
+      '@id': 'https://unicodetopreeti.xyz/roman-to-unicode#faq',
       mainEntity: faqs.map((faq) => ({
         '@type': 'Question',
         name: faq.q,

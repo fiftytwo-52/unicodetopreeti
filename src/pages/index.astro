@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Converter from '../components/Converter.astro';
 import ModeSwitch from '../components/ModeSwitch.astro';
 
-const title = 'Unicode to Preeti Converter — Free Nepali Unicode to Preeti Font Tool';
+const title = 'Unicode to Preeti Converter — Free Nepali Font Tool';
 const description =
   'Free online Unicode to Preeti converter. Convert Nepali to Preeti font instantly in your browser — handles conjuncts, reph and i-matra.';
 
@@ -87,13 +87,13 @@ const schema = {
   '@graph': [
     {
       '@type': 'WebApplication',
-      '@id': '#app',
+      '@id': 'https://unicodetopreeti.xyz/#app',
       name: 'Unicode to Preeti Converter',
       alternateName: [
         'Nepali Unicode to Preeti Font Converter',
         'Nepali to Preeti Converter',
       ],
-      url: '/',
+      url: 'https://unicodetopreeti.xyz/',
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: 'Any',
       browserRequirements: 'Requires JavaScript',
@@ -110,7 +110,7 @@ const schema = {
     },
     {
       '@type': 'FAQPage',
-      '@id': '#faq',
+      '@id': 'https://unicodetopreeti.xyz/#faq',
       mainEntity: faqs.map((faq) => ({
         '@type': 'Question',
         name: faq.q,
@@ -275,11 +275,10 @@ const schema = {
           </div>
           <h3>Two encodings, one script</h3>
           <p>
-            Nepali text on the web uses Unicode — a universal encoding that works
+            Nepali text on the web uses <a href="https://www.unicode.org/charts/PDF/U0900.pdf" target="_blank" rel="noopener noreferrer">Unicode Devanagari</a> — a universal encoding standard that works
             in every browser and on every device. But older desktop publishing
-            tools like PageMaker and Word were built around the Preeti font, which
-            maps Devanagari shapes onto ASCII codepoints. The two encodings
-            represent the same script, just with different character sets.
+            tools like PageMaker and Word were built around the legacy Preeti font, which
+            maps Devanagari shapes onto ASCII codepoints. Both formats represent the same <a href="https://en.wikipedia.org/wiki/Devanagari" target="_blank" rel="noopener noreferrer">Devanagari script</a>, just through different character architectures.
           </p>
         </article>
 

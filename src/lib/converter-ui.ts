@@ -76,7 +76,17 @@ function setUp(root: HTMLElement) {
     syncing = false;
   }
 
-  input.addEventListener('input', () => convert(input, output, forward));
+  input.addEventListener('input', () => {
+    if (mode === 'unicode-to-preeti' && input.value.includes('\t')) {
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      input.value = input.value.replace(/\t/g, ' ');
+      if (start !== null && end !== null) {
+        input.setSelectionRange(start, end);
+      }
+    }
+    convert(input, output, forward);
+  });
 
   if (reverse) {
     output.addEventListener('input', () => convert(output, input, reverse));

@@ -161,7 +161,7 @@ export const PREETI_TO_UNICODE: Record<string, string> = {
   // Dash bytes typed with Alt-codes in legacy documents become the plain
   // hyphen in Unicode (the font's `-` key itself draws `(`).
   '–': '-',
-  '—': '-',
+  '—': '—',
   // Quote glyph bytes. Ú renders the closing quote; æ/Æ are the opening and
   // closing double quotes, … the opening single quote. The font's plain
   // `'`/`"` keys draw the ु/ू matras instead.

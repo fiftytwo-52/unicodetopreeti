@@ -84,7 +84,7 @@ check('i-matra over dedicated half', preetiToUnicode('lNk'), 'ल्पि');
 check('i-matra over conjunct key', preetiToUnicode('l4'), 'द्धि');
 // Alt-code dash bytes in legacy documents.
 check('en dash byte', preetiToUnicode('–'), '-');
-check('em dash byte', preetiToUnicode('—'), '-');
+check('em dash byte', preetiToUnicode('—'), '—');
 // Reph comes after the aakar in real Preeti documents.
 check('reph after aakar', preetiToUnicode('ubf{'), 'गर्दा');
 check('reph after ii matra', preetiToUnicode('stL{'), 'कर्ती');
@@ -181,7 +181,10 @@ check('padma', unicodeToPreeti('पद्म'), 'kß');
 check('sanga', unicodeToPreeti('सङ्ग'), ';ª\\u');
 // The Preeti font has no plain-hyphen glyph: a dash is the en dash (Alt+0150).
 check('dash to en dash', unicodeToPreeti('-'), '–');
-check('em dash to en dash', unicodeToPreeti('—'), '–');
+check('em dash stays em dash', unicodeToPreeti('—'), '—');
+check('underscore to em dash', unicodeToPreeti('_'), '—');
+check('multiple underscores to em dashes', unicodeToPreeti('_____'), '—————');
+check('tabs to single space', unicodeToPreeti('नेपाल\tसरकार'), 'g]kfn ;/sf/');
 // Aakar comes before the reph: गर्दा is `ubf{`, not `ub{f`.
 check('reph after aakar', unicodeToPreeti('गर्दा'), 'ubf{');
 check('karta reph order', unicodeToPreeti('कर्ता'), 'stf{');
@@ -208,12 +211,13 @@ check('multiply sign', unicodeToPreeti('×'), '×');
 // The `?` key draws the रु ligature in the font, so a question mark is `<`.
 check('question mark', unicodeToPreeti('?'), '<');
 check('question mark in word', unicodeToPreeti('कस्तो?'), 's:tf] <');
-// A dot between two digits is a decimal point → `=`; other dots stay dots.
+// Dots in Unicode are replaced with `=` which draws `.` in Preeti font.
 // ASCII digits become their Devanagari digit bytes, so 4.5 is `$=%`.
 check('decimal point in number', unicodeToPreeti('4.5'), '$=%');
 check('ascii digits', unicodeToPreeti('2024'), '@)@$');
 check('devanagari decimal', unicodeToPreeti('४.५'), '$=%');
-check('full stop not between digits', unicodeToPreeti('राम.'), '/fd.');
+check('full stop replaced with equal', unicodeToPreeti('राम.'), '/fd=');
+check('dots in numbers like १. २. ३.', unicodeToPreeti('१. २. ३.'), '!= @= #=');
 // Brackets, semicolon and colon use their own glyph bytes.
 check('opening bracket', unicodeToPreeti('('), '-');
 check('closing bracket', unicodeToPreeti(')'), '_');

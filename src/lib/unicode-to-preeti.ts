@@ -216,9 +216,11 @@ const PUNCTUATION: Record<string, string> = {
   '॥': '..',
   'ऽ': '˜',
   // The Preeti font draws the plain `-` byte as `(`, so a dash must be typed
-  // as the en dash (Alt+0150) — the only dash glyph the layout has.
+  // as the en dash (Alt+0150). The em dash (U+2014, char code 2014) is drawn
+  // by its dedicated glyph in the font. Underscores in Unicode also become em dash.
   '-': '–',
-  '—': '–',
+  '—': '—',
+  '_': '—',
   // Quote glyphs live on Alt-code bytes too: the plain `'` and `"` bytes
   // render as the ु and ू matras in the font, so quotes must use Ú/æ/Æ/….
   // The straight `'` and `"` are handled separately in the loop — each
@@ -452,15 +454,20 @@ export function unicodeToPreeti(input: string): string {
       continue;
     }
 
-    // --- Full stop / decimal point --------------------------------------
-    // A dot between two digits is a decimal point, which lives on the `=`
-    // key in the font. Any other full stop stays a full stop.
+    // --- Tabs -----------------------------------------------------------
+    // Replace tabs with a single space if Unicode contains tabs.
+    if (char === '\t') {
+      output += ' ';
+      index += 1;
+      continue;
+    }
+
+    // --- Full stop / decimal point / dot --------------------------------
+    // In Preeti font, the dot glyph lives on the `=` key (the `.` key draws
+    // the Devanagari danda `।`). Any dot in Unicode (e.g. १., २., decimals)
+    // is replaced with `=`.
     if (char === '.') {
-      const before = input[index - 1];
-      const after = input[index + 1];
-      const betweenDigits =
-        /[0-9०-९]/u.test(before ?? '') && /[0-9०-९]/u.test(after ?? '');
-      output += betweenDigits ? '=' : '.';
+      output += '=';
       index += 1;
       continue;
     }

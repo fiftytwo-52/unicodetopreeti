@@ -221,6 +221,9 @@ check('dots in numbers like १. २. ३.', unicodeToPreeti('१. २. ३.'), 
 // Brackets, semicolon and colon use their own glyph bytes.
 check('opening bracket', unicodeToPreeti('('), '-');
 check('closing bracket', unicodeToPreeti(')'), '_');
+check('curly brackets to small brackets', unicodeToPreeti('{नेपाल}'), '-g]kfn_');
+check('square brackets to small brackets', unicodeToPreeti('[नेपाल]'), '-g]kfn_');
+check('equals sign to Odieresis', unicodeToPreeti('५ = ५'), '% Ö %');
 check('semicolon', unicodeToPreeti(';'), 'Ù');
 // The colon shares the M byte with the visarga (same two-dot font glyph).
 check('colon', unicodeToPreeti(':'), 'M');
@@ -309,6 +312,8 @@ for (const word of [
   'नेपालः राम',
   'न्',
   '५०%',
+  '५ = ५',
+  '१.२',
 ]) {
   check(`round trip ${word}`, preetiToUnicode(unicodeToPreeti(word)), word);
 }

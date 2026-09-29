@@ -238,11 +238,19 @@ const PUNCTUATION: Record<string, string> = {
   // The `?` key draws the रु ligature in the font, so a question mark is
   // typed on the `<` key.
   '?': '<',
-  // Brackets and the semicolon are typed on their own glyph bytes: `(` is
-  // the `-` key, `)` the `_` key, `;` the Ù byte. The colon shares the `M`
-  // key with the visarga — both are the same two-dot glyph in the font.
+  // Brackets: Preeti only supports small brackets `(` and `)`. In the font,
+  // `(` is typed on the `-` key and `)` on the `_` key. Curly `{}` and square
+  // `[]` brackets are normalized to small brackets `()` so they don't produce
+  // accidental matras or reph in Preeti.
   '(': '-',
   ')': '_',
+  '{': '-',
+  '}': '_',
+  '[': '-',
+  ']': '_',
+  // Equals sign: typing `=` in Preeti font produces `.`. To display `=` in
+  // Preeti font, the layout uses Ö (Alt+0214).
+  '=': 'Ö',
   ';': 'Ù',
   ':': 'M',
 };

@@ -77,10 +77,13 @@ function setUp(root: HTMLElement) {
   }
 
   input.addEventListener('input', () => {
-    if (mode === 'unicode-to-preeti' && input.value.includes('\t')) {
+    if (mode === 'unicode-to-preeti' && /[\t{}[\]]/.test(input.value)) {
       const start = input.selectionStart;
       const end = input.selectionEnd;
-      input.value = input.value.replace(/\t/g, ' ');
+      input.value = input.value
+        .replace(/\t/g, ' ')
+        .replace(/[{[]/g, '(')
+        .replace(/[}\]]/g, ')');
       if (start !== null && end !== null) {
         input.setSelectionRange(start, end);
       }

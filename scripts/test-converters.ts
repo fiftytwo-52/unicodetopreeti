@@ -361,21 +361,6 @@ check('newline preserved', romanToUnicode('ma\nra'), 'म\nर');
 // --- Output cleanup tools ------------------------------------------------
 import { applyTool, removeSpacePunctuation } from '../src/lib/output-tools.ts';
 
-check(
-  'spacePunctuation off: danda attaches',
-  unicodeToPreeti('गरे।', { spacePunctuation: false }),
-  'u/].',
-);
-check(
-  'spacePunctuation off: question mark attaches',
-  unicodeToPreeti('कस्तो?', { spacePunctuation: false }),
-  's:tf]<',
-);
-check(
-  'spacePunctuation on is the default',
-  unicodeToPreeti('गरे।'),
-  'u/] .',
-);
 check('remove space before danda', removeSpacePunctuation('u/] .'), 'u/].');
 check('remove space before double danda', removeSpacePunctuation('g]kfn ..'), 'g]kfn..');
 check('remove space before question mark', removeSpacePunctuation('s:tf] <'), 's:tf]<');

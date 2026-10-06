@@ -266,14 +266,7 @@ const isConsonant = (char: string) => char !== undefined && char in CONSONANTS;
 const isMatra = (char: string) => char !== undefined && char in MATRAS;
 const isSign = (char: string) => char !== undefined && char in SIGNS;
 
-export function unicodeToPreeti(
-  input: string,
-  opts?: { spacePunctuation?: boolean },
-): string {
-  // The danda, ? and ! glyphs touch the preceding character in the Preeti
-  // font, so they get a space of their own by default. The converter UI
-  // exposes this as a toggleable mode.
-  const spacePunctuation = opts?.spacePunctuation ?? true;
+export function unicodeToPreeti(input: string): string {
   let output = '';
   let index = 0;
   // Straight quotes are ambiguous, so each kind alternates: the 1st, 3rd, …
@@ -498,7 +491,6 @@ export function unicodeToPreeti(
       // character in the font, so they always get a space of their own: गरे। is
       // `u/] .`, कस्तो! is `s:tf] Û`, कस्तो? is `s:tf] <`.
       if (
-        spacePunctuation &&
         (direct.startsWith('.') || direct === 'Û' || direct === '<') &&
         output.length > 0 &&
         !/\s$/.test(output)

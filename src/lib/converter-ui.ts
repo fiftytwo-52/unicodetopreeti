@@ -8,7 +8,12 @@
 import { preetiToUnicode } from './preeti-to-unicode.ts';
 import { unicodeToPreeti } from './unicode-to-preeti.ts';
 import { romanToUnicode } from './roman-to-unicode.ts';
-import { applyTool, removeSpacePunctuation } from './output-tools.ts';
+import {
+  applyTool,
+  isToolName,
+  removeSpacePunctuation,
+} from './output-tools.ts';
+import type { ToolName } from './output-tools.ts';
 
 type Mode = 'unicode-to-preeti' | 'roman-to-unicode';
 
@@ -58,10 +63,41 @@ function setUp(root: HTMLElement) {
   // failed or unavailable storage never blocks the refresh itself.
   const STORAGE_KEY = `converter-state:${mode}`;
 
-  // "Space before । ?" is a persistent mode, on by default: the converter
-  // adds the space automatically, and switching it off removes the spaces
-  // and stops adding them to new text.
-  let spacePunctOn = true;
+  // Cleanup modes. Every button is an on/off switch: while a mode is on,
+  // its transform runs over the output after every conversion. The output
+  // is always re-derived as applyModes(forward(input)), so switching a
+  // mode off returns the exact un-moded text — no snapshots needed.
+  // "Space before । ?" is on by default; the rest are opt-in.
+  const modes: Record<ToolName, boolean> = {
+    'remove-tabs': false,
+    'space-punctuation': true,
+    'space-numbers': false,
+    'space-math': false,
+    'single-spaces': false,
+  };
+  const TOOL_ORDER: ToolName[] = [
+    'remove-tabs',
+    'space-punctuation',
+    'space-numbers',
+    'space-math',
+    'single-spaces',
+  ];
+
+  function applyModes(text: string): string {
+    let result = text;
+    for (const name of TOOL_ORDER) {
+      if (name === 'space-punctuation') {
+        // The converter already adds the space; the mode being off strips
+        // it back out, which also covers text converted while it was on.
+        result = modes[name]
+          ? (applyTool(name, result) ?? result)
+          : removeSpacePunctuation(result);
+      } else if (modes[name]) {
+        result = applyTool(name, result) ?? result;
+      }
+    }
+    return result;
+  }
 
   function persistState() {
     try {
@@ -70,7 +106,7 @@ function setUp(root: HTMLElement) {
         JSON.stringify({
           input: input!.value,
           output: output!.value,
-          spacePunct: spacePunctOn,
+          modes,
         }),
       );
     } catch {
@@ -85,12 +121,20 @@ function setUp(root: HTMLElement) {
       const saved = JSON.parse(raw) as {
         input?: unknown;
         output?: unknown;
+        modes?: unknown;
         spacePunct?: unknown;
       };
       if (typeof saved.input === 'string') input!.value = saved.input;
       if (typeof saved.output === 'string') output!.value = saved.output;
-      if (typeof saved.spacePunct === 'boolean')
-        spacePunctOn = saved.spacePunct;
+      if (saved.modes && typeof saved.modes === 'object') {
+        const stored = saved.modes as Record<string, unknown>;
+        for (const name of TOOL_ORDER) {
+          if (typeof stored[name] === 'boolean') modes[name] = stored[name];
+        }
+      } else if (typeof saved.spacePunct === 'boolean') {
+        // State written by the previous version, which only had the one mode.
+        modes['space-punctuation'] = saved.spacePunct;
+      }
     } catch {
       // Corrupt state: start with empty panes.
     }
@@ -132,38 +176,16 @@ function setUp(root: HTMLElement) {
     count!.textContent = `${length} ${length === 1 ? 'character' : 'characters'}`;
   }
 
-  // Cleanup-tool toggle state. Each button remembers both panes before and
-  // after its own change so a second click can undo it; any reconversion or
-  // manual edit invalidates the snapshots via resetTools().
   const toolButtons =
     root.querySelectorAll<HTMLButtonElement>('[data-tool]');
-  // The "Space before । ?" button is a persistent on/off mode rather than
-  // a one-shot cleanup, so it keeps its own pressed state.
-  const punctButton = root.querySelector<HTMLButtonElement>(
-    '[data-tool="space-punctuation"]',
-  );
-  const toolState = new Map<
-    string,
-    { beforeInput: string; beforeOutput: string; afterOutput: string }
-  >();
 
-  function resetTools() {
-    toolState.clear();
-    toolButtons.forEach((button) => {
-      if (button !== punctButton) button.setAttribute('aria-pressed', 'false');
-    });
+  function syncToolButton(button: HTMLButtonElement, name: ToolName) {
+    button.setAttribute('aria-pressed', String(modes[name]));
   }
 
-  function syncPunctButton() {
-    punctButton?.setAttribute('aria-pressed', String(spacePunctOn));
-  }
-
-  // Forward conversion honours the "Space before । ?" mode.
+  // Forward conversion runs the enabled cleanup modes over the result.
   function forwardText(text: string): string {
-    if (mode === 'unicode-to-preeti') {
-      return unicodeToPreeti(text, { spacePunctuation: spacePunctOn });
-    }
-    return forward(text);
+    return applyModes(forward(text));
   }
 
   function convert(
@@ -174,7 +196,6 @@ function setUp(root: HTMLElement) {
     if (syncing) return;
     syncing = true;
     to.value = fn(from.value);
-    resetTools();
     updateCount();
     persistState();
     syncing = false;
@@ -205,73 +226,52 @@ function setUp(root: HTMLElement) {
     });
   }
 
-  // Cleanup tools below the Preeti pane. Each button toggles: the first
-  // click snapshots the output and applies the tool, a second click
-  // restores the snapshot — but only if nothing else changed the output
-  // since. They rewrite the output only; the Unicode source pane is left
-  // untouched as the source of truth.
-  // The "Space before । ?" button is a persistent on/off mode rather than
-  // a one-shot cleanup, so it gets dedicated wiring below.
-  if (punctButton) {
-    syncPunctButton();
-    punctButton.addEventListener('click', () => {
-      spacePunctOn = !spacePunctOn;
-      const next = spacePunctOn
-        ? applyTool('space-punctuation', output!.value)
-        : removeSpacePunctuation(output!.value);
-      if (next !== output!.value) {
-        output!.value = next;
-        if (reverse) input!.value = reverse(next);
-        updateCount();
-      }
-      syncPunctButton();
-      persistState();
-      announce(
-        spacePunctOn ? 'Space before । ? on.' : 'Space before । ? off.',
-      );
-    });
-  }
+  // Cleanup tools: each button is an on/off switch. Switching on
+  // snapshots both panes, re-derives the output through the enabled modes,
+  // and syncs the Unicode pane via the reverse conversion. Switching off
+  // restores the snapshot exactly when nothing changed since, otherwise
+  // re-derives from the current input.
+  type Snapshot = { in0: string; out0: string; in1: string; out1: string };
+  const snapshots = new Map<ToolName, Snapshot>();
 
   toolButtons.forEach((button) => {
     const name = button.dataset.tool;
-    if (name === 'space-punctuation') return;
-    button.setAttribute('aria-pressed', 'false');
+    if (!isToolName(name)) return;
+    syncToolButton(button, name);
     button.addEventListener('click', () => {
-      const outputEl = output!;
-      const inputEl = input!;
-      const saved = name ? toolState.get(name) : undefined;
-      // Toggle off: this tool's change is still exactly what's in the box,
-      // so restore both panes to precisely what they were.
-      if (saved && outputEl.value === saved.afterOutput) {
-        outputEl.value = saved.beforeOutput;
-        inputEl.value = saved.beforeInput;
-        toolState.delete(name!);
-        button.setAttribute('aria-pressed', 'false');
-        updateCount();
-        persistState();
-        announce(`${button.textContent?.trim() ?? 'Tool'} undone.`);
-        return;
+      const label = button.textContent?.trim() ?? 'Tool';
+      if (modes[name]) {
+        // Switching off.
+        modes[name] = false;
+        const snap = snapshots.get(name);
+        if (
+          snap &&
+          output!.value === snap.out1 &&
+          input!.value === snap.in1
+        ) {
+          output!.value = snap.out0;
+          input!.value = snap.in0;
+        } else {
+          const out = forwardText(input!.value);
+          output!.value = out;
+          if (reverse) input!.value = reverse(out);
+        }
+        snapshots.delete(name);
+      } else {
+        // Switching on.
+        const in0 = input!.value;
+        const out0 = output!.value;
+        modes[name] = true;
+        const out1 = forwardText(in0);
+        output!.value = out1;
+        const in1 = reverse ? reverse(out1) : in0;
+        if (reverse) input!.value = in1;
+        snapshots.set(name, { in0, out0, in1, out1 });
       }
-      const result = applyTool(name, outputEl.value);
-      if (result === null) return;
-      if (result === outputEl.value) {
-        announce('Nothing to change.');
-        return;
-      }
-      if (name) {
-        toolState.set(name, {
-          beforeInput: inputEl.value,
-          beforeOutput: outputEl.value,
-          afterOutput: result,
-        });
-      }
-      outputEl.value = result;
-      // Keep the Unicode pane in sync with the cleaned-up Preeti text.
-      if (reverse) inputEl.value = reverse(result);
-      button.setAttribute('aria-pressed', 'true');
+      syncToolButton(button, name);
       updateCount();
       persistState();
-      announce(`${button.textContent?.trim() ?? 'Tool'} applied.`);
+      announce(`${label} ${modes[name] ? 'on' : 'off'}.`);
     });
   });
 
@@ -303,7 +303,6 @@ function setUp(root: HTMLElement) {
     ?.addEventListener('click', () => {
       input.value = '';
       output.value = '';
-      resetTools();
       updateCount();
       persistState();
       input.focus();
@@ -319,7 +318,10 @@ function setUp(root: HTMLElement) {
     });
 
   restoreState();
-  syncPunctButton();
+  toolButtons.forEach((button) => {
+    const name = button.dataset.tool;
+    if (isToolName(name)) syncToolButton(button, name);
+  });
   updateCount();
 }
 

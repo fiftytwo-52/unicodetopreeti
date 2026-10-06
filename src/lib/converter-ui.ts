@@ -117,6 +117,20 @@ function setUp(root: HTMLElement) {
     count!.textContent = `${length} ${length === 1 ? 'character' : 'characters'}`;
   }
 
+  // Cleanup-tool toggle state. Each button remembers the output before and
+  // after its own change so a second click can undo it; any reconversion or
+  // manual edit invalidates the snapshots via resetTools().
+  const toolButtons =
+    root.querySelectorAll<HTMLButtonElement>('[data-tool]');
+  const toolState = new Map<string, { before: string; after: string }>();
+
+  function resetTools() {
+    toolState.clear();
+    toolButtons.forEach((button) =>
+      button.setAttribute('aria-pressed', 'false'),
+    );
+  }
+
   function convert(
     from: HTMLTextAreaElement,
     to: HTMLTextAreaElement,
@@ -125,6 +139,7 @@ function setUp(root: HTMLElement) {
     if (syncing) return;
     syncing = true;
     to.value = fn(from.value);
+    resetTools();
     updateCount();
     persistState();
     syncing = false;
@@ -155,17 +170,36 @@ function setUp(root: HTMLElement) {
     });
   }
 
-  // One-click cleanup tools below the Preeti pane. They rewrite the output
-  // only — the Unicode source pane is left untouched as the source of truth.
-  root.querySelectorAll<HTMLButtonElement>('[data-tool]').forEach((button) => {
+  // Cleanup tools below the Preeti pane. Each button toggles: the first
+  // click snapshots the output and applies the tool, a second click
+  // restores the snapshot — but only if nothing else changed the output
+  // since. They rewrite the output only; the Unicode source pane is left
+  // untouched as the source of truth.
+  toolButtons.forEach((button) => {
+    const name = button.dataset.tool;
+    button.setAttribute('aria-pressed', 'false');
     button.addEventListener('click', () => {
-      const result = applyTool(button.dataset.tool, output!.value);
+      const outputEl = output!;
+      const saved = name ? toolState.get(name) : undefined;
+      // Toggle off: this tool's change is still exactly what's in the box.
+      if (saved && outputEl.value === saved.after) {
+        outputEl.value = saved.before;
+        toolState.delete(name!);
+        button.setAttribute('aria-pressed', 'false');
+        updateCount();
+        persistState();
+        announce(`${button.textContent?.trim() ?? 'Tool'} undone.`);
+        return;
+      }
+      const result = applyTool(name, outputEl.value);
       if (result === null) return;
-      if (result === output!.value) {
+      if (result === outputEl.value) {
         announce('Nothing to change.');
         return;
       }
-      output!.value = result;
+      if (name) toolState.set(name, { before: outputEl.value, after: result });
+      outputEl.value = result;
+      button.setAttribute('aria-pressed', 'true');
       updateCount();
       persistState();
       announce(`${button.textContent?.trim() ?? 'Tool'} applied.`);
@@ -200,6 +234,7 @@ function setUp(root: HTMLElement) {
     ?.addEventListener('click', () => {
       input.value = '';
       output.value = '';
+      resetTools();
       updateCount();
       persistState();
       input.focus();

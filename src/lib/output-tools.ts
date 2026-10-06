@@ -65,6 +65,15 @@ function singleSpaces(text: string): string {
   return text.replace(/[^\S\n]{2,}/g, ' ');
 }
 
+/**
+ * The reverse of spacePunctuation: attach the danda, ? and ! directly to
+ * the preceding word by removing the space before them. Used when the
+ * "Space before । ?" mode is switched off.
+ */
+export function removeSpacePunctuation(text: string): string {
+  return text.replace(/[ \t]+(\.\.?|Û|<)/g, '$1');
+}
+
 const TOOLS: Record<ToolName, (text: string) => string> = {
   'remove-tabs': removeTabs,
   'space-punctuation': spacePunctuation,

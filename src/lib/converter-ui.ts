@@ -8,7 +8,7 @@
 import { preetiToUnicode } from './preeti-to-unicode.ts';
 import { unicodeToPreeti } from './unicode-to-preeti.ts';
 import { romanToUnicode } from './roman-to-unicode.ts';
-import { applyTool } from './output-tools.ts';
+import { applyTool, removeSpacePunctuation } from './output-tools.ts';
 
 type Mode = 'unicode-to-preeti' | 'roman-to-unicode';
 
@@ -58,11 +58,20 @@ function setUp(root: HTMLElement) {
   // failed or unavailable storage never blocks the refresh itself.
   const STORAGE_KEY = `converter-state:${mode}`;
 
+  // "Space before । ?" is a persistent mode, on by default: the converter
+  // adds the space automatically, and switching it off removes the spaces
+  // and stops adding them to new text.
+  let spacePunctOn = true;
+
   function persistState() {
     try {
       localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ input: input!.value, output: output!.value }),
+        JSON.stringify({
+          input: input!.value,
+          output: output!.value,
+          spacePunct: spacePunctOn,
+        }),
       );
     } catch {
       // Private mode or disabled storage: the refresh still works.
@@ -73,9 +82,15 @@ function setUp(root: HTMLElement) {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
-      const saved = JSON.parse(raw) as { input?: unknown; output?: unknown };
+      const saved = JSON.parse(raw) as {
+        input?: unknown;
+        output?: unknown;
+        spacePunct?: unknown;
+      };
       if (typeof saved.input === 'string') input!.value = saved.input;
       if (typeof saved.output === 'string') output!.value = saved.output;
+      if (typeof saved.spacePunct === 'boolean')
+        spacePunctOn = saved.spacePunct;
     } catch {
       // Corrupt state: start with empty panes.
     }
@@ -122,6 +137,11 @@ function setUp(root: HTMLElement) {
   // manual edit invalidates the snapshots via resetTools().
   const toolButtons =
     root.querySelectorAll<HTMLButtonElement>('[data-tool]');
+  // The "Space before । ?" button is a persistent on/off mode rather than
+  // a one-shot cleanup, so it keeps its own pressed state.
+  const punctButton = root.querySelector<HTMLButtonElement>(
+    '[data-tool="space-punctuation"]',
+  );
   const toolState = new Map<
     string,
     { beforeInput: string; beforeOutput: string; afterOutput: string }
@@ -129,9 +149,21 @@ function setUp(root: HTMLElement) {
 
   function resetTools() {
     toolState.clear();
-    toolButtons.forEach((button) =>
-      button.setAttribute('aria-pressed', 'false'),
-    );
+    toolButtons.forEach((button) => {
+      if (button !== punctButton) button.setAttribute('aria-pressed', 'false');
+    });
+  }
+
+  function syncPunctButton() {
+    punctButton?.setAttribute('aria-pressed', String(spacePunctOn));
+  }
+
+  // Forward conversion honours the "Space before । ?" mode.
+  function forwardText(text: string): string {
+    if (mode === 'unicode-to-preeti') {
+      return unicodeToPreeti(text, { spacePunctuation: spacePunctOn });
+    }
+    return forward(text);
   }
 
   function convert(
@@ -160,7 +192,7 @@ function setUp(root: HTMLElement) {
         input.setSelectionRange(start, end);
       }
     }
-    convert(input, output, forward);
+    convert(input, output, forwardText);
   });
 
   if (reverse) {
@@ -178,8 +210,31 @@ function setUp(root: HTMLElement) {
   // restores the snapshot — but only if nothing else changed the output
   // since. They rewrite the output only; the Unicode source pane is left
   // untouched as the source of truth.
+  // The "Space before । ?" button is a persistent on/off mode rather than
+  // a one-shot cleanup, so it gets dedicated wiring below.
+  if (punctButton) {
+    syncPunctButton();
+    punctButton.addEventListener('click', () => {
+      spacePunctOn = !spacePunctOn;
+      const next = spacePunctOn
+        ? applyTool('space-punctuation', output!.value)
+        : removeSpacePunctuation(output!.value);
+      if (next !== output!.value) {
+        output!.value = next;
+        if (reverse) input!.value = reverse(next);
+        updateCount();
+      }
+      syncPunctButton();
+      persistState();
+      announce(
+        spacePunctOn ? 'Space before । ? on.' : 'Space before । ? off.',
+      );
+    });
+  }
+
   toolButtons.forEach((button) => {
     const name = button.dataset.tool;
+    if (name === 'space-punctuation') return;
     button.setAttribute('aria-pressed', 'false');
     button.addEventListener('click', () => {
       const outputEl = output!;
@@ -259,11 +314,12 @@ function setUp(root: HTMLElement) {
     .querySelector<HTMLButtonElement>('[data-action="example"]')
     ?.addEventListener('click', () => {
       input.value = root.dataset.sample ?? '';
-      convert(input, output, forward);
+      convert(input, output, forwardText);
       announce('Example loaded.');
     });
 
   restoreState();
+  syncPunctButton();
   updateCount();
 }
 

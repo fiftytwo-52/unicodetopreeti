@@ -70,29 +70,6 @@ const copy = {
         autocapitalize="off"
         autocomplete="off"
         data-role="output"></textarea>
-      {mode === 'unicode-to-preeti' && (
-        <div class="tools" aria-label="Preeti text cleanup tools">
-          <button class="tool" type="button" data-tool="remove-tabs">
-            Remove tabs
-          </button>
-          <button class="tool" type="button" data-tool="space-punctuation">
-            Space before । ?
-          </button>
-          <button class="tool" type="button" data-tool="space-numbers">
-            Space after numbers
-          </button>
-          <button
-            class="tool"
-            type="button"
-            data-tool="space-math"
-            title="5×1=5 becomes 5 × 1 = 5">
-            Space math
-          </button>
-          <button class="tool" type="button" data-tool="single-spaces">
-            Single spaces
-          </button>
-        </div>
-      )}
     </div>
   </div>
 
@@ -104,6 +81,31 @@ const copy = {
       Try an example
     </button>
     <button class="button" type="button" data-action="clear">Clear</button>
+
+    {mode === 'unicode-to-preeti' && (
+      <div class="tools" role="group" aria-label="Preeti text cleanup tools">
+        <span class="tools__label">Cleanup</span>
+        <button class="tool" type="button" data-tool="remove-tabs">
+          Remove tabs
+        </button>
+        <button class="tool" type="button" data-tool="space-punctuation">
+          Space before । ?
+        </button>
+        <button class="tool" type="button" data-tool="space-numbers">
+          Space after numbers
+        </button>
+        <button
+          class="tool"
+          type="button"
+          data-tool="space-math"
+          title="5×1=5 becomes 5 × 1 = 5">
+          Space math
+        </button>
+        <button class="tool" type="button" data-tool="single-spaces">
+          Single spaces
+        </button>
+      </div>
+    )}
 
     <p class="counts">
       <span data-role="count">0 characters</span>
@@ -198,11 +200,18 @@ const copy = {
   }
 
   .tools {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 0.4rem;
-    padding: 0.6rem 0.85rem;
-    border-top: 1px solid var(--rule);
+    padding-left: 0.9rem;
+    margin-left: 0.3rem;
+    border-left: 1px solid var(--rule);
+  }
+
+  .tools__label {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
   }
 
   .tool {

@@ -70,6 +70,29 @@ const copy = {
         autocapitalize="off"
         autocomplete="off"
         data-role="output"></textarea>
+      {mode === 'unicode-to-preeti' && (
+        <div class="tools" aria-label="Preeti text cleanup tools">
+          <button class="tool" type="button" data-tool="remove-tabs">
+            Remove tabs
+          </button>
+          <button class="tool" type="button" data-tool="space-punctuation">
+            Space before । ?
+          </button>
+          <button class="tool" type="button" data-tool="space-numbers">
+            Space after numbers
+          </button>
+          <button
+            class="tool"
+            type="button"
+            data-tool="space-math"
+            title="5×1=5 becomes 5 × 1 = 5">
+            Space math
+          </button>
+          <button class="tool" type="button" data-tool="single-spaces">
+            Single spaces
+          </button>
+        </div>
+      )}
     </div>
   </div>
 
@@ -172,6 +195,32 @@ const copy = {
   .pane__field::placeholder {
     color: var(--ink-soft);
     opacity: 0.7;
+  }
+
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.6rem 0.85rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .tool {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    padding: 0.28rem 0.65rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .tool:hover,
+  .tool:focus-visible {
+    border-color: var(--crimson);
+    color: var(--crimson);
+    outline: none;
   }
 
   .controls {

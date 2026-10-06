@@ -217,10 +217,13 @@ const PUNCTUATION: Record<string, string> = {
   'ऽ': '˜',
   // The Preeti font draws the plain `-` byte as `(`, so a dash must be typed
   // as the en dash (Alt+0150). The em dash (U+2014, char code 2014) is drawn
-  // by its dedicated glyph in the font. Underscores in Unicode also become em dash.
+  // by its dedicated glyph in the font.
   '-': '–',
   '—': '—',
-  '_': '—',
+  // Underscores become `=` so the Preeti font draws them as a dotted blank
+  // (..........) for fill-in-the-blank questions instead of a solid line —
+  // the `=` byte draws the dot glyph in the font.
+  '_': '=',
   // Quote glyphs live on Alt-code bytes too: the plain `'` and `"` bytes
   // render as the ु and ू matras in the font, so quotes must use Ú/æ/Æ/….
   // The straight `'` and `"` are handled separately in the loop — each

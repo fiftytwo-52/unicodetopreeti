@@ -21,7 +21,7 @@ function getTheme(stored: string | null, prefersDark: boolean): 'light' | 'dark'
   return (stored ?? (prefersDark ? 'dark' : 'light')) as 'light' | 'dark';
 }
 
-function check(label: string, actual: string, expected: string) {
+function check(label: string, actual: unknown, expected: unknown) {
   try {
     assert.equal(actual, expected);
     passed += 1;
@@ -182,8 +182,13 @@ check('sanga', unicodeToPreeti('सङ्ग'), ';ª\\u');
 // The Preeti font has no plain-hyphen glyph: a dash is the en dash (Alt+0150).
 check('dash to en dash', unicodeToPreeti('-'), '–');
 check('em dash stays em dash', unicodeToPreeti('—'), '—');
-check('underscore to em dash', unicodeToPreeti('_'), '—');
-check('multiple underscores to em dashes', unicodeToPreeti('_____'), '—————');
+check('underscore to dotted-blank byte', unicodeToPreeti('_'), '=');
+check('multiple underscores to dotted blanks', unicodeToPreeti('_____'), '=====');
+check(
+  'underscores inside a sentence',
+  unicodeToPreeti('राम ____ गयो।'),
+  '/fd ==== uof] .',
+);
 check('tabs to single space', unicodeToPreeti('नेपाल\tसरकार'), 'g]kfn ;/sf/');
 // Aakar comes before the reph: गर्दा is `ubf{`, not `ub{f`.
 check('reph after aakar', unicodeToPreeti('गर्दा'), 'ubf{');
@@ -352,6 +357,28 @@ check('Thraa', romanToUnicode('Thraa'), 'ठ्रा');
 check('Thri', romanToUnicode('Thri'), 'ठ्रि');
 check('Three', romanToUnicode('Three'), 'ठ्री');
 check('newline preserved', romanToUnicode('ma\nra'), 'म\nर');
+
+// --- Output cleanup tools ------------------------------------------------
+import { applyTool } from '../src/lib/output-tools.ts';
+
+check('tool: remove tabs', applyTool('remove-tabs', 's\tv'), 's v');
+check('tool: space before danda', applyTool('space-punctuation', 'u/].'), 'u/] .');
+check('tool: space before double danda', applyTool('space-punctuation', 'g]kfn..'), 'g]kfn ..');
+check('tool: space before question mark', applyTool('space-punctuation', 's:tf]<'), 's:tf] <');
+check(
+  'tool: collapse whitespace before punctuation',
+  applyTool('space-punctuation', 'u/]  .'),
+  'u/] .',
+);
+check('tool: space after number before letter', applyTool('space-numbers', '%j6f'), '% j6f');
+check('tool: no space after number before dot', applyTool('space-numbers', '%='), '%=');
+check('tool: no space after number before bracket', applyTool('space-numbers', '%_'), '%_');
+check('tool: spaced math', applyTool('space-math', unicodeToPreeti('५×१=५')), '% × ! Ö %');
+check('tool: math already spaced is stable', applyTool('space-math', '% × ! Ö %'), '% × ! Ö %');
+check('tool: dot between digits not spaced', applyTool('space-math', '%=%'), '%=%');
+check('tool: collapse multiple spaces', applyTool('single-spaces', 's  v   x'), 's v x');
+check('tool: newlines preserved', applyTool('single-spaces', 's  \nv'), 's \nv');
+check('tool: unknown tool returns null', applyTool('nope', 's'), null);
 
 // --- Theme toggle behavior -----------------------------------------------
 // Tests the logic that decides whether to apply dark mode.

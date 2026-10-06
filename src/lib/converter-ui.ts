@@ -8,6 +8,7 @@
 import { preetiToUnicode } from './preeti-to-unicode.ts';
 import { unicodeToPreeti } from './unicode-to-preeti.ts';
 import { romanToUnicode } from './roman-to-unicode.ts';
+import { applyTool } from './output-tools.ts';
 
 type Mode = 'unicode-to-preeti' | 'roman-to-unicode';
 
@@ -51,6 +52,58 @@ function setUp(root: HTMLElement) {
   let syncing = false;
   let statusTimer: number | undefined;
 
+  // --- Converter state survives the idle refresh ------------------------
+  // The page reloads after 10 minutes without user activity, so the panes
+  // are saved to localStorage on every change and restored on load. A
+  // failed or unavailable storage never blocks the refresh itself.
+  const STORAGE_KEY = `converter-state:${mode}`;
+
+  function persistState() {
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ input: input!.value, output: output!.value }),
+      );
+    } catch {
+      // Private mode or disabled storage: the refresh still works.
+    }
+  }
+
+  function restoreState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const saved = JSON.parse(raw) as { input?: unknown; output?: unknown };
+      if (typeof saved.input === 'string') input!.value = saved.input;
+      if (typeof saved.output === 'string') output!.value = saved.output;
+    } catch {
+      // Corrupt state: start with empty panes.
+    }
+  }
+
+  // --- Idle auto-refresh -------------------------------------------------
+  // Reloads the page after 10 minutes without user activity. Any pointer,
+  // key, scroll, touch or input event restarts the countdown.
+  const IDLE_LIMIT_MS = 10 * 60 * 1000;
+  let idleTimer: number | undefined;
+
+  function resetIdleTimer() {
+    window.clearTimeout(idleTimer);
+    idleTimer = window.setTimeout(() => window.location.reload(), IDLE_LIMIT_MS);
+  }
+
+  for (const event of [
+    'pointerdown',
+    'keydown',
+    'input',
+    'scroll',
+    'touchstart',
+    'click',
+  ]) {
+    window.addEventListener(event, resetIdleTimer, { passive: true });
+  }
+  resetIdleTimer();
+
   function announce(message: string) {
     status!.textContent = message;
     window.clearTimeout(statusTimer);
@@ -73,6 +126,7 @@ function setUp(root: HTMLElement) {
     syncing = true;
     to.value = fn(from.value);
     updateCount();
+    persistState();
     syncing = false;
   }
 
@@ -95,8 +149,28 @@ function setUp(root: HTMLElement) {
     output.addEventListener('input', () => convert(output, input, reverse));
   } else {
     // Output stays editable for touch-ups, but nothing flows back.
-    output.addEventListener('input', updateCount);
+    output.addEventListener('input', () => {
+      updateCount();
+      persistState();
+    });
   }
+
+  // One-click cleanup tools below the Preeti pane. They rewrite the output
+  // only — the Unicode source pane is left untouched as the source of truth.
+  root.querySelectorAll<HTMLButtonElement>('[data-tool]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const result = applyTool(button.dataset.tool, output!.value);
+      if (result === null) return;
+      if (result === output!.value) {
+        announce('Nothing to change.');
+        return;
+      }
+      output!.value = result;
+      updateCount();
+      persistState();
+      announce(`${button.textContent?.trim() ?? 'Tool'} applied.`);
+    });
+  });
 
   root
     .querySelector<HTMLButtonElement>('[data-action="copy"]')
@@ -127,6 +201,7 @@ function setUp(root: HTMLElement) {
       input.value = '';
       output.value = '';
       updateCount();
+      persistState();
       input.focus();
       announce('Cleared.');
     });
@@ -139,6 +214,7 @@ function setUp(root: HTMLElement) {
       announce('Example loaded.');
     });
 
+  restoreState();
   updateCount();
 }
 

@@ -117,12 +117,15 @@ function setUp(root: HTMLElement) {
     count!.textContent = `${length} ${length === 1 ? 'character' : 'characters'}`;
   }
 
-  // Cleanup-tool toggle state. Each button remembers the output before and
+  // Cleanup-tool toggle state. Each button remembers both panes before and
   // after its own change so a second click can undo it; any reconversion or
   // manual edit invalidates the snapshots via resetTools().
   const toolButtons =
     root.querySelectorAll<HTMLButtonElement>('[data-tool]');
-  const toolState = new Map<string, { before: string; after: string }>();
+  const toolState = new Map<
+    string,
+    { beforeInput: string; beforeOutput: string; afterOutput: string }
+  >();
 
   function resetTools() {
     toolState.clear();
@@ -180,10 +183,13 @@ function setUp(root: HTMLElement) {
     button.setAttribute('aria-pressed', 'false');
     button.addEventListener('click', () => {
       const outputEl = output!;
+      const inputEl = input!;
       const saved = name ? toolState.get(name) : undefined;
-      // Toggle off: this tool's change is still exactly what's in the box.
-      if (saved && outputEl.value === saved.after) {
-        outputEl.value = saved.before;
+      // Toggle off: this tool's change is still exactly what's in the box,
+      // so restore both panes to precisely what they were.
+      if (saved && outputEl.value === saved.afterOutput) {
+        outputEl.value = saved.beforeOutput;
+        inputEl.value = saved.beforeInput;
         toolState.delete(name!);
         button.setAttribute('aria-pressed', 'false');
         updateCount();
@@ -197,8 +203,16 @@ function setUp(root: HTMLElement) {
         announce('Nothing to change.');
         return;
       }
-      if (name) toolState.set(name, { before: outputEl.value, after: result });
+      if (name) {
+        toolState.set(name, {
+          beforeInput: inputEl.value,
+          beforeOutput: outputEl.value,
+          afterOutput: result,
+        });
+      }
       outputEl.value = result;
+      // Keep the Unicode pane in sync with the cleaned-up Preeti text.
+      if (reverse) inputEl.value = reverse(result);
       button.setAttribute('aria-pressed', 'true');
       updateCount();
       persistState();

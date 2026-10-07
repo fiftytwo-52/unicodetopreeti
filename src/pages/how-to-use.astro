@@ -46,6 +46,10 @@ const faqs = [
     q: 'Why did one word convert incorrectly?',
     a: 'Usually a substituted character in the source, or a Preeti variant that remaps a key. Both panes are editable and re-convert as you type, so you can correct it in place.',
   },
+  {
+    q: 'What do the Cleanup buttons do?',
+    a: 'They tidy the Preeti output with one tap. Remove tabs turns tabs into single spaces. Space before । ? adds a space before ।, ?, and ! — off by default, so the raw conversion keeps your original spacing. Space math spaces out math between numbers (5×1=5 becomes 5 × 1 = 5); switching it off compacts it again. Single spaces collapses repeated spaces while keeping line breaks.',
+  },
 ];
 
 const schema = {
@@ -111,6 +115,37 @@ const schema = {
         If you are choosing between the two encodings for new work, prefer
         Unicode. It needs no font, it survives being emailed, and it can be
         searched.
+      </p>
+    </section>
+
+    <section class="hangs hangs--thin">
+      <h2>Cleanup tools</h2>
+      <p>
+        Below the text panes sits a row of Cleanup buttons. Each one is an
+        on/off switch that tidies the Preeti output as you type:
+      </p>
+      <ul>
+        <li>
+          <strong>Remove tabs</strong> — turns every tab into a single space.
+        </li>
+        <li>
+          <strong>Space before । ?</strong> — adds one space before ।, ॥, ?
+          and !. Off by default, so the raw conversion keeps whatever spacing
+          your original passage had; switching it off again removes the space.
+        </li>
+        <li>
+          <strong>Space math</strong> — on by default. Spaces out math written
+          between numbers, so <code>5×1=5</code> becomes
+          <code>5 × 1 = 5</code>. Switch it off to compact it back to
+          <code>5×1=5</code>.
+        </li>
+        <li>
+          <strong>Single spaces</strong> — collapses every run of spaces into
+          one. Line breaks are kept.
+        </li>
+      </ul>
+      <p>
+        Hover any button to see a short reminder of what it does.
       </p>
     </section>
 

@@ -11,6 +11,7 @@ import { romanToUnicode } from './roman-to-unicode.ts';
 import {
   applyTool,
   isToolName,
+  removeSpaceMath,
   removeSpacePunctuation,
 } from './output-tools.ts';
 import type { ToolName } from './output-tools.ts';
@@ -67,33 +68,40 @@ function setUp(root: HTMLElement) {
   // its transform runs over the output after every conversion. The output
   // is always re-derived as applyModes(forward(input)), so switching a
   // mode off returns the exact un-moded text — no snapshots needed.
-  // "Space before । ?" is on by default; the rest are opt-in.
+  // "Space before । ?" and "Space math" are on by default; the rest are
+  // opt-in. Space math is on by default because spaced math (2 × 5 = 10)
+  // is the normal question-paper style; switching it off compacts the
+  // operators (2×5=10).
   const modes: Record<ToolName, boolean> = {
     'remove-tabs': false,
     'space-punctuation': true,
-    'space-numbers': false,
-    'space-math': false,
+    'space-math': true,
     'single-spaces': false,
   };
   const TOOL_ORDER: ToolName[] = [
     'remove-tabs',
     'space-punctuation',
-    'space-numbers',
     'space-math',
     'single-spaces',
   ];
 
+  // Modes whose "off" state applies a reverse transform instead of doing
+  // nothing: the converter's default output already has the spaced form,
+  // so off strips it back out.
+  const OFF_TRANSFORMS: Partial<Record<ToolName, (text: string) => string>> =
+    {
+      'space-punctuation': removeSpacePunctuation,
+      'space-math': removeSpaceMath,
+    };
+
   function applyModes(text: string): string {
     let result = text;
     for (const name of TOOL_ORDER) {
-      if (name === 'space-punctuation') {
-        // The converter already adds the space; the mode being off strips
-        // it back out, which also covers text converted while it was on.
-        result = modes[name]
-          ? (applyTool(name, result) ?? result)
-          : removeSpacePunctuation(result);
-      } else if (modes[name]) {
+      if (modes[name]) {
         result = applyTool(name, result) ?? result;
+      } else {
+        const off = OFF_TRANSFORMS[name];
+        if (off) result = off(result);
       }
     }
     return result;

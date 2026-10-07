@@ -359,7 +359,7 @@ check('Three', romanToUnicode('Three'), 'ठ्री');
 check('newline preserved', romanToUnicode('ma\nra'), 'म\nर');
 
 // --- Output cleanup tools ------------------------------------------------
-import { applyTool, removeSpacePunctuation } from '../src/lib/output-tools.ts';
+import { applyTool, removeSpaceMath, removeSpacePunctuation } from '../src/lib/output-tools.ts';
 
 check('remove space before danda', removeSpacePunctuation('u/] .'), 'u/].');
 check('remove space before double danda', removeSpacePunctuation('g]kfn ..'), 'g]kfn..');
@@ -374,12 +374,14 @@ check(
   applyTool('space-punctuation', 'u/]  .'),
   'u/] .',
 );
-check('tool: space after number before letter', applyTool('space-numbers', '%j6f'), '% j6f');
-check('tool: no space after number before dot', applyTool('space-numbers', '%='), '%=');
-check('tool: no space after number before bracket', applyTool('space-numbers', '%_'), '%_');
 check('tool: spaced math', applyTool('space-math', unicodeToPreeti('५×१=५')), '% × ! Ö %');
 check('tool: math already spaced is stable', applyTool('space-math', '% × ! Ö %'), '% × ! Ö %');
 check('tool: dot between digits not spaced', applyTool('space-math', '%=%'), '%=%');
+check('remove space math: spaced becomes tight', removeSpaceMath('% × ! Ö %'), '%×!Ö%');
+check('remove space math: minus between digits', removeSpaceMath('% – !'), '%–!');
+check('remove space math: already tight is stable', removeSpaceMath('%×!Ö%'), '%×!Ö%');
+check('remove space math: dot between digits untouched', removeSpaceMath('% = %'), '% = %');
+check('remove space math: operator without digits untouched', removeSpaceMath('s × t'), 's × t');
 check('tool: collapse multiple spaces', applyTool('single-spaces', 's  v   x'), 's v x');
 check('tool: newlines preserved', applyTool('single-spaces', 's  \nv'), 's \nv');
 check('tool: unknown tool returns null', applyTool('nope', 's'), null);

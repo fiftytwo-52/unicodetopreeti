@@ -13,7 +13,6 @@
 export type ToolName =
   | 'remove-tabs'
   | 'space-punctuation'
-  | 'space-numbers'
   | 'space-math'
   | 'single-spaces';
 
@@ -38,17 +37,6 @@ function spacePunctuation(text: string): string {
 }
 
 /**
- * A number followed directly by a letter gets a space (५वटा → ५ वटा), but
- * not when a symbol follows: 5. and 5) stay tight.
- */
-function spaceNumbers(text: string): string {
-  return text.replace(
-    new RegExp(`(${PREETI_DIGIT})(?=[A-Za-z])`, 'g'),
-    '$1 ',
-  );
-}
-
-/**
  * Question-paper style math: 5×1=5 becomes 5 × 1 = 5. Only the unambiguous
  * operator bytes are spaced (×, Ö for =, – for minus). The `=` byte is the
  * dot glyph, so it is deliberately left alone.
@@ -57,6 +45,18 @@ function spaceMath(text: string): string {
   return text.replace(
     new RegExp(`(${PREETI_DIGIT})\\s*([×Ö–])\\s*(?=${PREETI_DIGIT})`, 'g'),
     '$1 $2 ',
+  );
+}
+
+/**
+ * The reverse of spaceMath: removes the spaces around the math operators
+ * ×, Ö (=) and – when digits sit on both sides, so 5 × 1 = 5 becomes
+ * 5×1=5. Used when the "Space math" mode is switched off.
+ */
+export function removeSpaceMath(text: string): string {
+  return text.replace(
+    new RegExp(`(${PREETI_DIGIT})\\s*([×Ö–])\\s*(?=${PREETI_DIGIT})`, 'g'),
+    '$1$2',
   );
 }
 
@@ -77,7 +77,6 @@ export function removeSpacePunctuation(text: string): string {
 const TOOLS: Record<ToolName, (text: string) => string> = {
   'remove-tabs': removeTabs,
   'space-punctuation': spacePunctuation,
-  'space-numbers': spaceNumbers,
   'space-math': spaceMath,
   'single-spaces': singleSpaces,
 };

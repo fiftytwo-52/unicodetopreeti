@@ -16,7 +16,7 @@ import {
 } from './output-tools.ts';
 import type { ToolName } from './output-tools.ts';
 
-type Mode = 'unicode-to-preeti' | 'roman-to-unicode';
+type Mode = 'unicode-to-preeti' | 'roman-to-unicode' | 'roman-to-preeti';
 
 type Conversion = {
   forward: (text: string) => string;
@@ -35,6 +35,9 @@ const conversions: Record<Mode, Conversion> = {
   },
   'roman-to-unicode': {
     forward: romanToUnicode,
+  },
+  'roman-to-preeti': {
+    forward: (text) => unicodeToPreeti(romanToUnicode(text)),
   },
 };
 

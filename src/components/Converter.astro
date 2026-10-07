@@ -6,7 +6,10 @@
  * Both panes are editable and stay in sync, so the tool works in either
  * direction without a swap button.
  */
-export type ConverterMode = 'unicode-to-preeti' | 'roman-to-unicode';
+export type ConverterMode =
+  | 'unicode-to-preeti'
+  | 'roman-to-unicode'
+  | 'roman-to-preeti';
 
 interface Props {
   mode: ConverterMode;
@@ -36,6 +39,16 @@ const copy = {
     outputClass: 'devanagari',
     inputLang: 'en',
     outputLang: 'ne',
+  },
+  'roman-to-preeti': {
+    inputLabel: 'Roman Nepali',
+    outputLabel: 'Preeti',
+    inputPlaceholder: 'Type the way you speak, for example: mero ghar',
+    outputPlaceholder: 'Preeti output appears here as you type',
+    inputClass: '',
+    outputClass: 'preeti-text',
+    inputLang: 'en',
+    outputLang: 'en',
   },
 }[mode];
 ---
@@ -82,7 +95,7 @@ const copy = {
     </button>
     <button class="button" type="button" data-action="clear">Clear</button>
 
-    {mode === 'unicode-to-preeti' && (
+    {(mode === 'unicode-to-preeti' || mode === 'roman-to-preeti') && (
       <div class="tools" role="group" aria-label="Preeti text cleanup tools">
         <span class="tools__label">Cleanup</span>
         <button class="tool" type="button" data-tool="remove-tabs" title="Tabs become a single space.">

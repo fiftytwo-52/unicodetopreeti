@@ -333,6 +333,13 @@ check('gya', romanToUnicode('gya'), 'ज्ञ');
 check('rri', romanToUnicode('rri'), 'ऋ');
 check('rree', romanToUnicode('rree'), 'ॠ');
 check('om', romanToUnicode('om'), 'ॐ');
+
+console.log('\n— Roman → Preeti (chained) —');
+check(
+  'mero ghar chains roman→unicode→preeti',
+  unicodeToPreeti(romanToUnicode('mero ghar')),
+  'd]/f] 3/',
+);
 // Aspirates are spelled with a trailing h; the inherent vowel needs no letter.
 check('kha aspirated', romanToUnicode('kha'), 'ख');
 check('khaa long vowel', romanToUnicode('khaa'), 'खा');

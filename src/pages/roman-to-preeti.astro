@@ -3,105 +3,52 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Converter from '../components/Converter.astro';
 import ModeSwitch from '../components/ModeSwitch.astro';
 
-const title = 'Unicode to Preeti Converter — Free Nepali Font Tool';
+const title = 'Roman to Preeti Converter — Type Nepali in English Letters';
 const description =
-  'Free online Unicode to Preeti converter. Convert Nepali to Preeti font instantly in your browser — handles conjuncts, reph and i-matra.';
+  'Free online Roman to Preeti converter. Type Nepali in English letters and get Preeti font output instantly — no Nepali keyboard needed.';
 
-// Keyword priority: "unicode to preeti" and "unicode to preeti converter" are
-// the main keywords, followed by "nepali to preeti" and the how-to long tail.
+// Keyword priority: "roman to preeti" and "english to preeti converter" are
+// the main keywords for this page.
 const keywords = [
   // Main keywords
-  'unicode to preeti',
-  'unicode to preeti converter',
-  // Nepali to Preeti cluster
-  'nepali to preeti',
-  'nepali to preeti converter',
-  'convert nepali to preeti',
-  'nepali unicode to preeti',
-  // How-to long tail
-  'how to convert unicode to preeti',
-  'how to convert unicode to preeti in word',
-  'how to convert nepali to preeti',
-  // Core variations
-  'convert unicode to preeti',
-  'unicode to preeti font',
-  'unicode to preeti font converter',
-  'unicode to preeti converter online',
-  'free unicode to preeti converter',
-  'unicode to preeti in word',
-  'change unicode to preeti',
-  // Reverse direction
-  'preeti to unicode',
-  'preeti to unicode converter',
-  // Unicode font names people search with
-  'mangal to preeti',
-  'mangal to preeti converter',
-  'unicode mangal to preeti',
-  'kalimati to preeti',
-  'kalimati to preeti converter',
-  // Roman / English to Preeti
   'roman to preeti',
   'roman to preeti converter',
   'english to preeti converter',
   'english to preeti',
-  // Font and tool cluster
-  'preeti font converter',
-  'nepali font converter',
-  'unicode to preeti font download',
+  // Core variations
+  'roman nepali to preeti',
+  'romanized nepali to preeti',
+  'convert roman to preeti',
+  'roman to preeti font',
+  'roman to preeti online',
+  // English cluster
+  'english to preeti font converter',
+  'type nepali in english preeti',
+  // Tool cluster
+  'nepali preeti typing',
+  'preeti font typing online',
 ].join(', ');
 
 const faqs = [
   {
-    q: 'How to convert Preeti to Unicode?',
-    a: 'Paste your Preeti text into the right (output) pane of the converter — the Unicode Nepali text appears instantly in the left pane. Because both panes stay in sync, you can edit either side. This Preeti to Unicode reverse conversion is ideal for old documents, exam papers and notices typed in Preeti that you need as clean, searchable Unicode text for the web, email or modern software.',
+    q: 'How does the Roman to Preeti converter work?',
+    a: 'Just type the way the words sound. The converter first maps your roman letters to Unicode Devanagari — m for म, e for ए, and so on — then converts that to Preeti encoding in the same step. Typing "mero ghar" gives you Preeti output ready to paste into Word with the Preeti font applied.',
   },
   {
-    q: 'How to convert Unicode to Preeti?',
-    a: 'Type or paste Nepali Unicode text into the left pane of the converter above. The Preeti-encoded output appears instantly in the right pane as you type. Click "Copy result", paste it into your document, then select the pasted text and set the font to Preeti. The whole conversion takes a few seconds and works with any amount of text.',
+    q: 'How to convert English (roman) Nepali to Preeti font?',
+    a: 'Type or paste romanised Nepali into the left pane and the Preeti output appears instantly in the right pane. Click "Copy result", paste it into your document, and set the font to Preeti. No Nepali keyboard or layout needs to be installed.',
   },
   {
-    q: 'How to convert Nepali to Preeti?',
-    a: 'Converting Nepali to Preeti works the same way: paste your Nepali text into the left pane of the converter above and the Preeti output appears instantly on the right. Copy it into your document and apply the Preeti font. Every Nepali character is handled, including conjuncts, reph and the i-matra.',
+    q: 'Does the Roman to Preeti converter work on my phone?',
+    a: 'Yes. The tool runs entirely in your browser, so it works on any phone, tablet or computer. Just open the page and start typing with your regular keyboard — no Nepali keyboard app needs to be installed.',
   },
   {
-    q: 'How to change Preeti to Unicode?',
-    a: 'To change Preeti to Unicode, paste the text written in the Preeti font into the output (right) pane. The converter maps every Preeti ASCII glyph back to its Devanagari Unicode character, so the left pane fills with readable Nepali Unicode. You can then copy the Unicode text anywhere — Gmail, Facebook, WhatsApp or a modern editor.',
+    q: 'How does the converter handle letters like kh, chh and t/th?',
+    a: 'Nepali has aspirated and retroflex sounds that English does not spell out. The converter recognises two-letter roman groups such as kh for ख, gh for घ, chh for छ and the retroflex t/th and d/dh pairs, and produces the correct Preeti character.',
   },
   {
-    q: 'How to convert Preeti font to Unicode?',
-    a: 'Converting the Preeti font to Unicode works exactly like the reverse conversion: open any document where the Preeti font is used, select the text, copy it, and paste it into the right pane of this converter. The left pane instantly shows the equivalent Unicode Nepali text, ready to copy and reuse.',
-  },
-  {
-    q: 'How to download the Preeti font?',
-    a: 'The converter itself needs no download — it runs entirely in your browser. To display the converted text on your computer you need the Preeti font installed. On Windows, right-click the font file and choose Install; on macOS, double-click it and confirm in Font Book. Restart any open applications so they can see the newly installed font.',
-  },
-  {
-    q: 'How to download Unicode to Preeti?',
-    a: 'No download is required to convert Unicode to Preeti — the conversion happens instantly in your browser. Type or paste your Unicode text, watch the Preeti output appear on the right, then click "Copy result" and paste it into your document. This gives you the same Preeti-encoded result as any downloaded converter, with nothing to install.',
-  },
-  {
-    q: 'How to change Unicode to Preeti font?',
-    a: 'To change Unicode to the Preeti font, convert your text with the tool above, copy the Preeti output, and paste it into your document. Select the pasted text and change the font to Preeti from the font menu in Word, PageMaker or any editor. The Nepali shapes appear as soon as the Preeti font is applied.',
-  },
-  {
-    q: 'How to convert Unicode to Preeti in Nepali?',
-    a: 'The converter works entirely in Nepali: type or paste नेपाली युनिकोड into the left pane (लेख्नुहोस् वा पेस्ट गर्नुहोस्) and the Preeti output appears on the right. No settings are needed — the tool automatically detects Devanagari Unicode and maps every character, including conjuncts, reph and halanta forms.',
-  },
-  {
-    q: 'How to convert Unicode to Preeti in Word?',
-    a: 'Convert your Unicode text here first and copy the Preeti output. In Microsoft Word, paste it using Paste Special (keep text only), select the pasted text and change the font to Preeti from the font menu. If the text still looks like English letters, the Preeti font is not installed on that computer — install it and the Nepali shapes will appear.',
-  },
-  {
-    q: 'How to convert Mangal font to Preeti?',
-    a: 'Mangal is a Unicode font, so converting Mangal to Preeti works exactly like any Unicode to Preeti conversion: paste your Mangal-typed Nepali text into the left pane and the Preeti output appears instantly on the right. Copy it into your document and set the font to Preeti. The same applies to any other Unicode font such as Nirmala UI or Kokila.',
-  },
-  {
-    q: 'How to convert Kalimati to Preeti?',
-    a: 'Kalimati is a Unicode Nepali font, so there is no special Kalimati to Preeti step — paste the Kalimati-typed text into the left pane of the converter above and you get the Preeti output on the right, ready to copy into Word or PageMaker with the Preeti font applied.',
-  },
-  {
-    q: 'How to convert Roman Nepali (English letters) to Preeti?',
-    a: 'Type your Nepali in English letters on the Roman to Preeti page and the Preeti output appears as you type — the tool first maps your roman text to Unicode Devanagari, then to Preeti encoding in one step. Copy the result into your document and apply the Preeti font.',
+    q: 'Is my text sent to a server?',
+    a: 'No. Conversion happens entirely in your browser and nothing you type is uploaded, stored or logged. The page even keeps working offline once it has loaded, and the source code is open for anyone to inspect.',
   },
 ];
 
@@ -110,13 +57,13 @@ const schema = {
   '@graph': [
     {
       '@type': 'WebApplication',
-      '@id': 'https://unicodetopreeti.xyz/#app',
-      name: 'Unicode to Preeti Converter',
+      '@id': 'https://unicodetopreeti.xyz/roman-to-preeti#app',
+      name: 'Roman to Preeti Converter',
       alternateName: [
-        'Nepali Unicode to Preeti Font Converter',
-        'Nepali to Preeti Converter',
+        'Roman Nepali to Preeti Font Converter',
+        'English to Preeti Typing Tool',
       ],
-      url: 'https://unicodetopreeti.xyz/',
+      url: 'https://unicodetopreeti.xyz/roman-to-preeti',
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: 'Any',
       browserRequirements: 'Requires JavaScript',
@@ -124,17 +71,15 @@ const schema = {
       description,
       inLanguage: ['en', 'ne'],
       featureList: [
-        'Convert Unicode to Preeti font instantly',
-        'Translate Nepali Unicode to Preeti for Word and PageMaker',
-        'Handles Mangal, Kalimati, Nirmala UI and Kokila Unicode text',
-        'Convert Preeti back to Unicode',
-        'Handles conjuncts, reph and i-matra reordering',
-        'Works offline, no text ever leaves your device',
+        'Type Nepali in English letters, get Preeti output as you type',
+        'Two-step conversion (roman to Unicode to Preeti) in one box',
+        'No Nepali keyboard or layout to install',
+        'On-device conversion, nothing leaves your device',
       ],
     },
     {
       '@type': 'FAQPage',
-      '@id': 'https://unicodetopreeti.xyz/#faq',
+      '@id': 'https://unicodetopreeti.xyz/roman-to-preeti#faq',
       mainEntity: faqs.map((faq) => ({
         '@type': 'Question',
         name: faq.q,
@@ -143,10 +88,16 @@ const schema = {
     },
   ],
 };
+
 ---
 
 <BaseLayout title={title} description={description} keywords={keywords} schema={schema}>
   <div class="shell">
+    <h1 class="page-title">Roman to Preeti Converter</h1>
+    <p class="page-subtitle">
+      Type Nepali in English letters and get Preeti font output instantly — free, unlimited, and private.
+    </p>
+
     <ModeSwitch />
 
     <div class="converter-wrapper">
@@ -156,7 +107,7 @@ const schema = {
         </a>
       </div>
 
-      <Converter mode="unicode-to-preeti" sample="नेपाल सरकार, कार्यालयको निर्णय अनुसार वर्ष २०८२" />
+      <Converter mode="roman-to-preeti" sample="ma timilai maya garchhu" />
 
       <div class="ad ad--right">
         <a href="#" target="_blank" rel="noopener" class="ad__link">
@@ -164,23 +115,18 @@ const schema = {
         </a>
       </div>
     </div>
-
-    <h1 class="page-title">Unicode to Preeti Converter</h1>
-    <p class="page-subtitle">
-      Convert Nepali Unicode to Preeti font instantly — free, unlimited, and private.
-    </p>
   </div>
 
   <div class="shell">
     <!-- About ------------------------------------------------------------- -->
     <section class="section about reveal" aria-labelledby="about-title">
-      <span class="watermark devanagari" aria-hidden="true">यूनिकोड</span>
+      <span class="watermark devanagari" aria-hidden="true">रोमन</span>
 
       <header class="section__head">
         <span class="section__index" aria-hidden="true">01</span>
         <div class="section__titles">
           <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>About the tool</p>
-          <h2 id="about-title">About the Unicode to Preeti Converter</h2>
+          <h2 id="about-title">About the Roman to Preeti Converter</h2>
         </div>
         <span class="section__rule" aria-hidden="true"></span>
       </header>
@@ -188,37 +134,29 @@ const schema = {
       <div class="about__grid">
         <div class="about__body">
           <p class="lede-para">
-            This free online Unicode to Preeti converter changes Nepali Unicode text
-            into Preeti font encoding directly in your browser. Nepali text on the
-            web uses Unicode, a universal encoding that works in every browser and
-            on every device, but it doesn't copy cleanly into desktop applications
-            like PageMaker or older versions of Word — you'll get garbled
-            characters instead. To use Nepali in these apps, the text needs to be
-            mapped to ASCII characters that a font like Preeti can render. This
-            tool does exactly that. It makes no difference which Unicode font
-            your text was typed in — Mangal, Kalimati, Nirmala UI or Kokila
-            all convert the same way, because they all store the same Unicode
-            characters underneath.
+            This free online Roman to Preeti converter turns English letters
+            into Preeti font output as you type. There is no Nepali keyboard to
+            install and no new layout to learn — you just type the way the words
+            sound: mero ghar becomes Preeti-encoded text ready for Word and
+            PageMaker. The conversion runs entirely in your browser, so the page
+            stays private and works offline once loaded.
           </p>
           <p>
-            Converting Unicode to Preeti is more than a simple character swap.
-            Unicode stores text logically while Preeti stores it visually, the way
-            a typewriter draws it. The i-matra must move to the left of its
-            consonant, the reph rides above a later syllable, and conjuncts
-            combine half forms with full forms. Simple character-by-character
-            converters get all three cases wrong. This converter works syllable by
-            syllable, so <em>किसान</em> comes out correctly rather than as
-            scrambled letters. If the output looks like random English letters,
-            you don't have the Preeti font installed — download and install it,
-            and the text will display correctly.
+            Behind the scenes the tool works in two steps: your roman letters
+            are first mapped to Unicode Devanagari — m, e, r, o become मेरो —
+            handling aspirated consonants like kh, gh and chh plus retroflex
+            pairs like t/th and d/dh, and that Devanagari is then encoded into
+            Preeti, with conjuncts, reph and the i-matra placed the way the
+            Preeti font expects. You see only the final Preeti result, ready to
+            copy.
           </p>
           <p>
-            There is no sign-up, no character limit and nothing to install. The
-            tool is a file converter for your text: paste any Nepali document,
-            from a single word to a full report, and copy the Preeti result
-            straight into Word, PageMaker, InDesign or any application that
-            expects the old font. Because everything runs on your device, the
-            converter also works offline once the page has loaded.
+            There is no sign-up, no character limit and nothing to install.
+            Paste a sentence, an essay or a full document, and the Preeti output
+            appears instantly in the right pane. Click "Copy result", paste it
+            into your document and set the font to Preeti. Because everything
+            runs on your device, the tool also works offline once the page has
+            loaded.
           </p>
         </div>
 
@@ -245,32 +183,32 @@ const schema = {
               </div>
               <div class="facts__row">
                 <dt>Best for</dt>
-                <dd>Word, PageMaker, InDesign</dd>
+                <dd>Messages, docs, social</dd>
               </div>
             </dl>
           </div>
 
           <div class="card specimen">
             <p class="card__label">Proof</p>
-            <h3 class="card__title">Ordering, handled</h3>
+            <h3 class="card__title">Phonetic, handled</h3>
             <ul class="specimen__list">
               <li>
-                <span class="devanagari">कि</span>
+                <span class="devanagari">मेरो</span>
                 <span class="specimen__arrow" aria-hidden="true">&#8594;</span>
-                <code>ls</code>
-                <span class="specimen__note">i-matra moves left</span>
+                <code>mero</code>
+                <span class="specimen__note">letter by letter</span>
               </li>
               <li>
-                <span class="devanagari">कर्म</span>
+                <span class="devanagari">घर</span>
                 <span class="specimen__arrow" aria-hidden="true">&#8594;</span>
-                <code>sd&#123;</code>
-                <span class="specimen__note">reph rides above</span>
+                <code>ghar</code>
+                <span class="specimen__note">gh for घ</span>
               </li>
               <li>
-                <span class="devanagari">क्क</span>
+                <span class="devanagari">छ</span>
                 <span class="specimen__arrow" aria-hidden="true">&#8594;</span>
-                <code>Ss</code>
-                <span class="specimen__note">half + full conjunct</span>
+                <code>chh</code>
+                <span class="specimen__note">aspirated pair</span>
               </li>
             </ul>
           </div>
@@ -299,12 +237,12 @@ const schema = {
               <line x1="12" y1="4" x2="12" y2="20" />
             </svg>
           </div>
-          <h3>Two encodings, one script</h3>
+          <h3>Phonetic, not keyboard</h3>
           <p>
-            Nepali text on the web uses <a href="https://www.unicode.org/charts/PDF/U0900.pdf" target="_blank" rel="noopener noreferrer">Unicode Devanagari</a> — a universal encoding standard that works
-            in every browser and on every device. But older desktop publishing
-            tools like PageMaker and Word were built around the legacy Preeti font, which
-            maps Devanagari shapes onto ASCII codepoints. Both formats represent the same <a href="https://en.wikipedia.org/wiki/Devanagari" target="_blank" rel="noopener noreferrer">Devanagari script</a>, just through different character architectures.
+            You never need to install a Nepali keyboard or memorise a layout.
+            Just write the way the words sound — ma timilai maya garchhu — and
+            the converter turns each roman syllable into the matching Devanagari
+            letter as you type.
           </p>
         </article>
 
@@ -401,7 +339,7 @@ const schema = {
     font-family: var(--font-display);
     font-size: var(--step-4);
     text-align: center;
-    margin: 2rem 0 0.5rem;
+    margin: 1.5rem 0 0.5rem;
     color: var(--ink);
   }
 

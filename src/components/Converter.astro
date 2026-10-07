@@ -85,10 +85,14 @@ const copy = {
     {mode === 'unicode-to-preeti' && (
       <div class="tools" role="group" aria-label="Preeti text cleanup tools">
         <span class="tools__label">Cleanup</span>
-        <button class="tool" type="button" data-tool="remove-tabs">
+        <button class="tool" type="button" data-tool="remove-tabs" title="Tabs become a single space.">
           Remove tabs
         </button>
-        <button class="tool" type="button" data-tool="space-punctuation">
+        <button
+          class="tool"
+          type="button"
+          data-tool="space-punctuation"
+          title="On: adds a space before । ? ! Off: attaches them to the word.">
           Space before । ?
         </button>
         <button
@@ -98,7 +102,11 @@ const copy = {
           title="On: 5×1=5 becomes 5 × 1 = 5. Off: back to 5×1=5.">
           Space math
         </button>
-        <button class="tool" type="button" data-tool="single-spaces">
+        <button
+          class="tool"
+          type="button"
+          data-tool="single-spaces"
+          title="Collapses multiple spaces into one. Line breaks are kept.">
           Single spaces
         </button>
       </div>

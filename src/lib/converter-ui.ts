@@ -68,16 +68,24 @@ function setUp(root: HTMLElement) {
   // its transform runs over the output after every conversion. The output
   // is always re-derived as applyModes(forward(input)), so switching a
   // mode off returns the exact un-moded text — no snapshots needed.
-  // "Space before । ?" and "Space math" are on by default; the rest are
-  // opt-in. Space math is on by default because spaced math (2 × 5 = 10)
-  // is the normal question-paper style; switching it off compacts the
-  // operators (2×5=10).
-  const modes: Record<ToolName, boolean> = {
+  // "Space math" is on by default because spaced math (2 × 5 = 10) is the
+  // normal question-paper style; switching it off compacts the operators
+  // (2×5=10). Everything else starts off, leaving the raw conversion —
+  // whatever spacing the original passage had — untouched.
+  const DEFAULT_MODES: Record<ToolName, boolean> = {
     'remove-tabs': false,
-    'space-punctuation': true,
+    'space-punctuation': false,
     'space-math': true,
     'single-spaces': false,
   };
+  const modes: Record<ToolName, boolean> = { ...DEFAULT_MODES };
+
+  // Modes the user has explicitly switched at least once. A mode that was
+  // never touched leaves the converter output alone when off, so the
+  // default view is always the raw conversion; once touched, switching it
+  // off applies the reverse transform instead (e.g. strip the space the
+  // "on" state had added).
+  const touchedModes = new Set<ToolName>();
   const TOOL_ORDER: ToolName[] = [
     'remove-tabs',
     'space-punctuation',
@@ -99,7 +107,10 @@ function setUp(root: HTMLElement) {
     for (const name of TOOL_ORDER) {
       if (modes[name]) {
         result = applyTool(name, result) ?? result;
-      } else {
+      } else if (touchedModes.has(name)) {
+        // Touched-and-off: apply the reverse transform (e.g. strip the
+        // space again). Never-touched-and-off: leave the raw conversion
+        // exactly as the original passage had it.
         const off = OFF_TRANSFORMS[name];
         if (off) result = off(result);
       }
@@ -115,6 +126,7 @@ function setUp(root: HTMLElement) {
           input: input!.value,
           output: output!.value,
           modes,
+          touched: [...touchedModes],
         }),
       );
     } catch {
@@ -130,6 +142,7 @@ function setUp(root: HTMLElement) {
         input?: unknown;
         output?: unknown;
         modes?: unknown;
+        touched?: unknown;
         spacePunct?: unknown;
       };
       if (typeof saved.input === 'string') input!.value = saved.input;
@@ -142,6 +155,11 @@ function setUp(root: HTMLElement) {
       } else if (typeof saved.spacePunct === 'boolean') {
         // State written by the previous version, which only had the one mode.
         modes['space-punctuation'] = saved.spacePunct;
+      }
+      if (Array.isArray(saved.touched)) {
+        for (const t of saved.touched) {
+          if (isToolName(t)) touchedModes.add(t);
+        }
       }
     } catch {
       // Corrupt state: start with empty panes.
@@ -248,6 +266,7 @@ function setUp(root: HTMLElement) {
     syncToolButton(button, name);
     button.addEventListener('click', () => {
       const label = button.textContent?.trim() ?? 'Tool';
+      touchedModes.add(name);
       if (modes[name]) {
         // Switching off.
         modes[name] = false;

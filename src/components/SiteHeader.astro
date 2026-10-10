@@ -26,6 +26,12 @@ const links = [
     icon:
       '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/>',
   },
+  {
+    href: 'https://pairpaint.com',
+    label: 'Online whiteboard',
+    img: '/pairpaint-icon.svg',
+    external: true,
+  },
 ];
 
 // Static output uses .html filenames (and /index.html for the root) while
@@ -76,19 +82,32 @@ const current =
               <li>
                 <a
                   href={link.href}
-                  aria-current={current === link.href ? 'page' : undefined}
+                  aria-current={
+                    !link.external && current === link.href ? 'page' : undefined
+                  }
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener' : undefined}
                 >
-                  <svg
-                    class="nav-icon"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    set:html={link.icon}
-                  />
+                  {link.img ? (
+                    <img
+                      src={link.img}
+                      alt=""
+                      class="nav-icon nav-icon--img"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <svg
+                      class="nav-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      set:html={link.icon}
+                    />
+                  )}
                   <span class="nav-label">{link.label}</span>
                 </a>
               </li>
@@ -295,6 +314,12 @@ const current =
     width: 1.05rem;
     height: 1.05rem;
     flex-shrink: 0;
+  }
+
+  /* Brand icons arrive as <img> instead of inline stroke SVGs. */
+  .masthead__nav .nav-icon--img {
+    border-radius: 0.25rem;
+    display: block;
   }
 
   .theme-toggle {

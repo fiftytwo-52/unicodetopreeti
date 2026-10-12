@@ -93,6 +93,20 @@ const copy = {
     <button class="button" type="button" data-action="example">
       Try an example
     </button>
+    <button class="button" type="button" data-action="upload">
+      Upload .txt
+    </button>
+    <button class="button" type="button" data-action="download">
+      Download .txt
+    </button>
+    <input
+      type="file"
+      accept=".txt,text/plain"
+      data-role="file-input"
+      hidden
+      aria-hidden="true"
+      tabindex="-1"
+    />
     <button class="button" type="button" data-action="clear">Clear</button>
 
     {(mode === 'unicode-to-preeti' || mode === 'roman-to-preeti') && (

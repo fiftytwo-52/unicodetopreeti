@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Guides — Unicode to Preeti Tips & Comparisons';
+const description =
+  'Practical guides for Nepali text conversion: choosing the best Unicode to Preeti converter, downloading the Preeti font, and typing with the Preeti keyboard layout.';
+
+const keywords = [
+  'unicode to preeti guide',
+  'best unicode to preeti converter',
+  'preeti font download',
+  'preeti keyboard layout',
+  'nepali font guide',
+].join(', ');
+---
+
+<BaseLayout title={title} description={description} keywords={keywords}>
+  <div class="shell">
+    <div class="hangs intro">
+      <h1>Guides</h1>
+      <p class="lede">
+        Practical guides for working with Nepali text: picking a converter,
+        installing the Preeti font, and learning the keyboard layout.
+      </p>
+    </div>
+
+    <section class="hangs hangs--thin">
+      <div class="guide-list">
+        <article class="guide-card">
+          <h2>
+            <a href="/best-unicode-to-preeti-converter">Best Unicode to Preeti Converter — What to Look For</a>
+          </h2>
+          <p>
+            Five converters compared on the things that actually matter:
+            accuracy with conjuncts and reph, privacy, file support and price.
+            Includes a 30-second test you can run on any converter.
+          </p>
+        </article>
+
+        <article class="guide-card">
+          <h2>
+            <a href="/preeti-font-download">Preeti Font Download & Install Guide</a>
+          </h2>
+          <p>
+            What the Preeti font is, where to download it safely, and how to
+            install it on Windows and Mac so converted text displays correctly.
+          </p>
+        </article>
+
+        <article class="guide-card">
+          <h2>
+            <a href="/preeti-keyboard-layout">Preeti Keyboard Layout & Typing Guide</a>
+          </h2>
+          <p>
+            The full Preeti keymap: which key types which Nepali letter, how
+            shifted keys make half forms, and the sequences for conjuncts and
+            matras.
+          </p>
+        </article>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+
+  .guide-list {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .guide-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--crimson);
+    border-radius: 0.3rem;
+    padding: 1.4rem 1.5rem 1.5rem;
+  }
+
+  .guide-card h2 {
+    font-size: var(--step-1);
+    margin-bottom: 0.6rem;
+  }
+
+  .guide-card h2 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .guide-card h2 a:hover {
+    color: var(--crimson);
+    text-decoration: underline;
+  }
+
+  .guide-card p {
+    margin: 0;
+    color: var(--ink-soft);
+    max-width: none;
+  }
+</style>

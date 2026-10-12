@@ -1,0 +1,288 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Preeti Keyboard Layout — Full Keymap & Typing Guide';
+const description =
+  'The complete Preeti keyboard layout: every key, shifted key and multi-key sequence mapped to its Nepali letter. Learn to type in Preeti fast.';
+
+const keywords = [
+  'preeti keyboard layout',
+  'preeti keymap',
+  'preeti typing guide',
+  'how to type in preeti',
+  'preeti font keyboard',
+  'nepali preeti typing',
+].join(', ');
+
+// Derived from the converter's own Preeti mapping tables (src/lib/preeti-map.ts).
+const rows = [
+  {
+    name: 'Number row',
+    keys: [
+      ['`', 'ञ', '~', 'ञ्'],
+      ['1', 'ज्ञ', '!', '१'],
+      ['2', 'द्द', '@', '२'],
+      ['3', 'घ', '#', '३'],
+      ['4', 'द्ध', '$', '४'],
+      ['5', 'छ', '%', '५'],
+      ['6', 'ट', '^', '६'],
+      ['7', 'ठ', '&', '७'],
+      ['8', 'ड', '*', '८'],
+      ['9', 'ढ', '(', '९'],
+      ['0', 'ण्', ')', '०'],
+      ['-', '(', '_', ')'],
+      ['=', '.', '+', 'ं'],
+    ],
+  },
+  {
+    name: 'Top letter row',
+    keys: [
+      ['q', 'त्र', 'Q', 'त्त'],
+      ['w', 'ध', 'W', 'ध्'],
+      ['e', 'भ', 'E', 'भ्'],
+      ['r', 'च', 'R', 'च्'],
+      ['t', 'त', 'T', 'त्'],
+      ['y', 'थ', 'Y', 'थ्'],
+      ['u', 'ग', 'U', 'ग्'],
+      ['i', 'ष्', 'I', 'क्ष्'],
+      ['o', 'य', 'O', 'इ'],
+      ['p', 'उ', 'P', 'ए'],
+      ['[', 'ृ', '{', 'reph (र्)'],
+      [']', 'े', '}', 'ै'],
+      ['\\', '्', '|', '्र (rakar)'],
+    ],
+  },
+  {
+    name: 'Home row',
+    keys: [
+      ['a', 'ब', 'A', 'ब्'],
+      ['s', 'क', 'S', 'क्'],
+      ['d', 'म', 'D', 'म्'],
+      ['f', 'ा', 'F', 'ँ'],
+      ['g', 'न', 'G', 'न्'],
+      ['h', 'ज', 'H', 'ज्'],
+      ['j', 'व', 'J', 'व्'],
+      ['k', 'प', 'K', 'प्'],
+      ['l', 'ि', 'L', 'ी'],
+      [';', 'स', ':', 'स्'],
+      ["'", 'ु', '"', 'ू'],
+    ],
+  },
+  {
+    name: 'Bottom row',
+    keys: [
+      ['z', 'श', 'Z', 'श्'],
+      ['x', 'ह', 'X', 'ह्'],
+      ['c', 'अ', 'C', 'ऋ'],
+      ['v', 'ख', 'V', 'ख्'],
+      ['b', 'द', 'B', 'द्य'],
+      ['n', 'ल', 'N', 'ल्'],
+      ['m', 'फ', 'M', 'ः'],
+      ['.', '।', '>', 'श्र'],
+      ['/', 'र', '?', 'रु'],
+    ],
+  },
+];
+
+const sequences = [
+  ['cf', 'आ'], ['O{', 'ई'], ['pm', 'ऊ'], ['C[', 'ॠ'], ['P]', 'ऐ'],
+  ['cf]', 'ओ'], ['cf}', 'औ'], ['km', 'फ'], ['em', 'झ'], ['If', 'क्ष'],
+  ['if', 'ष'], ['Zf', 'श'], ['0f', 'ण'], ['f]', 'ो'], ['f}', 'ौ'],
+  ['qm', 'क्र'], ['Qm', 'क्त'], ['..', '॥'], ['¿', 'रू'],
+];
+---
+
+<BaseLayout title={title} description={description} keywords={keywords}>
+  <div class="shell">
+    <div class="hangs intro">
+      <p class="crumb"><a href="/guides">Guides</a> /</p>
+      <h1>Preeti Keyboard Layout & Typing Guide</h1>
+      <p class="lede">
+        The full Preeti keymap — every key, shifted key and multi-key
+        sequence — plus the four typing rules that make Nepali typing click.
+        This chart is generated from the same mapping tables our converter
+        uses, so it matches real Preeti behaviour.
+      </p>
+    </div>
+
+    <section class="hangs hangs--thin">
+      <h2>The four typing rules</h2>
+      <ol class="rules">
+        <li>
+          <strong>Shifted keys are half forms.</strong> <code>S</code> is क्
+          while <code>s</code> is क. Type conjuncts as half form + full form:
+          क्क is <code>Ss</code>.
+        </li>
+        <li>
+          <strong>The i-matra comes first.</strong> Preeti draws text the way
+          a typewriter would, so कि is typed matra-then-consonant:
+          <code>ls</code>.
+        </li>
+        <li>
+          <strong>Reph comes last.</strong> The र् that rides above a syllable
+          is typed after it: कर्म is <code>{'sd{'}</code>.
+        </li>
+        <li>
+          <strong>Cluster-final र is the rakar stroke.</strong> क्र is
+          <code>s|</code> — not half form + र.
+        </li>
+      </ol>
+
+      {
+        rows.map((row) => (
+          <div>
+            <h2>{row.name}</h2>
+            <div class="table-wrap">
+              <table class="keymap">
+                <thead>
+                  <tr>
+                    <th scope="col">Key</th>
+                    <th scope="col">Types</th>
+                    <th scope="col">Shift + key</th>
+                    <th scope="col">Types</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {row.keys.map(([key, plain, shift, shifted]) => (
+                    <tr>
+                      <td><code>{key}</code></td>
+                      <td class="devanagari">{plain}</td>
+                      <td><code>{shift}</code></td>
+                      <td class="devanagari">{shifted}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))
+      }
+
+      <h2>Multi-key sequences</h2>
+      <p>
+        Some letters need two or three keystrokes. Type the keys in order:
+      </p>
+      <div class="table-wrap">
+        <table class="keymap keymap--seq">
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Get</th>
+              <th scope="col">Type</th>
+              <th scope="col">Get</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              Array.from({ length: Math.ceil(sequences.length / 2) }, (_, i) => (
+                <tr>
+                  <td><code>{sequences[i * 2][0]}</code></td>
+                  <td class="devanagari">{sequences[i * 2][1]}</td>
+                  {sequences[i * 2 + 1] ? (
+                    <>
+                      <td><code>{sequences[i * 2 + 1][0]}</code></td>
+                      <td class="devanagari">{sequences[i * 2 + 1][1]}</td>
+                    </>
+                  ) : (
+                    <>
+                      <td />
+                      <td />
+                    </>
+                  )}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Typing without a Preeti keyboard?</h2>
+      <p>
+        You don't need to memorize any of this to get Preeti text. Type or
+        paste Nepali Unicode into the
+        <a href="/">Unicode to Preeti converter</a> and it produces the exact
+        keystroke sequences above for you — syllable by syllable, with
+        conjuncts, reph and i-matras in the right places.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+
+  .crumb {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    margin: 0 0 0.5rem;
+  }
+
+  .crumb a {
+    color: var(--crimson);
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    padding: 0.05em 0.3em;
+    white-space: nowrap;
+  }
+
+  .rules {
+    padding-left: 1.25rem;
+  }
+
+  .rules li + li {
+    margin-top: 0.6rem;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1rem 0 2rem;
+  }
+
+  .keymap {
+    border-collapse: collapse;
+    font-size: var(--step--1);
+    min-width: 480px;
+  }
+
+  .keymap th,
+  .keymap td {
+    text-align: left;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--rule);
+  }
+
+  .keymap thead th {
+    background: var(--paper-raised);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .keymap .devanagari {
+    font-size: 1.15em;
+    color: var(--ink);
+  }
+
+  .keymap--seq {
+    min-width: 420px;
+  }
+
+  .hangs h2 {
+    margin-top: 2rem;
+  }
+
+  .hangs p {
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+</style>

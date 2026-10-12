@@ -1,0 +1,240 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Preeti Font Download — Free TTF & Install Guide';
+const description =
+  'Download the Preeti font free (TTF) and install it on Windows or Mac. Step-by-step install guide so your converted Unicode to Preeti text displays correctly.';
+
+const keywords = [
+  'preeti font download',
+  'preeti font download free',
+  'preeti ttf download',
+  'download preeti font',
+  'preeti font install',
+  'how to install preeti font',
+].join(', ');
+
+const faqs = [
+  {
+    q: 'Is the Preeti font free to download?',
+    a: 'Yes. Preeti is a legacy Nepali font from 1993 that is freely shared across font archives. Download it from a reputable font site, never from random pop-up download pages.',
+  },
+  {
+    q: 'Why does my converted text look like English letters?',
+    a: 'Because the Preeti font is not installed on that computer. Preeti maps Nepali shapes onto English codepoints, so without the font the raw codes show. Install the font and the Nepali shapes appear.',
+  },
+  {
+    q: 'Do I need the Preeti font to use the converter?',
+    a: 'No. The converter runs entirely in your browser and needs nothing installed. You only need the Preeti font on computers where you want to display or print the converted text.',
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: { '@type': 'Answer', text: faq.a },
+  })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  schema={schema}
+>
+  <div class="shell">
+    <div class="hangs intro">
+      <p class="crumb"><a href="/guides">Guides</a> /</p>
+      <h1>Preeti Font Download & Install Guide</h1>
+      <p class="lede">
+        The Preeti font is what turns converted text into readable Nepali.
+        Download it free, install it in under a minute, and your Unicode to
+        Preeti output will display correctly everywhere.
+      </p>
+    </div>
+
+    <section class="hangs hangs--thin">
+      <h2>What the Preeti font is</h2>
+      <p>
+        Preeti is a legacy Nepali font from 1993 that maps Devanagari shapes
+        onto English keyboard codepoints. That is why converted text looks
+        like random English letters until the font is applied — the letters
+        are placeholders the font redraws as Nepali. It is not bundled with
+        Windows or macOS, so it must be installed once on each computer where
+        you want to read or print Preeti text.
+      </p>
+
+      <h2>Download the font</h2>
+      <p>
+        Get <code>Preeti.ttf</code> from a reputable font archive. Two safe
+        options:
+      </p>
+      <ul class="download-list">
+        <li>
+          <a
+            href="https://fonts2u.com/preeti.font"
+            target="_blank"
+            rel="noopener noreferrer"
+            >fonts2u.com — Preeti font page</a
+          >
+          <span> — established font archive, direct TTF download</span>
+        </li>
+        <li>
+          <a
+            href="https://github.com/SuphalBhattarai/ttf-nepali-fonts-git"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub — Nepali fonts collection</a
+          >
+          <span> — open collection including <code>preeti.ttf</code></span>
+        </li>
+      </ul>
+      <p>
+        Avoid random "free download" pages with pop-ups and fake download
+        buttons — a font file should only ever be a few dozen kilobytes.
+      </p>
+
+      <h2>Install on Windows</h2>
+      <ol>
+        <li>Download and unzip the font file to get <code>Preeti.ttf</code>.</li>
+        <li>Right-click <code>Preeti.ttf</code> and choose <strong>Install</strong> (or <strong>Install for all users</strong>).</li>
+        <li>Open Word or PageMaker — type "Preeti" in the font dropdown and select it.</li>
+      </ol>
+      <p>
+        Alternative: press <code>Win + R</code>, type
+        <code>%windir%\fonts</code>, and drag <code>Preeti.ttf</code> into the
+        folder.
+      </p>
+
+      <h2>Install on Mac</h2>
+      <ol>
+        <li>Download and unzip to get <code>Preeti.ttf</code>.</li>
+        <li>Double-click the file — Font Book opens with a preview.</li>
+        <li>Click <strong>Install Font</strong> and confirm.</li>
+      </ol>
+      <p>
+        Restart any applications that were already open so they pick up the
+        new font.
+      </p>
+
+      <h2>Still seeing English letters?</h2>
+      <p>
+        The text is fine — the font just is not applied. Select the converted
+        text in your document and set the font to Preeti from the font menu.
+        If "Preeti" does not appear in the font list, the install did not
+        complete: reinstall and restart the application.
+      </p>
+
+      <h2>Next step</h2>
+      <p>
+        With the font installed, head to the
+        <a href="/">Unicode to Preeti converter</a> — paste Nepali Unicode
+        text, copy the Preeti output, and paste it into your document with the
+        Preeti font applied.
+      </p>
+    </section>
+
+    <section class="hangs hangs--thin">
+      <h2>Common questions</h2>
+      <dl class="faq">
+        {
+          faqs.map((faq) => (
+            <div class="faq__item">
+              <dt>{faq.q}</dt>
+              <dd>{faq.a}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+
+  .crumb {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    margin: 0 0 0.5rem;
+  }
+
+  .crumb a {
+    color: var(--crimson);
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    padding: 0.05em 0.3em;
+  }
+
+  .download-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .download-list li {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--crimson);
+    border-radius: 0.25rem;
+    padding: 0.85rem 1.1rem;
+  }
+
+  .download-list a {
+    font-weight: 600;
+  }
+
+  .download-list span {
+    color: var(--ink-soft);
+  }
+
+  .hangs ol,
+  .hangs ul:not(.download-list) {
+    padding-left: 1.25rem;
+  }
+
+  .hangs li + li {
+    margin-top: 0.55rem;
+  }
+
+  .hangs p {
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+
+  .faq {
+    margin: 1.25rem 0 0;
+    max-width: var(--measure);
+  }
+
+  .faq__item + .faq__item {
+    margin-top: 1.5rem;
+  }
+
+  .faq dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-0);
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq dd {
+    margin: 0.6rem 0 0;
+    color: var(--ink-soft);
+  }
+</style>

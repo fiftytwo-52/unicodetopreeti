@@ -53,6 +53,8 @@ function setUp(root: HTMLElement) {
   const output = root.querySelector<HTMLTextAreaElement>('[data-role="output"]');
   const count = root.querySelector<HTMLElement>('[data-role="count"]');
   const status = root.querySelector<HTMLElement>('[data-role="status"]');
+  const fileInput =
+    root.querySelector<HTMLInputElement>('[data-role="file-input"]');
   if (!input || !output || !count || !status) return;
 
   const { forward, reverse } = conversions[mode];
@@ -345,6 +347,71 @@ function setUp(root: HTMLElement) {
       input.value = root.dataset.sample ?? '';
       convert(input, output, forwardText);
       announce('Example loaded.');
+    });
+
+  // --- File upload / download -------------------------------------------
+  // Plain-text files only: everything stays client-side, so the offline
+  // guarantee holds. Uploaded text goes through the same normalization as
+  // typed text (tabs to spaces, legacy brackets to parentheses).
+  function normalizeUploaded(text: string): string {
+    if (mode === 'unicode-to-preeti') {
+      return text
+        .replace(/\t/g, ' ')
+        .replace(/[{[]/g, '(')
+        .replace(/[}\]]/g, ')');
+    }
+    return text;
+  }
+
+  root
+    .querySelector<HTMLButtonElement>('[data-action="upload"]')
+    ?.addEventListener('click', () => {
+      fileInput?.click();
+    });
+
+  fileInput?.addEventListener('change', () => {
+    const file = fileInput.files?.[0];
+    fileInput.value = '';
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = typeof reader.result === 'string' ? reader.result : '';
+      input.value = normalizeUploaded(text);
+      convert(input, output, forwardText);
+      input.focus();
+      announce(`Loaded ${file.name}.`);
+    };
+    reader.onerror = () => {
+      announce('Could not read that file.');
+    };
+    reader.readAsText(file, 'utf-8');
+  });
+
+  const downloadNames: Record<Mode, string> = {
+    'unicode-to-preeti': 'preeti-output.txt',
+    'roman-to-unicode': 'nepali-unicode-output.txt',
+    'roman-to-preeti': 'preeti-output.txt',
+  };
+
+  root
+    .querySelector<HTMLButtonElement>('[data-action="download"]')
+    ?.addEventListener('click', () => {
+      if (!output.value) {
+        announce('Nothing to download yet.');
+        return;
+      }
+      const blob = new Blob([output.value], {
+        type: 'text/plain;charset=utf-8',
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = downloadNames[mode];
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      announce('Downloaded.');
     });
 
   restoreState();

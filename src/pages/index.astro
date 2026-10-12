@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Converter from '../components/Converter.astro';
 import ModeSwitch from '../components/ModeSwitch.astro';
 
-const title = 'Unicode to Preeti Converter — Free, Instant, No Signup';
+const title = 'Unicode to Preeti Converter — Correct Conjuncts, Free Forever';
 const description =
-  'Convert Unicode to Preeti free — and back. No signup, no limits, works offline. Correct conjuncts, reph & i-matra. Also Mangal, Kalimati & Roman Nepali.';
+  'Convert Nepali Unicode to Preeti free — and back. Correct conjuncts, reph & i-matra where others fail. No signup, no limits, works offline.';
 
 // Keyword priority: "unicode to preeti" and "unicode to preeti converter" are
 // the main keywords, followed by "nepali to preeti" and the how-to long tail.
@@ -73,7 +73,7 @@ const faqs = [
   },
   {
     q: 'How to download the Preeti font?',
-    a: 'The converter itself needs no download — it runs entirely in your browser. To display the converted text on your computer you need the Preeti font installed. On Windows, right-click the font file and choose Install; on macOS, double-click it and confirm in Font Book. Restart any open applications so they can see the newly installed font.',
+    a: 'The converter itself needs no download — it runs entirely in your browser. To display the converted text on your computer you need the Preeti font installed: see the Preeti font download page for the font file plus Windows and Mac install steps. On Windows, right-click the font file and choose Install; on macOS, double-click it and confirm in Font Book. Restart any open applications so they can see the newly installed font.',
   },
   {
     q: 'How to download Unicode to Preeti?',
@@ -220,6 +220,13 @@ const schema = {
             expects the old font. Because everything runs on your device, the
             converter also works offline once the page has loaded.
           </p>
+          <p lang="ne">
+            यो निःशुल्क युनिकोड टु प्रीति कन्भर्टरले नेपाली युनिकोड पाठलाई
+            प्रीति फन्टको सङ्केतमा तुरुन्तै बदल्छ। सँयुक्ताक्षर, रेफ र इ-कार
+            सही ठाउँमा मिल्छन्, त्यसैले <em>किसान</em> जस्ता शब्द
+            बिग्रिँदैनन्। कुनै साइनअप चाहिँदैन, अक्षर सीमा छैन, र तपाईँको
+            पाठ तपाईँको उपकरणबाट बाहिर जाँदैन — इन्टरनेट नभए पनि काम गर्छ।
+          </p>
         </div>
 
         <aside class="about__aside">
@@ -331,10 +338,46 @@ const schema = {
       </div>
     </section>
 
+    <!-- Accuracy ------------------------------------------------------------ -->
+    <section class="section tested reveal" aria-labelledby="tested-title">
+      <header class="section__head">
+        <span class="section__index" aria-hidden="true">03</span>
+        <div class="section__titles">
+          <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Accuracy</p>
+          <h2 id="tested-title">How we tested the conversion</h2>
+        </div>
+        <span class="section__rule" aria-hidden="true"></span>
+      </header>
+
+      <div class="tested__body">
+        <p>
+          The converter is built on a hand-checked table of the Preeti
+          keyboard layout — every key, shifted key and multi-key sequence
+          mapped to its Unicode Devanagari equivalent — plus a syllable-level
+          engine that reorders i-matras, rephs and conjuncts the way the font
+          draws them.
+        </p>
+        <p>
+          We verify it with 200+ automated conversion checks covering bare
+          consonants, every matra, half forms, conjuncts, reph clusters and
+          digits, in both directions. The tricky cases are tested explicitly:
+          <span class="devanagari">क्क</span> (half-form conjunct),
+          <span class="devanagari">कर्म</span> (reph cluster) and
+          <span class="devanagari">कि</span> (i-matra reordering) all convert
+          to the exact Preeti keystrokes a trained typist would press.
+        </p>
+        <p>
+          If you ever find a word that converts wrong, both panes stay
+          editable — fix it in place, or
+          <a href="/contact">tell us</a> and we will add it to the checks.
+        </p>
+      </div>
+    </section>
+
     <!-- FAQ --------------------------------------------------------------- -->
     <section class="section faq reveal" aria-labelledby="faq-title">
       <header class="section__head">
-        <span class="section__index" aria-hidden="true">03</span>
+        <span class="section__index" aria-hidden="true">04</span>
         <div class="section__titles">
           <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Questions</p>
           <h2 id="faq-title">Frequently asked questions</h2>
@@ -620,6 +663,7 @@ const schema = {
   }
 
   .features.reveal { animation-delay: 0.12s; }
+  .tested.reveal { animation-delay: 0.18s; }
   .faq.reveal { animation-delay: 0.24s; }
 
   @keyframes rise {
@@ -909,6 +953,27 @@ const schema = {
     border-radius: 999px;
     padding: 0.22rem 0.8rem;
     background: var(--paper);
+  }
+
+  /* Accuracy ---------------------------------------------------------------- */
+
+  .tested__body {
+    max-width: 72ch;
+  }
+
+  .tested__body p {
+    color: var(--ink-soft);
+    line-height: 1.75;
+    max-width: none;
+  }
+
+  .tested__body p + p {
+    margin-top: 1.15rem;
+  }
+
+  .tested__body .devanagari {
+    font-size: 1.05em;
+    color: var(--ink);
   }
 
   /* FAQ --------------------------------------------------------------------- */

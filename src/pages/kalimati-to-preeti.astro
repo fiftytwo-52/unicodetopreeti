@@ -1,0 +1,195 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Converter from '../components/Converter.astro';
+import ModeSwitch from '../components/ModeSwitch.astro';
+
+const title = 'Kalimati to Preeti Converter — Most Accurate, Self-Formatting';
+const description =
+  'Kalimati to Preeti converter — Kalimati is a Unicode font, so paste your Kalimati-typed Nepali text and get Preeti output instantly. Most accurate, self-formatting, free, no signup.';
+
+// Kalimati is a Unicode font, so the same Unicode → Preeti path applies.
+// Keywords target the exact queries people type, not a separate encoding.
+const keywords = [
+  'kalimati to preeti',
+  'kalimati to preeti converter',
+  'kalimati font to preeti',
+  'convert kalimati to preeti',
+  'unicode kalimati to preeti',
+  'kalimati to preeti font converter',
+  'kalimati to preeti online',
+  'most accurate kalimati to preeti converter',
+].join(', ');
+
+const faqs = [
+  {
+    q: 'How to convert Kalimati to Preeti?',
+    a: 'Paste your Kalimati-typed Nepali text into the left pane. Kalimati is a Unicode Nepali font, so your text is already Unicode Devanagari underneath — the converter maps it to Preeti encoding instantly in the right pane. Copy the result, paste it into your document, and set the font to Preeti.',
+  },
+  {
+    q: 'Is Kalimati to Preeti different from Unicode to Preeti?',
+    a: 'No. Kalimati, Mangal, Nirmala UI and Kokila are all Unicode fonts: they store the same Unicode characters, only the on-screen shapes differ. So converting Kalimati to Preeti works exactly like any Unicode to Preeti conversion — there is no special Kalimati step.',
+  },
+  {
+    q: 'What does most accurate, self-formatting mean here?',
+    a: 'The converter works syllable by syllable, not character by character: it auto-reorders i-matra, reph and conjuncts into Preeti visual order, and the Cleanup tools tidy tabs, spacing before । ? !, math spacing, and repeated spaces. The conversion is verified by 293 automated conversion checks. "Most accurate" means built for the cases where simple converters fail — not a rating or comparative study.',
+  },
+  {
+    q: 'Why does the Preeti output look like English letters?',
+    a: 'That is what Preeti text is: the font maps Nepali shapes onto English codepoints. Paste the output into your document, select it, and set the font to Preeti — the Nepali shapes appear then. If they do not, Preeti is not installed on that computer.',
+  },
+  {
+    q: 'Is my text sent to a server?',
+    a: 'No. Conversion happens entirely in your browser and nothing you type is uploaded, stored or logged. The page even keeps working offline once it has loaded.',
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      '@id': 'https://unicodetopreeti.xyz/kalimati-to-preeti#app',
+      name: 'Kalimati to Preeti Converter',
+      alternateName: ['Kalimati Font to Preeti Converter'],
+      url: 'https://unicodetopreeti.xyz/kalimati-to-preeti',
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Any',
+      browserRequirements: 'Requires JavaScript',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      description,
+      inLanguage: ['en', 'ne'],
+      featureList: [
+        'Convert Kalimati-typed Unicode text to Preeti instantly',
+        'Most accurate, self-formatting: syllable-level engine',
+        'Verified by 293 automated conversion checks',
+        'On-device conversion, nothing leaves your device',
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://unicodetopreeti.xyz/kalimati-to-preeti#faq',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} keywords={keywords} schema={schema}>
+  <div class="shell">
+    <h1 class="page-title">Kalimati to Preeti Converter</h1>
+    <p class="page-subtitle">
+      Kalimati is a Unicode font — paste your Kalimati-typed Nepali text and get Preeti output instantly. Most accurate, self-formatting, free, unlimited, and private.
+    </p>
+
+    <ModeSwitch />
+
+    <div class="converter-wrapper">
+      <Converter mode="unicode-to-preeti" sample="नेपाल सरकार, कार्यालयको निर्णय अनुसार वर्ष २०८२" />
+    </div>
+  </div>
+
+  <div class="shell">
+    <section class="hangs hangs--thin">
+      <h2>About the Kalimati to Preeti Converter</h2>
+      <p>
+        This page converts Kalimati-typed Nepali text to Preeti. Kalimati is a
+        Unicode Nepali font, so text typed in Kalimati is already Unicode
+        Devanagari underneath — the font only changes how it looks on screen.
+        That means there is no special Kalimati step: paste your
+        Kalimati-typed text into the left pane and the converter maps it to
+        Preeti encoding in the right pane, exactly like the main
+        <a href="/">Unicode to Preeti converter</a>.
+      </p>
+      <p>
+        Self-formatting means you never have to fix the output by hand: the
+        syllable-level engine automatically reorders i-matra, reph and
+        conjuncts into Preeti visual order as you type, and the Cleanup tools
+        below the panes tidy tabs, spacing before । ? !, math spacing, and
+        repeated spaces. The conversion is verified by 293 automated conversion
+        checks covering matras, half forms, conjuncts, reph clusters, digits
+        and round trips in both directions.
+      </p>
+      <p>
+        Copy the result, paste it into your document, and set the font to
+        Preeti. If the pasted text still looks like English letters, Preeti is
+        not installed on that computer — see the
+        <a href="/preeti-font-download">Preeti font download</a> page. For
+        text typed in another Unicode font, use the
+        <a href="/mangal-to-preeti">Mangal to Preeti converter</a>. For Nepali
+        typed in English letters, use the
+        <a href="/roman-to-preeti">Roman to Preeti converter</a>. Kantipur is a
+        different legacy encoding, so read
+        <a href="/kantipur-to-preeti">why there is no direct Kantipur to Preeti converter here</a>
+        before you paste Kantipur-encoded text.
+      </p>
+    </section>
+
+    <section class="hangs hangs--thin">
+      <h2>Frequently asked questions</h2>
+      <dl class="faq">
+        {
+          faqs.map((faq) => (
+            <div class="faq__item">
+              <dt>{faq.q}</dt>
+              <dd>{faq.a}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-title {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    text-align: center;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--ink);
+  }
+
+  .page-subtitle {
+    text-align: center;
+    color: var(--ink-soft);
+    margin: 0 auto 1rem;
+    max-width: 60ch;
+  }
+
+  .converter-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .converter-wrapper :global(.converter) {
+    flex: 1;
+    max-width: 2600px;
+  }
+
+  .faq {
+    margin: 1.25rem 0 0;
+    max-width: var(--measure);
+  }
+
+  .faq__item + .faq__item {
+    margin-top: 1.5rem;
+  }
+
+  .faq dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-0);
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq dd {
+    margin: 0.6rem 0 0;
+    color: var(--ink-soft);
+  }
+</style>

@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Kantipur to Preeti — Why There Is No Direct Converter Here';
+const description =
+  'Kantipur uses its own legacy font mapping, different from Preeti, so a Preeti converter cannot convert Kantipur-encoded text correctly. What to do instead.';
+
+// Kantipur is NOT supported: this site only converts Preeti and Unicode.
+// This page is an honest explainer, not a converter — do not add a
+// Converter component here, and do not claim a Kantipur conversion.
+const keywords = [
+  'kantipur to preeti',
+  'kantipur font to preeti',
+  'convert kantipur to preeti',
+  'kantipur to unicode',
+  'kantipur font converter',
+].join(', ');
+
+const faqs = [
+  {
+    q: 'Can I convert Kantipur-encoded text to Preeti with this site?',
+    a: 'No. Kantipur uses its own legacy font mapping, different from Preeti. Pasting Kantipur-encoded text into a Preeti converter produces wrong characters, because the same bytes mean different letters in each font. This site does not offer a Kantipur converter.',
+  },
+  {
+    q: 'How do I know if my text is Kantipur-encoded or Unicode?',
+    a: 'If your text reads as normal Nepali in a Unicode font (Mangal, Kalimati, Nirmala UI, Kokila) or in a browser without a special font, it is Unicode — use the Unicode to Preeti converter. If it only reads as Nepali when the Kantipur font is applied, and looks like English letters otherwise, it is Kantipur-encoded, and this site cannot convert it.',
+  },
+  {
+    q: 'What should I do with Kantipur-encoded text?',
+    a: 'Use a converter built for the Kantipur mapping — a Preeti converter will not do. If your document also exists as Unicode (for example, retyped or pasted from a website), convert that Unicode version with the Unicode to Preeti converter instead.',
+  },
+  {
+    q: 'What about Kantipur text that is already Unicode?',
+    a: 'If the text was typed with the Kantipur font name but stored as Unicode characters, it is Unicode underneath and converts normally. Paste it into the Unicode to Preeti converter and check the output before you trust it.',
+  },
+];
+
+// FAQPage only — deliberately no WebApplication schema, because this page
+// offers no converter. Claiming one would mislead searchers.
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: { '@type': 'Answer', text: faq.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} keywords={keywords} schema={schema}>
+  <div class="shell">
+    <div class="hangs intro">
+      <h1>Kantipur to Preeti — Why There Is No Direct Converter Here</h1>
+      <p class="lede">
+        Kantipur and Preeti are different legacy fonts with different mappings.
+        A Preeti converter cannot convert Kantipur-encoded text correctly — so
+        this page explains that honestly instead of pretending otherwise.
+      </p>
+    </div>
+
+    <section class="hangs hangs--thin">
+      <div class="notice" role="note">
+        <strong>Do not paste Kantipur-encoded text into a Preeti converter.</strong>
+        The same bytes mean different letters in each font, so the output will
+        be wrong — silently, not obviously. This site does not offer a Kantipur
+        converter, and the box below is intentionally absent.
+      </div>
+
+      <h2>Why Kantipur is different</h2>
+      <p>
+        Preeti and Kantipur are both legacy 8-bit Nepali fonts: they draw
+        Devanagari shapes by mapping them onto ASCII codepoints. But each font
+        invented its own mapping. A byte that draws one letter in Preeti draws
+        a different letter — or nothing sensible — in Kantipur. Converting
+        between them needs a table built for the Kantipur mapping specifically,
+        and this site only ships a Preeti table, verified by 293 automated
+        conversion checks for Preeti and Unicode.
+      </p>
+      <p>
+        That is also why the site is explicit about its limits elsewhere: only
+        Preeti is supported, and Kantipur, Sagarmatha, PCS Nepali and other
+        legacy fonts use different mappings and will not convert correctly.
+      </p>
+
+      <h2>What to do instead</h2>
+      <ul>
+        <li>
+          <strong>Your text reads as Nepali without a special font</strong> (in
+          a browser, or in Mangal / Kalimati / Nirmala UI / Kokila) — it is
+          Unicode. Use the
+          <a href="/">Unicode to Preeti converter</a>: paste it, copy the
+          Preeti output, and set the font to Preeti.
+        </li>
+        <li>
+          <strong>Your text only reads as Nepali with the Kantipur font applied</strong> —
+          it is Kantipur-encoded. Use a converter built for the Kantipur
+          mapping. A Preeti converter will not do.
+        </li>
+        <li>
+          <strong>You typed in Mangal or Kalimati</strong> — those are Unicode
+          fonts, not legacy encodings. Use the
+          <a href="/mangal-to-preeti">Mangal to Preeti converter</a> or the
+          <a href="/kalimati-to-preeti">Kalimati to Preeti converter</a>.
+        </li>
+        <li>
+          <strong>You typed in English letters</strong> — use the
+          <a href="/roman-to-preeti">Roman to Preeti converter</a> or the
+          <a href="/roman-to-unicode">Roman to Nepali (Unicode) converter</a>.
+        </li>
+      </ul>
+      <p>
+        If you are unsure which kind of text you have, paste a sentence into
+        the <a href="/">Unicode to Preeti converter</a> and check the output
+        against the original before converting a whole document. If the words
+        come back scrambled, you are almost certainly holding legacy-encoded
+        text in a non-Preeti mapping.
+      </p>
+    </section>
+
+    <section class="hangs hangs--thin">
+      <h2>Frequently asked questions</h2>
+      <dl class="faq">
+        {
+          faqs.map((faq) => (
+            <div class="faq__item">
+              <dt>{faq.q}</dt>
+              <dd>{faq.a}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: 1.5rem;
+  }
+
+  .notice {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--crimson);
+    border-radius: 0.25rem;
+    padding: 1rem 1.25rem;
+    margin: 0 0 1.5rem;
+    max-width: var(--measure);
+  }
+
+  .faq {
+    margin: 1.25rem 0 0;
+    max-width: var(--measure);
+  }
+
+  .faq__item + .faq__item {
+    margin-top: 1.5rem;
+  }
+
+  .faq dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-0);
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq dd {
+    margin: 0.6rem 0 0;
+    color: var(--ink-soft);
+  }
+</style>

@@ -54,6 +54,10 @@ const faqs = [
     q: 'Is my text sent to a server?',
     a: 'No. Conversion happens entirely in your browser and nothing you type is uploaded, stored or logged. The page even keeps working offline once it has loaded, and the source code is open for anyone to inspect.',
   },
+  {
+    q: 'What does most accurate, self-formatting mean here?',
+    a: 'The Preeti step uses the same syllable-level engine as the Unicode to Preeti converter: it auto-reorders i-matra, reph and conjuncts into Preeti visual order, and the conversion is verified by 293 automated conversion checks. Self-formatting means you do not have to reorder or tidy the output by hand.',
+  },
 ];
 
 const schema = {
@@ -99,7 +103,7 @@ const schema = {
   <div class="shell">
     <h1 class="page-title">Roman to Preeti Converter</h1>
     <p class="page-subtitle">
-      Type Nepali in English letters and get Preeti font output instantly — free, unlimited, and private.
+      Type Nepali in English letters and get Preeti font output instantly — most accurate, self-formatting, free, unlimited, and private.
     </p>
 
     <ModeSwitch />
@@ -161,6 +165,17 @@ const schema = {
             into your document and set the font to Preeti. Because everything
             runs on your device, the tool also works offline once the page has
             loaded.
+          </p>
+          <p>
+            This page uses the same most accurate, self-formatting engine as the
+            <a href="/">Unicode to Preeti converter</a>: your Roman text is mapped to
+            Unicode Devanagari, then the syllable-level engine auto-reorders
+            i-matra, reph and conjuncts into Preeti visual order. If you want
+            Unicode Devanagari output instead, use the
+            <a href="/roman-to-unicode">Roman to Nepali (Unicode) converter</a>. For
+            Unicode text typed in a specific font, see the
+            <a href="/mangal-to-preeti">Mangal to Preeti converter</a> and the
+            <a href="/kalimati-to-preeti">Kalimati to Preeti converter</a>.
           </p>
         </div>
 

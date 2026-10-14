@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Converter from '../components/Converter.astro';
 import ModeSwitch from '../components/ModeSwitch.astro';
 
-const title = 'Unicode to Preeti Converter — Correct Conjuncts, Free Forever';
+const title = 'Unicode to Preeti Converter — Most Accurate, Self-Formatting, Free';
 const description =
-  'Convert Nepali Unicode to Preeti free — and back. Correct conjuncts, reph & i-matra where others fail. No signup, no limits, works offline.';
+  'Unicode to Preeti — the most accurate, self-formatting converter. Syllable-level engine auto-reorders i-matra, reph & conjuncts; verified by 293 automated conversion checks. Free, no signup, works offline.';
 
 // Keyword priority: "unicode to preeti" and "unicode to preeti converter" are
 // the main keywords, followed by "nepali to preeti" and the how-to long tail.
@@ -13,6 +13,9 @@ const keywords = [
   // Main keywords
   'unicode to preeti',
   'unicode to preeti converter',
+  'most accurate unicode to preeti converter',
+  'self formatting unicode to preeti converter',
+  'self-formatting preeti converter',
   // Nepali to Preeti cluster
   'nepali to preeti',
   'nepali to preeti converter',
@@ -39,6 +42,10 @@ const keywords = [
   'unicode mangal to preeti',
   'kalimati to preeti',
   'kalimati to preeti converter',
+  // Kantipur uses its own legacy mapping, so the Kantipur page explains
+  // that honestly instead of claiming a direct conversion.
+  'kantipur to preeti',
+  'kantipur to preeti converter',
   // Roman / English to Preeti
   'roman to preeti',
   'roman to preeti converter',
@@ -92,6 +99,14 @@ const faqs = [
     a: 'Convert your Unicode text here first and copy the Preeti output. In Microsoft Word, paste it using Paste Special (keep text only), select the pasted text and change the font to Preeti from the font menu. If the text still looks like English letters, the Preeti font is not installed on that computer — install it and the Nepali shapes will appear.',
   },
   {
+    q: 'What makes this the most accurate Unicode to Preeti converter?',
+    a: 'It converts syllable by syllable, not character by character, so the i-matra moves left of its consonant, reph rides above the right syllable, and conjuncts use half-form + full-form keys the way the Preeti font draws them. The conversion is backed by a hand-checked Preeti keyboard-layout table and verified by 293 automated conversion checks covering matras, half forms, conjuncts, reph clusters, digits and round trips in both directions. "Most accurate" here means built for the cases where simple converters fail — not a rating or a comparative study.',
+  },
+  {
+    q: 'What does self-formatting mean?',
+    a: 'You do not have to re-order or tidy the output by hand. As you type, the converter automatically reorders i-matra, reph and conjuncts into Preeti visual order, and the Cleanup tools tidy the result: Remove tabs, Space before । ? !, Space math, and Single spaces. Paste, copy, apply the Preeti font — the formatting is already handled.',
+  },
+  {
     q: 'How to convert Mangal font to Preeti?',
     a: 'Mangal is a Unicode font, so converting Mangal to Preeti works exactly like any Unicode to Preeti conversion: paste your Mangal-typed Nepali text into the left pane and the Preeti output appears instantly on the right. Copy it into your document and set the font to Preeti. The same applies to any other Unicode font such as Nirmala UI or Kokila.',
   },
@@ -124,6 +139,9 @@ const schema = {
       description,
       inLanguage: ['en', 'ne'],
       featureList: [
+        'Most accurate Unicode to Preeti conversion: syllable-level engine',
+        'Self-formatting: auto-reorders i-matra, reph and conjuncts; Cleanup tools tidy tabs, spacing and math',
+        'Verified by 293 automated conversion checks',
         'Convert Unicode to Preeti font instantly',
         'Translate Nepali Unicode to Preeti for Word and PageMaker',
         'Handles Mangal, Kalimati, Nirmala UI and Kokila Unicode text',
@@ -167,7 +185,8 @@ const schema = {
 
     <h1 class="page-title">Unicode to Preeti Converter</h1>
     <p class="page-subtitle">
-      Convert Nepali Unicode to Preeti font instantly — free, unlimited, and private.
+      The most accurate, self-formatting Unicode to Preeti converter — converts
+      Nepali Unicode to Preeti font instantly, free, unlimited, and private.
     </p>
   </div>
 
@@ -219,6 +238,23 @@ const schema = {
             straight into Word, PageMaker, InDesign or any application that
             expects the old font. Because everything runs on your device, the
             converter also works offline once the page has loaded.
+          </p>
+          <p>
+            Self-formatting means you never have to fix the output by hand: the
+            converter automatically reorders i-matra, reph and conjuncts into
+            Preeti visual order as you type, and the Cleanup tools below the
+            panes tidy tabs, spacing before । ? !, math spacing, and repeated
+            spaces.
+          </p>
+          <p>
+            Typed your text in a specific font or in Roman letters? Use the
+            matching page: <a href="/mangal-to-preeti">Mangal to Preeti converter</a> for
+            Mangal-typed Unicode text, <a href="/kalimati-to-preeti">Kalimati to Preeti converter</a> for
+            Kalimati-typed Unicode text, <a href="/roman-to-preeti">Roman to Preeti converter</a> for
+            Nepali typed in English letters, or the <a href="/roman-to-unicode">Roman to Nepali (Unicode) converter</a> if
+            you want Unicode Devanagari output instead of Preeti. Kantipur is a
+            different legacy encoding, so read <a href="/kantipur-to-preeti">why there is no direct Kantipur to Preeti converter here</a> before
+            you paste Kantipur-encoded text.
           </p>
           <p lang="ne">
             यो निःशुल्क युनिकोड टु प्रीति कन्भर्टरले नेपाली युनिकोड पाठलाई
@@ -344,7 +380,7 @@ const schema = {
         <span class="section__index" aria-hidden="true">03</span>
         <div class="section__titles">
           <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Accuracy</p>
-          <h2 id="tested-title">How we tested the conversion</h2>
+          <h2 id="tested-title">Most accurate, self-formatting — and tested</h2>
         </div>
         <span class="section__rule" aria-hidden="true"></span>
       </header>
@@ -358,13 +394,21 @@ const schema = {
           draws them.
         </p>
         <p>
-          We verify it with 200+ automated conversion checks covering bare
+          We verify it with 293 automated conversion checks covering bare
           consonants, every matra, half forms, conjuncts, reph clusters and
-          digits, in both directions. The tricky cases are tested explicitly:
+          digits, in both directions, plus round trips from Unicode to Preeti
+          and back. The tricky cases are tested explicitly:
           <span class="devanagari">क्क</span> (half-form conjunct),
           <span class="devanagari">कर्म</span> (reph cluster) and
           <span class="devanagari">कि</span> (i-matra reordering) all convert
           to the exact Preeti keystrokes a trained typist would press.
+        </p>
+        <p>
+          That is what "most accurate" means on this site: the engine is built
+          for the syllable-ordering cases where character-by-character
+          converters fail, and the 293 checks prove those cases keep passing.
+          It is not a rating, testimonial, or comparative study against other
+          converters.
         </p>
         <p>
           If you ever find a word that converts wrong, both panes stay

@@ -5,7 +5,7 @@ import ModeSwitch from '../components/ModeSwitch.astro';
 
 const title = 'Unicode to Preeti Converter — Most Accurate, Self-Formatting, Free';
 const description =
-  'Unicode to Preeti — the most accurate, self-formatting converter. Syllable-level engine auto-reorders i-matra, reph & conjuncts; verified by 293 automated conversion checks. Free, no signup, works offline.';
+  'Unicode to Preeti — the most accurate, self-formatting converter. Syllable-level engine auto-reorders i-matra, reph & conjuncts; verified by 401 automated conversion checks. Free, no signup, works offline.';
 
 // Keyword priority: "unicode to preeti" and "unicode to preeti converter" are
 // the main keywords, followed by "nepali to preeti" and the how-to long tail.
@@ -42,8 +42,8 @@ const keywords = [
   'unicode mangal to preeti',
   'kalimati to preeti',
   'kalimati to preeti converter',
-  // Kantipur uses its own legacy mapping, so the Kantipur page explains
-  // that honestly instead of claiming a direct conversion.
+  // Kantipur uses its own legacy mapping, so it has a dedicated converter
+  // page with its own Kantipur table.
   'kantipur to preeti',
   'kantipur to preeti converter',
   // Roman / English to Preeti
@@ -100,7 +100,7 @@ const faqs = [
   },
   {
     q: 'What makes this the most accurate Unicode to Preeti converter?',
-    a: 'It converts syllable by syllable, not character by character, so the i-matra moves left of its consonant, reph rides above the right syllable, and conjuncts use half-form + full-form keys the way the Preeti font draws them. The conversion is backed by a hand-checked Preeti keyboard-layout table and verified by 293 automated conversion checks covering matras, half forms, conjuncts, reph clusters, digits and round trips in both directions. "Most accurate" here means built for the cases where simple converters fail — not a rating or a comparative study.',
+    a: 'It converts syllable by syllable, not character by character, so the i-matra moves left of its consonant, reph rides above the right syllable, and conjuncts use half-form + full-form keys the way the Preeti font draws them. The conversion is backed by a hand-checked Preeti keyboard-layout table and verified by 401 automated conversion checks covering matras, half forms, conjuncts, reph clusters, digits and round trips in both directions. "Most accurate" here means built for the cases where simple converters fail — not a rating or a comparative study.',
   },
   {
     q: 'What does self-formatting mean?',
@@ -141,7 +141,7 @@ const schema = {
       featureList: [
         'Most accurate Unicode to Preeti conversion: syllable-level engine',
         'Self-formatting: auto-reorders i-matra, reph and conjuncts; Cleanup tools tidy tabs, spacing and math',
-        'Verified by 293 automated conversion checks',
+        'Verified by 401 automated conversion checks',
         'Convert Unicode to Preeti font instantly',
         'Translate Nepali Unicode to Preeti for Word and PageMaker',
         'Handles Mangal, Kalimati, Nirmala UI and Kokila Unicode text',
@@ -253,8 +253,8 @@ const schema = {
             Kalimati-typed Unicode text, <a href="/roman-to-preeti">Roman to Preeti converter</a> for
             Nepali typed in English letters, or the <a href="/roman-to-unicode">Roman to Nepali (Unicode) converter</a> if
             you want Unicode Devanagari output instead of Preeti. Kantipur is a
-            different legacy encoding, so read <a href="/kantipur-to-preeti">why there is no direct Kantipur to Preeti converter here</a> before
-            you paste Kantipur-encoded text.
+            different legacy encoding, so use the <a href="/kantipur-to-preeti">Kantipur to Preeti converter</a> for
+            Kantipur-encoded text — a Preeti converter would mistranslate the bytes where the two mappings differ.
           </p>
           <p lang="ne">
             यो निःशुल्क युनिकोड टु प्रीति कन्भर्टरले नेपाली युनिकोड पाठलाई
@@ -394,7 +394,7 @@ const schema = {
           draws them.
         </p>
         <p>
-          We verify it with 293 automated conversion checks covering bare
+          We verify it with 401 automated conversion checks covering bare
           consonants, every matra, half forms, conjuncts, reph clusters and
           digits, in both directions, plus round trips from Unicode to Preeti
           and back. The tricky cases are tested explicitly:
@@ -406,7 +406,7 @@ const schema = {
         <p>
           That is what "most accurate" means on this site: the engine is built
           for the syllable-ordering cases where character-by-character
-          converters fail, and the 293 checks prove those cases keep passing.
+          converters fail, and the 401 checks prove those cases keep passing.
           It is not a rating, testimonial, or comparative study against other
           converters.
         </p>

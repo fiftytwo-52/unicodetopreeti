@@ -7,6 +7,7 @@
  */
 import { preetiToUnicode } from './preeti-to-unicode.ts';
 import { unicodeToPreeti } from './unicode-to-preeti.ts';
+import { kantipurToUnicode } from './kantipur-to-unicode.ts';
 import { romanToUnicode } from './roman-to-unicode.ts';
 import {
   applyTool,
@@ -16,7 +17,7 @@ import {
 } from './output-tools.ts';
 import type { ToolName } from './output-tools.ts';
 
-type Mode = 'unicode-to-preeti' | 'roman-to-unicode' | 'roman-to-preeti';
+type Mode = 'unicode-to-preeti' | 'roman-to-unicode' | 'roman-to-preeti' | 'kantipur-to-preeti';
 
 type Conversion = {
   forward: (text: string) => string;
@@ -38,6 +39,12 @@ const conversions: Record<Mode, Conversion> = {
   },
   'roman-to-preeti': {
     forward: (text) => unicodeToPreeti(romanToUnicode(text)),
+  },
+  // Kantipur → Unicode → Preeti. Forward-only, like the roman modes: there
+  // is no Unicode → Kantipur encoder, so edits in the Preeti pane do not
+  // flow back. The Kantipur decoder itself lives in kantipur-to-unicode.ts.
+  'kantipur-to-preeti': {
+    forward: (text) => unicodeToPreeti(kantipurToUnicode(text)),
   },
 };
 
@@ -391,6 +398,7 @@ function setUp(root: HTMLElement) {
     'unicode-to-preeti': 'preeti-output.txt',
     'roman-to-unicode': 'nepali-unicode-output.txt',
     'roman-to-preeti': 'preeti-output.txt',
+    'kantipur-to-preeti': 'preeti-output.txt',
   };
 
   root

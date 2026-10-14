@@ -334,6 +334,150 @@ check('rri', romanToUnicode('rri'), 'ऋ');
 check('rree', romanToUnicode('rree'), 'ॠ');
 check('om', romanToUnicode('om'), 'ॐ');
 
+console.log('\n— Kantipur → Unicode —');
+import { kantipurToUnicode } from '../src/lib/kantipur-to-unicode.ts';
+
+const kantipurToPreeti = (text: string) => unicodeToPreeti(kantipurToUnicode(text));
+
+// Shared bytes behave identically to Preeti.
+check('kantipur bare consonant', kantipurToUnicode('s'), 'क');
+check('kantipur aa matra', kantipurToUnicode('sf'), 'का');
+check('kantipur i-matra reorders', kantipurToUnicode('ls'), 'कि');
+check('kantipur namaste', kantipurToUnicode('gd:t]'), 'नमस्ते');
+check('kantipur nepal', kantipurToUnicode('g]kfn'), 'नेपाल');
+check('kantipur composite na', kantipurToUnicode('0f'), 'ण');
+check('kantipur composite pha', kantipurToUnicode('km'), 'फ');
+check('kantipur ksha', kantipurToUnicode('If'), 'क्ष');
+check('kantipur conjunct kka', kantipurToUnicode('Ss'), 'क्क');
+check('kantipur danda', kantipurToUnicode('.'), '।');
+check('kantipur double danda', kantipurToUnicode('..'), '॥');
+check('kantipur digits', kantipurToUnicode('!@#'), '१२३');
+check('kantipur reph karma', kantipurToUnicode('sd{'), 'कर्म');
+check('kantipur rakar pra', kantipurToUnicode('k|'), 'प्र');
+check('kantipur rakar with i-matra', kantipurToUnicode('ls|'), 'क्रि');
+check('kantipur ra-u ligature', kantipurToUnicode('?'), 'रु');
+check('kantipur independent aa', kantipurToUnicode('cf'), 'आ');
+check('kantipur independent o', kantipurToUnicode('cf]'), 'ओ');
+check('kantipur tta font trick', kantipurToUnicode('6['), 'ट्ट');
+check('kantipur tta conjunct', kantipurToUnicode('Q'), 'त्त');
+check('kantipur kra overlay', kantipurToUnicode('qm'), 'क्र');
+check('kantipur kta overlay', kantipurToUnicode('Qm'), 'क्त');
+check('kantipur jna key', kantipurToUnicode('1'), 'ज्ञ');
+check('kantipur half ya key', kantipurToUnicode('Ø'), '्य');
+check('kantipur explicit virama', kantipurToUnicode('a\\b'), 'ब्द');
+check('kantipur danda space stripped', kantipurToUnicode('u/] .'), 'गरे।');
+check('kantipur exclamation space stripped', kantipurToUnicode('s:tf] †'), 'कस्तो!');
+check('kantipur question space stripped', kantipurToUnicode('s:tf] <'), 'कस्तो?');
+
+// Every byte where Kantipur differs from Preeti (Kantipur value first).
+check('kantipur F is aa-matra, not chandrabindu', kantipurToUnicode('F'), 'ा');
+check('kantipur F in word', kantipurToUnicode('sF'), 'का');
+check('kantipur chandrabindu is “', kantipurToUnicode('s“'), 'कँ');
+// Canonical order is matra then chandrabindu (क + ा + ँ), as in Preeti.
+check('kantipur kaa-chandrabindu', kantipurToUnicode('sf“'), 'काँ');
+check('kantipur kahaan', kantipurToUnicode('sxf“'), 'कहाँ');
+// The decoder preserves typed order, like the Preeti decoder: chandrabindu
+// typed before the matra stays before it in the Unicode output.
+check('kantipur typed chandrabindu first', kantipurToUnicode('s“f'), 'कँा');
+check('kantipur X is hrr, not half ha', kantipurToUnicode('X'), 'हृ');
+check('kantipur hridaya', kantipurToUnicode('Xbo'), 'हृदय');
+check('kantipur ‹ is nnga, not nngha', kantipurToUnicode('‹'), 'ङ्ग');
+check('kantipur Ë is also nnga', kantipurToUnicode('Ë'), 'ङ्ग');
+check('kantipur › is avagraha, not dra', kantipurToUnicode('›'), 'ऽ');
+check('kantipur ˜ is also avagraha', kantipurToUnicode('˜'), 'ऽ');
+check('kantipur Î is half pha, not nkha', kantipurToUnicode('Î'), 'फ्');
+check('kantipur º is half pha', kantipurToUnicode('º'), 'फ्');
+check('kantipur Ï is half pha', kantipurToUnicode('Ï'), 'फ्');
+check('kantipur ° is nngdha, not degree', kantipurToUnicode('°'), 'ङ्ढ');
+check('kantipur ¨ is nnga', kantipurToUnicode('¨'), 'ङ्ग');
+check('kantipur Œ is ttt', kantipurToUnicode('Œ'), 'त्त्');
+check('kantipur œ is ttr', kantipurToUnicode('œ'), 'त्र्');
+check('kantipur Ô is ksha', kantipurToUnicode('Ô'), 'क्ष');
+check('kantipur È is ssa', kantipurToUnicode('È'), 'ष');
+check('kantipur ø is half ya', kantipurToUnicode('ø'), 'य्');
+check('kantipur ® is ra', kantipurToUnicode('®'), 'र');
+check('kantipur µ is ra', kantipurToUnicode('µ'), 'र');
+check('kantipur Â is ra', kantipurToUnicode('Â'), 'र');
+check('kantipur ™ is ra', kantipurToUnicode('™'), 'र');
+check('kantipur † is exclamation', kantipurToUnicode('†'), '!');
+check('kantipur ¬ is ellipsis', kantipurToUnicode('¬'), '…');
+check('kantipur soft hyphen is open bracket', kantipurToUnicode('­'), '(');
+check('kantipur macron is macron', kantipurToUnicode('¯'), '¯');
+// Curly quotes are kept curly in Kantipur (Preeti normalises them straight).
+check('kantipur left double quote', kantipurToUnicode('æ'), '“');
+check('kantipur right double quote', kantipurToUnicode('Æ'), '”');
+check('kantipur right single quote', kantipurToUnicode('Ú'), '’');
+check('kantipur left single quote', kantipurToUnicode('…'), '‘');
+// Preeti-only bytes are not Kantipur bytes: they pass through untouched.
+check(
+  'kantipur preeti-only bytes pass through',
+  kantipurToUnicode('ÅÖÙÛÜÝˆ'),
+  'ÅÖÙÛÜÝˆ',
+);
+check('kantipur multiply byte passes through', kantipurToUnicode('×'), '×');
+
+console.log('\n— Kantipur → Preeti (chained) —');
+check('kantipur kahaan to preeti', kantipurToPreeti('sxf“'), 'sxfF');
+check('kantipur kaa-chandrabindu to preeti', kantipurToPreeti('sf“'), 'sfF');
+// Typed chandrabindu-first order is canonicalised by the Preeti step.
+check('kantipur typed order canonicalised', kantipurToPreeti('s“f'), 'sfF');
+check('kantipur hridaya to preeti', kantipurToPreeti('Xbo'), 'Åbo');
+check('kantipur nnga to preeti', kantipurToPreeti('‹'), 'ª\\u');
+check('kantipur ¨ nnga to preeti', kantipurToPreeti('¨'), 'ª\\u');
+check('kantipur avagraha to preeti', kantipurToPreeti('›'), '˜');
+check('kantipur half pha to preeti', kantipurToPreeti('Î'), 'km\\');
+check('kantipur half pha mid-cluster to preeti', kantipurToPreeti('Îs'), 'ˆs');
+check('kantipur nngdha to preeti', kantipurToPreeti('°'), 'ª\\9');
+check('kantipur exclamation to preeti', kantipurToPreeti('†'), 'Û');
+check('kantipur chandrabindu to preeti', kantipurToPreeti('“'), 'F');
+check('kantipur aa-matra to preeti', kantipurToPreeti('F'), 'f');
+check('kantipur hrr to preeti', kantipurToPreeti('X'), 'Å');
+check('kantipur ttt to preeti', kantipurToPreeti('Œ'), 'Q\\');
+check('kantipur ttr to preeti', kantipurToPreeti('œ'), 'q\\');
+check('kantipur ksha to preeti', kantipurToPreeti('Ô'), 'If');
+check('kantipur ssa to preeti', kantipurToPreeti('È'), 'if');
+check('kantipur half ya to preeti', kantipurToPreeti('ø'), 'o\\');
+check('kantipur ra bytes to preeti', kantipurToPreeti('µ®Â™'), '////');
+// No Preeti ellipsis glyph exists, so the Kantipur ellipsis passes through.
+check('kantipur ellipsis passes through', kantipurToPreeti('¬'), '…');
+check('kantipur soft hyphen to preeti', kantipurToPreeti('­'), '-');
+check('kantipur macron passes through', kantipurToPreeti('¯'), '¯');
+check('kantipur quotes stay directional', kantipurToPreeti('æÆ'), 'æÆ');
+check('kantipur single quotes stay directional', kantipurToPreeti('…Ú'), '…Ú');
+check(
+  'kantipur sample sentence to preeti',
+  kantipurToPreeti('g]kfn ;f“Rr} Xbo'),
+  'g]kfn ;fFRr} Åbo',
+);
+
+console.log('\n— Round trip: Kantipur → Unicode → Preeti → Unicode —');
+for (const bytes of [
+  'sxf“',
+  'Xbo',
+  'g]kfn',
+  '‹',
+  '°',
+  'Œ',
+  'œ',
+  'Î',
+  '¨',
+  '†',
+  'µ',
+  'Ô',
+  'È',
+  'ø',
+  '´08f',
+  'sd{',
+  'ls|',
+  'g]kfnsf] ´08f',
+]) {
+  check(
+    `round trip ${bytes}`,
+    preetiToUnicode(kantipurToPreeti(bytes)),
+    kantipurToUnicode(bytes),
+  );
+}
+
 console.log('\n— Roman → Preeti (chained) —');
 check(
   'mero ghar chains roman→unicode→preeti',

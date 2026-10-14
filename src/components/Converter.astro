@@ -9,7 +9,8 @@
 export type ConverterMode =
   | 'unicode-to-preeti'
   | 'roman-to-unicode'
-  | 'roman-to-preeti';
+  | 'roman-to-preeti'
+  | 'kantipur-to-preeti';
 
 interface Props {
   mode: ConverterMode;
@@ -44,6 +45,19 @@ const copy = {
     inputLabel: 'Roman Nepali',
     outputLabel: 'Preeti',
     inputPlaceholder: 'Type the way you speak, for example: mero ghar',
+    outputPlaceholder: 'Preeti output appears here as you type',
+    inputClass: '',
+    outputClass: 'preeti-text',
+    inputLang: 'en',
+    outputLang: 'en',
+  },
+  // Kantipur input stays in the plain font: rendering Kantipur bytes in the
+  // Preeti font would draw the wrong glyphs for the bytes where the two
+  // fonts differ (F, X, ‹, ›, Î, °, …).
+  'kantipur-to-preeti': {
+    inputLabel: 'Kantipur',
+    outputLabel: 'Preeti',
+    inputPlaceholder: 'Paste Kantipur-encoded text — it reads as Nepali only with the Kantipur font',
     outputPlaceholder: 'Preeti output appears here as you type',
     inputClass: '',
     outputClass: 'preeti-text',
@@ -109,7 +123,7 @@ const copy = {
     />
     <button class="button" type="button" data-action="clear">Clear</button>
 
-    {(mode === 'unicode-to-preeti' || mode === 'roman-to-preeti') && (
+    {(mode === 'unicode-to-preeti' || mode === 'roman-to-preeti' || mode === 'kantipur-to-preeti') && (
       <div class="tools" role="group" aria-label="Preeti text cleanup tools">
         <span class="tools__label">Cleanup</span>
         <button class="tool" type="button" data-tool="remove-tabs" title="Tabs become a single space.">

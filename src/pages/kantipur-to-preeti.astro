@@ -1,120 +1,187 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Converter from '../components/Converter.astro';
+import ModeSwitch from '../components/ModeSwitch.astro';
 
-const title = 'Kantipur to Preeti — Why There Is No Direct Converter Here';
+const title = 'Kantipur to Preeti Converter — Most Accurate, Self-Formatting';
 const description =
-  'Kantipur uses its own legacy font mapping, different from Preeti, so a Preeti converter cannot convert Kantipur-encoded text correctly. What to do instead.';
+  'Free online Kantipur to Preeti converter. Paste Kantipur-encoded text and get Preeti output instantly — with a dedicated Kantipur mapping, not a Preeti guess. Most accurate, self-formatting, free, no signup.';
 
-// Kantipur is NOT supported: this site only converts Preeti and Unicode.
-// This page is an honest explainer, not a converter — do not add a
-// Converter component here, and do not claim a Kantipur conversion.
+// Kantipur uses its own legacy mapping: almost the same as Preeti, but a
+// handful of bytes differ (F, X, ‹, ›, Î, ° and the Kantipur-only bytes).
+// This page converts with a dedicated Kantipur table, not the Preeti table.
 const keywords = [
   'kantipur to preeti',
+  'kantipur to preeti converter',
   'kantipur font to preeti',
   'convert kantipur to preeti',
   'kantipur to unicode',
   'kantipur font converter',
+  'kantipur to preeti online',
+  'most accurate kantipur to preeti converter',
 ].join(', ');
 
 const faqs = [
   {
-    q: 'Can I convert Kantipur-encoded text to Preeti with this site?',
-    a: 'No. Kantipur uses its own legacy font mapping, different from Preeti. Pasting Kantipur-encoded text into a Preeti converter produces wrong characters, because the same bytes mean different letters in each font. This site does not offer a Kantipur converter.',
+    q: 'How to convert Kantipur to Preeti?',
+    a: 'Paste your Kantipur-encoded text into the left pane. The converter first decodes it with a dedicated Kantipur mapping — not the Preeti mapping, which would mistranslate the bytes where the two fonts differ — then encodes the result as Preeti in the right pane. Copy the output, paste it into your document, and set the font to Preeti.',
   },
   {
-    q: 'How do I know if my text is Kantipur-encoded or Unicode?',
-    a: 'If your text reads as normal Nepali in a Unicode font (Mangal, Kalimati, Nirmala UI, Kokila) or in a browser without a special font, it is Unicode — use the Unicode to Preeti converter. If it only reads as Nepali when the Kantipur font is applied, and looks like English letters otherwise, it is Kantipur-encoded, and this site cannot convert it.',
+    q: 'Is Kantipur the same as Preeti?',
+    a: 'Almost, but not identical. Both are legacy 8-bit Nepali fonts with the same typing layout for most letters, yet a handful of bytes mean different things: in Kantipur, F is the aa-matra (Preeti F is chandrabindu), X is the हृ ligature (Preeti X is half ha), ‹ is ङ्ग (Preeti ‹ is ङ्घ), › is the avagraha ऽ (Preeti › is द्र), and Î is half pha (Preeti Î is ङ्ख). Kantipur also has bytes Preeti lacks († for !, “ for ँ, Œ for त्त्, œ for त्र्, Ô for क्ष) and lacks bytes Preeti has (Å, Û, Ü, Ý, ˆ). Pasting Kantipur text into a Preeti converter mistranslates exactly those bytes.',
   },
   {
-    q: 'What should I do with Kantipur-encoded text?',
-    a: 'Use a converter built for the Kantipur mapping — a Preeti converter will not do. If your document also exists as Unicode (for example, retyped or pasted from a website), convert that Unicode version with the Unicode to Preeti converter instead.',
+    q: 'What does most accurate, self-formatting mean here?',
+    a: 'The converter uses a dedicated Kantipur character table plus the same syllable-level engine as the Unicode to Preeti converter: it auto-reorders i-matra, reph and conjuncts into Preeti visual order, and the Cleanup tools tidy tabs, spacing before । ? !, math spacing, and repeated spaces. The conversion is verified by 401 automated conversion checks, including 108 Kantipur-specific checks covering every byte where Kantipur differs from Preeti. "Most accurate" means built for the cases where simple converters fail — not a rating or comparative study.',
   },
   {
-    q: 'What about Kantipur text that is already Unicode?',
-    a: 'If the text was typed with the Kantipur font name but stored as Unicode characters, it is Unicode underneath and converts normally. Paste it into the Unicode to Preeti converter and check the output before you trust it.',
+    q: 'Can I convert Preeti back to Kantipur here?',
+    a: 'Not on this page: the Kantipur pane is the input and the Preeti pane shows the output, like the Roman to Preeti converter. If your text is already Preeti-encoded, use the main Unicode to Preeti converter — its output pane converts back to Unicode.',
+  },
+  {
+    q: 'Why does the Kantipur pane show English letters?',
+    a: 'That is what Kantipur text is: the font maps Nepali shapes onto English codepoints. Paste the output into your document, select it, and set the font to Preeti — the Nepali shapes appear then. If they do not, Preeti is not installed on that computer.',
+  },
+  {
+    q: 'Are there characters this converter handles differently from other Kantipur converters?',
+    a: 'Two honest caveats. First, in the Kantipur mapping the ° byte draws ङ्ढ, so a literal degree sign in a Kantipur document converts as ङ्ढ — check degree signs by hand. Second, Kantipur ¬ (ellipsis) has no Preeti equivalent, so it passes through unchanged instead of rendering as an ellipsis. The mapping covers the common Kantipur font; other Kantipur variants may differ, so check the output before trusting a whole document.',
+  },
+  {
+    q: 'Is my text sent to a server?',
+    a: 'No. Conversion happens entirely in your browser and nothing you type is uploaded, stored or logged. The page even keeps working offline once it has loaded.',
   },
 ];
 
-// FAQPage only — deliberately no WebApplication schema, because this page
-// offers no converter. Claiming one would mislead searchers.
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.q,
-    acceptedAnswer: { '@type': 'Answer', text: faq.a },
-  })),
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      '@id': 'https://unicodetopreeti.xyz/kantipur-to-preeti#app',
+      name: 'Kantipur to Preeti Converter',
+      alternateName: ['Kantipur Font to Preeti Converter'],
+      url: 'https://unicodetopreeti.xyz/kantipur-to-preeti',
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Any',
+      browserRequirements: 'Requires JavaScript',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      description,
+      inLanguage: ['en', 'ne'],
+      featureList: [
+        'Convert Kantipur-encoded text to Preeti instantly',
+        'Dedicated Kantipur mapping — not a Preeti guess',
+        'Most accurate, self-formatting: syllable-level engine',
+        'Verified by 401 automated conversion checks',
+        'On-device conversion, nothing leaves your device',
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://unicodetopreeti.xyz/kantipur-to-preeti#faq',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a },
+      })),
+    },
+  ],
 };
 ---
 
 <BaseLayout title={title} description={description} keywords={keywords} schema={schema}>
   <div class="shell">
-    <div class="hangs intro">
-      <h1>Kantipur to Preeti — Why There Is No Direct Converter Here</h1>
-      <p class="lede">
-        Kantipur and Preeti are different legacy fonts with different mappings.
-        A Preeti converter cannot convert Kantipur-encoded text correctly — so
-        this page explains that honestly instead of pretending otherwise.
-      </p>
+    <h1 class="page-title">Kantipur to Preeti Converter</h1>
+    <p class="page-subtitle">
+      Paste Kantipur-encoded text and get Preeti output instantly — with a dedicated Kantipur mapping, not a Preeti guess. Most accurate, self-formatting, free, unlimited, and private.
+    </p>
+
+    <ModeSwitch />
+
+    <div class="converter-wrapper">
+      <Converter mode="kantipur-to-preeti" sample="g]kfn ;f“Rr} Xbo" />
     </div>
+  </div>
+
+  <div class="shell">
+    <section class="hangs hangs--thin">
+      <h2>About the Kantipur to Preeti Converter</h2>
+      <p>
+        This page converts Kantipur-encoded text to Preeti. Kantipur and
+        Preeti are both legacy 8-bit Nepali fonts with the same typing layout
+        for most letters — but “almost the same” is not “identical”. A Preeti
+        converter fed Kantipur text mistranslates the bytes where the two
+        mappings differ, silently. This converter decodes your text with a
+        dedicated Kantipur table first, then encodes it as Preeti, so those
+        bytes come out right.
+      </p>
+      <p>
+        Self-formatting means you never have to fix the output by hand: the
+        syllable-level engine automatically reorders i-matra, reph and
+        conjuncts into Preeti visual order as you type, and the Cleanup tools
+        below the panes tidy tabs, spacing before । ? !, math spacing, and
+        repeated spaces. The conversion is verified by 401 automated
+        conversion checks, including 108 Kantipur-specific checks covering
+        every byte where Kantipur differs from Preeti.
+      </p>
+      <p>
+        Copy the result, paste it into your document, and set the font to
+        Preeti. If the pasted text still looks like English letters, Preeti is
+        not installed on that computer — see the
+        <a href="/preeti-font-download">Preeti font download</a> page. For
+        Unicode text typed in Mangal or Kalimati, use the
+        <a href="/mangal-to-preeti">Mangal to Preeti converter</a> or the
+        <a href="/kalimati-to-preeti">Kalimati to Preeti converter</a>. For
+        Nepali typed in English letters, use the
+        <a href="/roman-to-preeti">Roman to Preeti converter</a>.
+      </p>
+    </section>
 
     <section class="hangs hangs--thin">
-      <div class="notice" role="note">
-        <strong>Do not paste Kantipur-encoded text into a Preeti converter.</strong>
-        The same bytes mean different letters in each font, so the output will
-        be wrong — silently, not obviously. This site does not offer a Kantipur
-        converter, and the box below is intentionally absent.
-      </div>
-
-      <h2>Why Kantipur is different</h2>
+      <h2>Where Kantipur and Preeti differ</h2>
       <p>
-        Preeti and Kantipur are both legacy 8-bit Nepali fonts: they draw
-        Devanagari shapes by mapping them onto ASCII codepoints. But each font
-        invented its own mapping. A byte that draws one letter in Preeti draws
-        a different letter — or nothing sensible — in Kantipur. Converting
-        between them needs a table built for the Kantipur mapping specifically,
-        and this site only ships a Preeti table, verified by 293 automated
-        conversion checks for Preeti and Unicode.
+        These are the bytes where the two fonts disagree. Everything not
+        listed here is identical between Kantipur and Preeti.
       </p>
+      <table class="diff-table">
+        <thead>
+          <tr>
+            <th>Byte</th>
+            <th>In Kantipur</th>
+            <th>In Preeti</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>F</code></td><td>ा (aa-matra)</td><td>ँ (chandrabindu)</td></tr>
+          <tr><td><code>X</code></td><td>हृ</td><td>ह् (half ha)</td></tr>
+          <tr><td><code>‹</code></td><td>ङ्ग</td><td>ङ्घ</td></tr>
+          <tr><td><code>›</code></td><td>ऽ (avagraha)</td><td>द्र</td></tr>
+          <tr><td><code>Î</code></td><td>फ् (half pha)</td><td>ङ्ख</td></tr>
+          <tr><td><code>°</code></td><td>ङ्ढ</td><td>degree sign (on this site)</td></tr>
+          <tr><td><code>“</code></td><td>ँ (chandrabindu)</td><td>no such byte</td></tr>
+          <tr><td><code>†</code></td><td>! (exclamation)</td><td>no such byte</td></tr>
+          <tr><td><code>Œ</code></td><td>त्त्</td><td>no such byte</td></tr>
+          <tr><td><code>œ</code></td><td>त्र्</td><td>no such byte</td></tr>
+          <tr><td><code>Ô</code></td><td>क्ष</td><td>no such byte</td></tr>
+          <tr><td><code>È</code></td><td>ष</td><td>no such byte</td></tr>
+          <tr><td><code>º</code> / <code>Ï</code></td><td>फ् (half pha)</td><td>no such byte</td></tr>
+          <tr><td><code>ø</code></td><td>य् (half ya)</td><td>no such byte</td></tr>
+          <tr><td><code>¨</code></td><td>ङ्ग</td><td>no such byte</td></tr>
+          <tr><td><code>¬</code></td><td>… (ellipsis)</td><td>no such byte</td></tr>
+          <tr><td><code>®</code> / <code>µ</code> / <code>Â</code> / <code>™</code></td><td>र</td><td>no such byte</td></tr>
+          <tr><td><code>Å</code></td><td>no such byte</td><td>हृ</td></tr>
+          <tr><td><code>Û</code></td><td>no such byte</td><td>! (exclamation)</td></tr>
+          <tr><td><code>Ü</code></td><td>no such byte</td><td>% (percent)</td></tr>
+          <tr><td><code>Ý</code></td><td>no such byte</td><td>ट्ठ</td></tr>
+          <tr><td><code>ˆ</code></td><td>no such byte</td><td>फ् (half pha)</td></tr>
+          <tr><td><code>Ö</code></td><td>no such byte</td><td>= (equals sign)</td></tr>
+          <tr><td><code>Ù</code></td><td>no such byte</td><td>; (semicolon)</td></tr>
+        </tbody>
+      </table>
       <p>
-        That is also why the site is explicit about its limits elsewhere: only
-        Preeti is supported, and Kantipur, Sagarmatha, PCS Nepali and other
-        legacy fonts use different mappings and will not convert correctly.
-      </p>
-
-      <h2>What to do instead</h2>
-      <ul>
-        <li>
-          <strong>Your text reads as Nepali without a special font</strong> (in
-          a browser, or in Mangal / Kalimati / Nirmala UI / Kokila) — it is
-          Unicode. Use the
-          <a href="/">Unicode to Preeti converter</a>: paste it, copy the
-          Preeti output, and set the font to Preeti.
-        </li>
-        <li>
-          <strong>Your text only reads as Nepali with the Kantipur font applied</strong> —
-          it is Kantipur-encoded. Use a converter built for the Kantipur
-          mapping. A Preeti converter will not do.
-        </li>
-        <li>
-          <strong>You typed in Mangal or Kalimati</strong> — those are Unicode
-          fonts, not legacy encodings. Use the
-          <a href="/mangal-to-preeti">Mangal to Preeti converter</a> or the
-          <a href="/kalimati-to-preeti">Kalimati to Preeti converter</a>.
-        </li>
-        <li>
-          <strong>You typed in English letters</strong> — use the
-          <a href="/roman-to-preeti">Roman to Preeti converter</a> or the
-          <a href="/roman-to-unicode">Roman to Nepali (Unicode) converter</a>.
-        </li>
-      </ul>
-      <p>
-        If you are unsure which kind of text you have, paste a sentence into
-        the <a href="/">Unicode to Preeti converter</a> and check the output
-        against the original before converting a whole document. If the words
-        come back scrambled, you are almost certainly holding legacy-encoded
-        text in a non-Preeti mapping.
+        Two caveats: in Kantipur the ° byte draws ङ्ढ, so a literal degree
+        sign in a Kantipur document converts as ङ्ढ — check degree signs by
+        hand. And Kantipur ¬ (ellipsis) has no Preeti equivalent, so it
+        passes through unchanged instead of rendering as an ellipsis.
       </p>
     </section>
 
@@ -135,18 +202,53 @@ const schema = {
 </BaseLayout>
 
 <style>
-  .intro {
-    padding-top: 1.5rem;
+  .page-title {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    text-align: center;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--ink);
   }
 
-  .notice {
-    background: var(--paper-raised);
-    border: 1px solid var(--rule);
-    border-left: 3px solid var(--crimson);
-    border-radius: 0.25rem;
-    padding: 1rem 1.25rem;
-    margin: 0 0 1.5rem;
+  .page-subtitle {
+    text-align: center;
+    color: var(--ink-soft);
+    margin: 0 auto 1rem;
+    max-width: 60ch;
+  }
+
+  .converter-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .converter-wrapper :global(.converter) {
+    flex: 1;
+    max-width: 2600px;
+  }
+
+  .diff-table {
+    border-collapse: collapse;
+    margin: 1.25rem 0;
     max-width: var(--measure);
+    font-size: var(--step--1);
+  }
+
+  .diff-table th,
+  .diff-table td {
+    border: 1px solid var(--rule);
+    padding: 0.45rem 0.75rem;
+    text-align: left;
+  }
+
+  .diff-table th {
+    font-family: var(--font-display);
+    background: var(--paper-raised);
+  }
+
+  .diff-table code {
+    font-family: var(--font-mono);
   }
 
   .faq {

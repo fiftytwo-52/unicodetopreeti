@@ -10,7 +10,7 @@ export type ConverterMode =
   | 'unicode-to-preeti'
   | 'roman-to-unicode'
   | 'roman-to-preeti'
-  | 'kantipur-to-preeti';
+  | 'unicode-to-kantipur';
 
 interface Props {
   mode: ConverterMode;
@@ -51,17 +51,16 @@ const copy = {
     inputLang: 'en',
     outputLang: 'en',
   },
-  // Kantipur input stays in the plain font: rendering Kantipur bytes in the
-  // Preeti font would draw the wrong glyphs for the bytes where the two
-  // fonts differ (F, X, ‹, ›, Î, °, …).
-  'kantipur-to-preeti': {
-    inputLabel: 'Kantipur',
-    outputLabel: 'Preeti',
-    inputPlaceholder: 'Paste Kantipur-encoded text — it reads as Nepali only with the Kantipur font',
-    outputPlaceholder: 'Preeti output appears here as you type',
-    inputClass: '',
-    outputClass: 'preeti-text',
-    inputLang: 'en',
+  // Kantipur output renders in the Kantipur font when installed; the input
+  // stays Devanagari.
+  'unicode-to-kantipur': {
+    inputLabel: 'Nepali Unicode',
+    outputLabel: 'Kantipur',
+    inputPlaceholder: 'नेपाली युनिकोड यहाँ टाइप वा पेस्ट गर्नुहोस्',
+    outputPlaceholder: 'Kantipur output appears here as you type',
+    inputClass: 'devanagari',
+    outputClass: 'kantipur-text',
+    inputLang: 'ne',
     outputLang: 'en',
   },
 }[mode];
@@ -123,8 +122,8 @@ const copy = {
     />
     <button class="button" type="button" data-action="clear">Clear</button>
 
-    {(mode === 'unicode-to-preeti' || mode === 'roman-to-preeti' || mode === 'kantipur-to-preeti') && (
-      <div class="tools" role="group" aria-label="Preeti text cleanup tools">
+    {(mode === 'unicode-to-preeti' || mode === 'roman-to-preeti' || mode === 'unicode-to-kantipur') && (
+      <div class="tools" role="group" aria-label="Output text cleanup tools">
         <span class="tools__label">Cleanup</span>
         <button class="tool" type="button" data-tool="remove-tabs" title="Tabs become a single space.">
           Remove tabs

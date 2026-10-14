@@ -188,6 +188,16 @@ a:hover {
   line-height: 1.9;
 }
 
+/*
+ * Kantipur output must render in the legacy font when it is installed. Same
+ * pattern as Preeti: the font is not bundled, so unconverted bytes fall back
+ * to monospace and look deliberately like data.
+ */
+.kantipur-text {
+  font-family: 'Kantipur', var(--font-mono);
+  line-height: 1.9;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

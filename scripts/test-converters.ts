@@ -478,6 +478,86 @@ for (const bytes of [
   );
 }
 
+console.log('\n— Unicode → Kantipur —');
+import { unicodeToKantipur } from '../src/lib/unicode-to-kantipur.ts';
+
+// Shared bytes behave identically to Preeti.
+check('unicode to kantipur bare consonant', unicodeToKantipur('क'), 's');
+check('unicode to kantipur aa matra', unicodeToKantipur('का'), 'sf');
+check('unicode to kantipur namaste', unicodeToKantipur('नमस्ते'), 'gd:t]');
+check('unicode to kantipur nepal', unicodeToKantipur('नेपाल'), 'g]kfn');
+check('unicode to kantipur i-matra reorders', unicodeToKantipur('कि'), 'ls');
+check('unicode to kantipur reph karma', unicodeToKantipur('कर्म'), 'sd{');
+check('unicode to kantipur rakar pra', unicodeToKantipur('प्र'), 'k|');
+check('unicode to kantipur retroflex rakar', unicodeToKantipur('ट्र'), '6«');
+check('unicode to kantipur danda spaced', unicodeToKantipur('गरे।'), 'u/] .');
+check('unicode to kantipur digits', unicodeToKantipur('१२३'), '!@#');
+
+// Bytes where Kantipur differs from Preeti.
+check('unicode to kantipur chandrabindu is “', unicodeToKantipur('कँ'), 's“');
+check('unicode to kantipur exclamation is †', unicodeToKantipur('कस्तो!'), 's:tf] †');
+check('unicode to kantipur hrr ligature is X', unicodeToKantipur('हृ'), 'X');
+check('unicode to kantipur half pha in cluster is Î', unicodeToKantipur('फ्त'), 'Ît');
+check('unicode to kantipur half ya in cluster is ø', unicodeToKantipur('य्त'), 'øt');
+check('unicode to kantipur half ha falls back to x\\', unicodeToKantipur('ह्'), 'x\\');
+check('unicode to kantipur dra is b| not ›', unicodeToKantipur('द्र'), 'b|');
+check('unicode to kantipur ttha is 6\\7 not Ý', unicodeToKantipur('ट्ठ'), '6\\7');
+check('unicode to kantipur ngka is Í', unicodeToKantipur('ङ्क'), 'Í');
+check('unicode to kantipur ngga is Ë', unicodeToKantipur('ङ्ग'), 'Ë');
+check('unicode to kantipur ngddha is °', unicodeToKantipur('ङ्ढ'), '°');
+check('unicode to kantipur tta halant is Œ', unicodeToKantipur('त्त्'), 'Œ');
+check('unicode to kantipur tra halant is œ', unicodeToKantipur('त्र्'), 'œ');
+check('unicode to kantipur avagraha is ›', unicodeToKantipur('ऽ'), '›');
+
+// No Kantipur glyph: these pass through unchanged (Beta caveat).
+check('unicode to kantipur percent passes through', unicodeToKantipur('%'), '%');
+check('unicode to kantipur equals passes through', unicodeToKantipur('='), '=');
+check('unicode to kantipur semicolon passes through', unicodeToKantipur(';'), ';');
+check('unicode to kantipur colon passes through', unicodeToKantipur(':'), ':');
+check('unicode to kantipur degree passes through', unicodeToKantipur('°'), '°');
+check('unicode to kantipur nukta passes through', unicodeToKantipur('क़'), 's़');
+check('unicode to kantipur straight quotes become curly', unicodeToKantipur('"भनाइ"'), 'æegfOÆ');
+
+console.log('\n— Round trip: Unicode → Kantipur → Unicode —');
+for (const text of [
+  'नमस्ते नेपाल',
+  'गरे।',
+  'कस्तो!',
+  'कस्तो?',
+  'किसान',
+  'गर्दा',
+  'क्र',
+  'ट्र',
+  'रु',
+  'रू',
+  'हृदय',
+  'चन्द्रबिन्दु ँ',
+  'ज्ञानी',
+  'क्षत्रिय',
+  'द्रव्य',
+  'ट्ठ',
+  'ङ्क',
+  'ङ्ग',
+  'ङ्ढ',
+  'फूल',
+  'यज्ञ',
+  'हल्',
+  'कँ',
+  'कः',
+  '“भनाइ”',
+  'कक्षा ५.',
+  'कान्तिपुर',
+  'सत्त्',
+  'त्र्',
+  'त्त्',
+]) {
+  check(
+    `kantipur round trip ${text}`,
+    kantipurToUnicode(unicodeToKantipur(text)),
+    text,
+  );
+}
+
 console.log('\n— Roman → Preeti (chained) —');
 check(
   'mero ghar chains roman→unicode→preeti',
@@ -515,11 +595,13 @@ import { applyTool, removeSpaceMath, removeSpacePunctuation } from '../src/lib/o
 check('remove space before danda', removeSpacePunctuation('u/] .'), 'u/].');
 check('remove space before double danda', removeSpacePunctuation('g]kfn ..'), 'g]kfn..');
 check('remove space before question mark', removeSpacePunctuation('s:tf] <'), 's:tf]<');
+check('remove space before kantipur exclamation', removeSpacePunctuation('s:tf] †'), 's:tf]†');
 
 check('tool: remove tabs', applyTool('remove-tabs', 's\tv'), 's v');
 check('tool: space before danda', applyTool('space-punctuation', 'u/].'), 'u/] .');
 check('tool: space before double danda', applyTool('space-punctuation', 'g]kfn..'), 'g]kfn ..');
 check('tool: space before question mark', applyTool('space-punctuation', 's:tf]<'), 's:tf] <');
+check('tool: space before kantipur exclamation', applyTool('space-punctuation', 's:tf]†'), 's:tf] †');
 check(
   'tool: collapse whitespace before punctuation',
   applyTool('space-punctuation', 'u/]  .'),

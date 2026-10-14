@@ -1,0 +1,295 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Converter from '../components/Converter.astro';
+import ModeSwitch from '../components/ModeSwitch.astro';
+
+const title = 'Unicode to Kantipur Converter — Free Nepali Font Tool';
+const description =
+  'Free online Unicode to Kantipur converter. Convert Nepali Unicode to Kantipur font instantly in your browser — handles conjuncts, reph and i-matra. Beta: a few symbols have no Kantipur glyph.';
+
+// Kantipur uses its own legacy mapping: almost the same as Preeti, but a
+// handful of bytes differ (F, X, ‹, ›, Î, ° and the Kantipur-only bytes).
+// This page encodes with a dedicated Kantipur table, not the Preeti table.
+const keywords = [
+  'unicode to kantipur',
+  'unicode to kantipur converter',
+  'nepali to kantipur',
+  'nepali to kantipur converter',
+  'convert unicode to kantipur',
+  'unicode to kantipur font',
+  'unicode to kantipur font converter',
+  'kantipur font converter',
+  'kantipur converter',
+  'mangal to kantipur',
+  'kalimati to kantipur',
+].join(', ');
+
+const faqs = [
+  {
+    q: 'How to convert Unicode to Kantipur?',
+    a: 'Type or paste Nepali Unicode text into the left pane. The Kantipur-encoded output appears instantly in the right pane as you type. Click "Copy result", paste it into your document, then select the pasted text and set the font to Kantipur. The whole conversion takes a few seconds and works with any amount of text.',
+  },
+  {
+    q: 'How to convert Nepali to Kantipur font?',
+    a: 'Converting Nepali to Kantipur works the same way: paste your Nepali text into the left pane of the converter above and the Kantipur output appears instantly on the right. Copy it into your document and apply the Kantipur font. Every Nepali character is handled, including conjuncts, reph and the i-matra.',
+  },
+  {
+    q: 'Why is this converter labelled Beta?',
+    a: 'The Kantipur encoding is complete for Nepali text, but a few symbols have no glyph in the Kantipur font at all: the percent sign %, equals sign =, semicolon ;, colon : and degree sign °, plus the nukta ़. Those characters pass through unchanged and will render as other glyphs in the Kantipur font (= renders as a dot, % as ५, ; as स, : as स्). Check those symbols by hand before trusting a whole document. Everything else converts exactly.',
+  },
+  {
+    q: 'Is Kantipur the same as Preeti?',
+    a: 'Almost, but not identical. Both are legacy 8-bit Nepali fonts with the same typing layout for most letters, yet a handful of bytes mean different things: in Kantipur, F is the aa-matra (Preeti F is chandrabindu), X is the हृ ligature (Preeti X is half ha), ‹ is ङ्ग (Preeti ‹ is ङ्घ), › is the avagraha ऽ (Preeti › is द्र), and Î is half pha (Preeti Î is ङ्ख). Kantipur also has bytes Preeti lacks († for !, “ for ँ, Œ for त्त्, œ for त्र्, Ô for क्ष) and lacks bytes Preeti has (Å, Û, Ü, Ý, ˆ). This converter uses the Kantipur assignments, not the Preeti ones.',
+  },
+  {
+    q: 'What happened to the Kantipur to Preeti converter?',
+    a: 'It was replaced by this page. Most people need the other direction — type in Unicode and get Kantipur out for newspapers, government offices and legacy documents that still use the Kantipur font — so Unicode to Kantipur took its place. The old /kantipur-to-preeti address redirects here.',
+  },
+  {
+    q: 'Why does the Kantipur output show English letters?',
+    a: 'That is what Kantipur text is: the font maps Nepali shapes onto English codepoints. Paste the output into your document, select it, and set the font to Kantipur — the Nepali shapes appear then. If they do not, Kantipur is not installed on that computer.',
+  },
+  {
+    q: 'Is my text sent to a server?',
+    a: 'No. Conversion happens entirely in your browser and nothing you type is uploaded, stored or logged. The page even keeps working offline once it has loaded, and the source code is open for anyone to inspect.',
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      '@id': 'https://unicodetopreeti.xyz/unicode-to-kantipur#app',
+      name: 'Unicode to Kantipur Converter',
+      alternateName: ['Nepali Unicode to Kantipur Font Converter'],
+      url: 'https://unicodetopreeti.xyz/unicode-to-kantipur',
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Any',
+      browserRequirements: 'Requires JavaScript',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      description,
+      inLanguage: ['en', 'ne'],
+      featureList: [
+        'Convert Unicode to Kantipur font instantly',
+        'Dedicated Kantipur mapping — not a Preeti guess',
+        'Handles conjuncts, reph and i-matra reordering',
+        'On-device conversion, nothing leaves your device',
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://unicodetopreeti.xyz/unicode-to-kantipur#faq',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} keywords={keywords} schema={schema}>
+  <div class="shell">
+    <h1 class="page-title">
+      Unicode to Kantipur Converter
+      <span class="beta-tag">Beta</span>
+    </h1>
+    <p class="page-subtitle">
+      Type or paste Nepali Unicode and get Kantipur output instantly — with a dedicated Kantipur mapping, not a Preeti guess. Free, unlimited, and private.
+    </p>
+
+    <ModeSwitch />
+
+    <div class="converter-wrapper">
+      <Converter mode="unicode-to-kantipur" sample="नमस्ते नेपाल" />
+    </div>
+  </div>
+
+  <div class="shell">
+    <section class="hangs hangs--thin">
+      <h2>About the Unicode to Kantipur Converter</h2>
+      <p>
+        This page converts Nepali Unicode text to Kantipur. Kantipur is a
+        legacy 8-bit Nepali font used by newspapers, government offices and
+        older desktop-publishing workflows — the same world as Preeti, but a
+        different encoding. Text typed in Unicode (Mangal, Kalimati, Nirmala
+        UI or any other Unicode font) cannot be pasted into a Kantipur
+        document as-is; it has to be mapped to the ASCII bytes the Kantipur
+        font draws as Nepali shapes. This converter does exactly that, in your
+        browser, as you type.
+      </p>
+      <p>
+        Self-formatting means you never have to fix the output by hand: the
+        syllable-level engine automatically reorders i-matra, reph and
+        conjuncts into Kantipur visual order as you type, and the Cleanup tools
+        below the panes tidy tabs, spacing before । ? !, math spacing, and
+        repeated spaces. The conversion is verified by automated round-trip
+        checks: every sample converts to Kantipur and back to the exact
+        Unicode it started from.
+      </p>
+      <p>
+        Copy the result, paste it into your document, and set the font to
+        Kantipur. If the pasted text still looks like English letters,
+        Kantipur is not installed on that computer. For Preeti output instead,
+        use the <a href="/">Unicode to Preeti converter</a>. For Nepali typed
+        in English letters, use the
+        <a href="/roman-to-preeti">Roman to Preeti converter</a>.
+      </p>
+    </section>
+
+    <section class="hangs hangs--thin">
+      <h2>Where Kantipur and Preeti differ</h2>
+      <p>
+        These are the bytes where the two fonts disagree. Everything not
+        listed here is identical between Kantipur and Preeti — which is why a
+        Preeti converter fed Kantipur text (or vice versa) silently
+        mistranslates exactly these bytes.
+      </p>
+      <table class="diff-table">
+        <thead>
+          <tr>
+            <th>Byte</th>
+            <th>In Kantipur</th>
+            <th>In Preeti</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>F</code></td><td>ा (aa-matra)</td><td>ँ (chandrabindu)</td></tr>
+          <tr><td><code>X</code></td><td>हृ</td><td>ह् (half ha)</td></tr>
+          <tr><td><code>‹</code></td><td>ङ्ग</td><td>ङ्घ</td></tr>
+          <tr><td><code>›</code></td><td>ऽ (avagraha)</td><td>द्र</td></tr>
+          <tr><td><code>Î</code></td><td>फ् (half pha)</td><td>ङ्ख</td></tr>
+          <tr><td><code>°</code></td><td>ङ्ढ</td><td>degree sign (on this site)</td></tr>
+          <tr><td><code>“</code></td><td>ँ (chandrabindu)</td><td>no such byte</td></tr>
+          <tr><td><code>†</code></td><td>! (exclamation)</td><td>no such byte</td></tr>
+          <tr><td><code>Œ</code></td><td>त्त्</td><td>no such byte</td></tr>
+          <tr><td><code>œ</code></td><td>त्र्</td><td>no such byte</td></tr>
+          <tr><td><code>Ô</code></td><td>क्ष</td><td>no such byte</td></tr>
+          <tr><td><code>È</code></td><td>ष</td><td>no such byte</td></tr>
+          <tr><td><code>º</code> / <code>Ï</code></td><td>फ् (half pha)</td><td>no such byte</td></tr>
+          <tr><td><code>ø</code></td><td>य् (half ya)</td><td>no such byte</td></tr>
+          <tr><td><code>¨</code></td><td>ङ्ग</td><td>no such byte</td></tr>
+          <tr><td><code>¬</code></td><td>… (ellipsis)</td><td>no such byte</td></tr>
+          <tr><td><code>®</code> / <code>µ</code> / <code>Â</code> / <code>™</code></td><td>र</td><td>no such byte</td></tr>
+          <tr><td><code>Å</code></td><td>no such byte</td><td>हृ</td></tr>
+          <tr><td><code>Û</code></td><td>no such byte</td><td>! (exclamation)</td></tr>
+          <tr><td><code>Ü</code></td><td>no such byte</td><td>% (percent)</td></tr>
+          <tr><td><code>Ý</code></td><td>no such byte</td><td>ट्ठ</td></tr>
+          <tr><td><code>ˆ</code></td><td>no such byte</td><td>फ् (half pha)</td></tr>
+          <tr><td><code>Ö</code></td><td>no such byte</td><td>= (equals sign)</td></tr>
+          <tr><td><code>Ù</code></td><td>no such byte</td><td>; (semicolon)</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Beta caveat: % , = , ; , : , ° and the nukta ़ have no glyph in the
+        Kantipur font, so they pass through unchanged and render as other
+        glyphs (= as a dot, % as ५, ; as स, : as स्). Check those symbols by
+        hand.
+      </p>
+    </section>
+
+    <section class="hangs hangs--thin">
+      <h2>Frequently asked questions</h2>
+      <dl class="faq">
+        {
+          faqs.map((faq) => (
+            <div class="faq__item">
+              <dt>{faq.q}</dt>
+              <dd>{faq.a}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-title {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    text-align: center;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--ink);
+  }
+
+  .beta-tag {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: var(--crimson);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .page-subtitle {
+    text-align: center;
+    color: var(--ink-soft);
+    margin: 0 auto 1rem;
+    max-width: 60ch;
+  }
+
+  .converter-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .converter-wrapper :global(.converter) {
+    flex: 1;
+    max-width: 2600px;
+  }
+
+  .diff-table {
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    max-width: var(--measure);
+    font-size: var(--step--1);
+  }
+
+  .diff-table th,
+  .diff-table td {
+    border: 1px solid var(--rule);
+    padding: 0.45rem 0.75rem;
+    text-align: left;
+  }
+
+  .diff-table th {
+    font-family: var(--font-display);
+    background: var(--paper-raised);
+  }
+
+  .diff-table code {
+    font-family: var(--font-mono);
+  }
+
+  .faq {
+    margin: 1.25rem 0 0;
+    max-width: var(--measure);
+  }
+
+  .faq__item + .faq__item {
+    margin-top: 1.5rem;
+  }
+
+  .faq dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-0);
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .faq dd {
+    margin: 0.6rem 0 0;
+    color: var(--ink-soft);
+  }
+</style>

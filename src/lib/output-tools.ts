@@ -1,5 +1,5 @@
 /**
- * One-click cleanup tools for the Preeti output pane.
+ * One-click cleanup tools for the Preeti / Kantipur output pane.
  *
  * Pure functions over the output text, so they run both in the browser and
  * in the node test script. They operate on Preeti-encoded text, where:
@@ -8,6 +8,10 @@
  * - `)!@#$%^&*(` are the digits ०–९
  * - `×` is the multiply sign, `Ö` is `=`, `–` is the dash/minus
  * - `=` is the dot glyph (from Unicode `.` or `_`)
+ *
+ * Kantipur shares the same danda, question-mark and digit bytes; its
+ * exclamation is † (Preeti Û is unmapped in Kantipur), so the punctuation
+ * tools accept both Û and †.
  */
 
 export type ToolName =
@@ -33,7 +37,7 @@ function removeTabs(text: string): string {
  * whitespace before them collapses to exactly one space.
  */
 function spacePunctuation(text: string): string {
-  return text.replace(/(\S)\s*(\.\.?|Û|<)/g, '$1 $2');
+  return text.replace(/(\S)\s*(\.\.?|Û|†|<)/g, '$1 $2');
 }
 
 /**
@@ -71,7 +75,7 @@ function singleSpaces(text: string): string {
  * "Space before । ?" mode is switched off.
  */
 export function removeSpacePunctuation(text: string): string {
-  return text.replace(/[ \t]+(\.\.?|Û|<)/g, '$1');
+  return text.replace(/[ \t]+(\.\.?|Û|†|<)/g, '$1');
 }
 
 const TOOLS: Record<ToolName, (text: string) => string> = {

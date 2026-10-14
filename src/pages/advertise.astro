@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { mailto } from '../lib/site.ts';
+import { FEEDBACK_FORM_URL } from '../lib/site.ts';
 
 const title = 'Advertise — unicodeTOpreeti';
 const description =
@@ -88,9 +88,9 @@ const rules = [
 
       <h2>Getting in touch</h2>
       <p>
-        Email <a href={mailto('Advertising enquiry')}>an enquiry</a> with what
-        you sell, which placement you want, and the dates. Rates depend on
-        placement and duration and are quoted per enquiry.
+        Send <a href={FEEDBACK_FORM_URL}>an enquiry through the feedback form</a>{' '}
+        with what you sell, which placement you want, and the dates. Rates
+        depend on placement and duration and are quoted per enquiry.
       </p>
       <p>
         Ads are reviewed before they run, and anything misleading or unrelated to

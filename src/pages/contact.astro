@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { mailto } from '../lib/site.ts';
+import { FEEDBACK_FORM_URL } from '../lib/site.ts';
 
 const title = 'Contact — unicodeTOpreeti';
 const description =
@@ -25,8 +25,8 @@ const description =
 
       <h2>Report a conversion error</h2>
       <p>
-        If a word doesn't look right after converting, email me at{' '}
-        <a href={mailto('Mapping error')}>gun-yes@proton.me</a> with:
+        If a word doesn't look right after converting, send it through the{' '}
+        <a href={FEEDBACK_FORM_URL}>feedback form</a> with:
       </p>
       <ul class="report-list">
         <li><strong>What you typed</strong> — the original text</li>
@@ -34,14 +34,14 @@ const description =
         <li><strong>What you expected</strong> — the correct output</li>
       </ul>
       <p>
-        Paste text directly into the email — don't attach Word files, as they
+        Paste text directly into the form — don't attach Word files, as they
         can re-encode characters and hide the problem.
       </p>
 
       <h2>Other questions</h2>
       <p>
-        For suggestions, problems, feedback, or advertising, reach out to{' '}
-        <a href={mailto('General')}>gun-yes@proton.me</a>.
+        For suggestions, problems, feedback, or advertising, use the{' '}
+        <a href={FEEDBACK_FORM_URL}>feedback form</a>.
       </p>
 
       <h2>Privacy</h2>

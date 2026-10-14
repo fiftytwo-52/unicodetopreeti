@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { CONTACT_EMAIL, mailto } from '../lib/site.ts';
+import { FEEDBACK_FORM_URL } from '../lib/site.ts';
 
 const title = 'Privacy Policy — unicodeTOpreeti';
 const description =
@@ -116,8 +116,8 @@ const description =
 
       <h2>Contact</h2>
       <p>
-        Questions about this policy can be sent to{' '}
-        <a href={mailto('Privacy question')}>{CONTACT_EMAIL}</a>.
+        Questions about this policy can be sent through the{' '}
+        <a href={FEEDBACK_FORM_URL}>feedback form</a>.
       </p>
     </section>
   </div>

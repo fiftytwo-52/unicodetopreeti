@@ -1,19 +1,12 @@
 /**
  * Site-wide values that are not part of the conversion logic.
  *
- * Kept in one file so the contact address is changed once rather than in every
- * page and template that prints it.
+ * Contact now goes through the feedback form rather than a personal
+ * email address, so there is no private inbox printed anywhere on the site.
  */
 
-/** Replace before deploying. Printed on the contact and advertise pages. */
-export const CONTACT_EMAIL = 'gun-yes@proton.me';
+/** Feedback form — the single place for reports, questions, and enquiries. */
+export const FEEDBACK_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScaUiLuf3ULzS07aJDrLLtBGo8WAJ_bB99xx1Jx6-FGOpetrw/viewform';
 
 export const SITE_NAME = 'unicodeTOpreeti';
-
-/**
- * A mailto link with the subject filled in, so reports arrive already sorted
- * rather than as a pile of untitled mail.
- */
-export function mailto(subject: string): string {
-  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
-}

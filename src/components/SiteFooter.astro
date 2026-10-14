@@ -1,4 +1,6 @@
 ---
+import { FEEDBACK_FORM_URL } from '../lib/site.ts';
+
 const year = new Date().getFullYear();
 ---
 
@@ -29,6 +31,7 @@ const year = new Date().getFullYear();
         <li><a href="/preeti-keyboard-layout">Preeti Keyboard Layout</a></li>
         <li><a href="/about">About Us</a></li>
         <li><a href="/contact">Contact Support</a></li>
+        <li><a href={FEEDBACK_FORM_URL}>Feedback</a></li>
         <li><a href="/advertise">Advertise</a></li>
         <li><a href="/privacy-policy">Privacy & Terms</a></li>
       </ul>

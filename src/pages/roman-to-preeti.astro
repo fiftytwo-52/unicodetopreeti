@@ -47,6 +47,14 @@ const faqs = [
     a: 'Nepali has aspirated and retroflex sounds that English does not spell out. The converter recognises two-letter roman groups such as kh for ख, gh for घ, chh for छ and the retroflex t/th and d/dh pairs, and produces the correct Preeti character.',
   },
   {
+    q: 'How do I type sh, ch and chh in Roman to Preeti?',
+    a: 'Use s for स, sh for श, ch for च and chh for छ. The engine always prefers the longest match, so typing "chhu" gives छु and "sh" never comes out as स. The same rule covers the other pairs: kh for ख, gh for घ, and the retroflex t/th and d/dh pairs.',
+  },
+  {
+    q: "If I type 'ma', what do I get in Preeti?",
+    a: '"ma" becomes म. Try the sample on this page — "ma timilai maya garchhu" — and the right pane shows the Preeti output for the whole sentence. Common words like ma, mero, ghar and namaste have built-in spellings so they come out right even when letter-by-letter rules would guess wrong.',
+  },
+  {
     q: 'How do I convert romanized Nepali to Preeti?',
     a: 'Type your romanized Nepali — Nepali written in English letters, like "mero naam" — into the left pane. The converter maps it to Unicode Devanagari first, then to Preeti encoding in the same step, so the right pane shows Preeti output ready to copy into Word with the Preeti font applied. No Nepali keyboard needed.',
   },
@@ -93,6 +101,35 @@ const schema = {
         name: faq.q,
         acceptedAnswer: { '@type': 'Answer', text: faq.a },
       })),
+    },
+    {
+      '@type': 'HowTo',
+      '@id': 'https://unicodetopreeti.xyz/roman-to-preeti#howto',
+      name: 'How to convert Roman Nepali to Preeti',
+      description:
+        'Type Nepali in English letters and get Preeti font output ready to paste into Word.',
+      step: [
+        {
+          '@type': 'HowToStep',
+          name: 'Type roman Nepali',
+          text: 'Type or paste Nepali written in English letters, like "mero ghar", into the left pane.',
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Read the Preeti output',
+          text: 'The Preeti output appears instantly in the right pane as you type.',
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Copy the result',
+          text: 'Click "Copy result" to copy the Preeti-encoded text.',
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Paste and set the font',
+          text: 'Paste it into your document and set the font to Preeti.',
+        },
+      ],
     },
   ],
 };

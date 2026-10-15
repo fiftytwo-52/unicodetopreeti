@@ -42,6 +42,14 @@ const faqs = [
     a: 'Almost, but not identical. Both are legacy 8-bit Nepali fonts with the same typing layout for most letters, yet a handful of bytes mean different things: in Kantipur, F is the aa-matra (Preeti F is chandrabindu), X is the हृ ligature (Preeti X is half ha), ‹ is ङ्ग (Preeti ‹ is ङ्घ), › is the avagraha ऽ (Preeti › is द्र), and Î is half pha (Preeti Î is ङ्ख). Kantipur also has bytes Preeti lacks († for !, “ for ँ, Œ for त्त्, œ for त्र्, Ô for क्ष) and lacks bytes Preeti has (Å, Û, Ü, Ý, ˆ). This converter uses the Kantipur assignments, not the Preeti ones.',
   },
   {
+    q: 'Can I convert Mangal or Kalimati text to Kantipur?',
+    a: 'Yes. Mangal and Kalimati are Unicode fonts, and this converter takes any Nepali Unicode text — whatever font it is displayed in. Paste your Mangal or Kalimati text into the left pane and the Kantipur output appears instantly on the right. Copy it, paste it into your document, and set the font to Kantipur.',
+  },
+  {
+    q: 'Unicode to Kantipur or Unicode to Preeti — which one do I need?',
+    a: 'It depends on which font your document uses. If the document is set in the Kantipur font, use this page; if it is set in Preeti, use the Unicode to Preeti converter. The two encodings share most letters, but a handful of bytes differ — F, X, ‹, › and Î among them — so converting with the wrong one silently mistranslates exactly those bytes.',
+  },
+  {
     q: 'What happened to the Kantipur to Preeti converter?',
     a: 'It was replaced by this page. Most people need the other direction — type in Unicode and get Kantipur out for newspapers, government offices and legacy documents that still use the Kantipur font — so Unicode to Kantipur took its place. The old /kantipur-to-preeti address redirects here.',
   },
@@ -85,6 +93,35 @@ const schema = {
         name: faq.q,
         acceptedAnswer: { '@type': 'Answer', text: faq.a },
       })),
+    },
+    {
+      '@type': 'HowTo',
+      '@id': 'https://unicodetopreeti.xyz/unicode-to-kantipur#howto',
+      name: 'How to convert Unicode to Kantipur',
+      description:
+        'Convert Nepali Unicode text to Kantipur font output ready to paste into a Kantipur document.',
+      step: [
+        {
+          '@type': 'HowToStep',
+          name: 'Paste Unicode text',
+          text: 'Type or paste Nepali Unicode text into the left pane.',
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Read the Kantipur output',
+          text: 'The Kantipur-encoded output appears instantly in the right pane as you type.',
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Copy the result',
+          text: 'Click "Copy result" to copy the Kantipur-encoded text.',
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Paste, set the font, check symbols',
+          text: 'Paste it into your document and set the font to Kantipur. Check %, =, ;, :, ° and nukta by hand — they have no Kantipur glyph and pass through unchanged (Beta).',
+        },
+      ],
     },
   ],
 };
